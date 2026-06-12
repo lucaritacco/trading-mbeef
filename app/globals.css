@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Paleta corporativa MBEEF (manual de marca, pág. 21) */
+  --carbon: #1d1d1b;
+  --bordo: #b30e2a;
+  --rojo: #d73534;
+  --salmon: #e07e63;
+  --taupe: #c3aea7;
+  --verde: #3c5a34;
+  --hueso: #f0efe9;
+
+  /* Derivados para legibilidad sobre fondo oscuro */
+  --rojo-claro: color-mix(in oklab, var(--rojo) 78%, white);
+  --verde-claro: color-mix(in oklab, var(--verde) 55%, white);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-carbon: var(--carbon);
+  --color-bordo: var(--bordo);
+  --color-rojo: var(--rojo);
+  --color-salmon: var(--salmon);
+  --color-taupe: var(--taupe);
+  --color-verde: var(--verde);
+  --color-hueso: var(--hueso);
+  --color-rojo-claro: var(--rojo-claro);
+  --color-verde-claro: var(--verde-claro);
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+  --font-serif: var(--font-garamond), Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--carbon);
+  color: var(--hueso);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--bordo);
+  color: var(--hueso);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rojo);
+  outline-offset: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--carbon);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--taupe) 35%, var(--carbon));
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bordo);
+}
+
+/* Ken Burns lentísimo del hero */
+@keyframes kenburns {
+  from {
+    transform: scale(1.03);
+  }
+  to {
+    transform: scale(1.14);
+  }
+}
+.kenburns {
+  animation: kenburns 38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Acordeón FAQ: transición de grid-template-rows (no height) */
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.faq-panel > div {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .kenburns {
+    animation: none;
+  }
+  .faq-panel {
+    transition: none;
+  }
 }
