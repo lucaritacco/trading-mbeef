@@ -7,11 +7,12 @@ const ROWS = [
   {
     label: "Tiempo de venta",
     solo: "Semanas esperando que aparezca comprador",
-    decarnes: "Oferta en firme en menos de 24 hs hábiles",
+    decarnes: "Oferta en firme en menos de 24 horas hábiles",
   },
   {
     label: "Riesgo de cobro",
     solo: "Lo asumís vos",
+    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
     decarnes: "Cobro garantizado por MBEEF",
   },
   {

@@ -63,17 +63,20 @@ body {
   background: var(--bordo);
 }
 
-/* Ken Burns lentísimo del hero */
-@keyframes kenburns {
+/* Cinta de cotizaciones del hero (mesa de trading) */
+@keyframes ticker {
   from {
-    transform: scale(1.03);
+    transform: translateX(0);
   }
   to {
-    transform: scale(1.14);
+    transform: translateX(-50%);
   }
 }
-.kenburns {
-  animation: kenburns 38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: ticker 90s linear infinite;
 }
 
 /* Acordeón FAQ: transición de grid-template-rows (no height) */
@@ -93,7 +96,7 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .kenburns {
+  .ticker-track {
     animation: none;
   }
   .faq-panel {

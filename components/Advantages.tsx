@@ -7,6 +7,7 @@ const ITEMS = [
   },
   {
     title: "Cobro sin riesgo",
+    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
     body: "Te garantizamos el cobro de la operación. El riesgo del comprador lo administramos nosotros, con años de historial de quién paga y cómo.",
   },
   {

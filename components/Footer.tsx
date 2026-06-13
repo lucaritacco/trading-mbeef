@@ -11,12 +11,10 @@ export default function Footer() {
           <p className="mt-3 max-w-[32ch] text-sm leading-relaxed text-taupe">
             La mesa de compras de MBEEF, abierta al mercado.
           </p>
-          <a
-            href={site.mbeefUrl}
-            className="mt-6 inline-block text-[11px] uppercase tracking-[0.28em] text-taupe transition-colors hover:text-hueso"
-          >
-            Operaciones respaldadas por MBEEF
-          </a>
+          <p className="mt-6 max-w-[34ch] text-[11px] uppercase leading-relaxed tracking-[0.28em] text-taupe">
+            Operaciones respaldadas por MBEEF · En el mercado de la carne desde
+            1944
+          </p>
         </div>
 
         <div className="text-sm leading-relaxed text-taupe">
@@ -24,8 +22,8 @@ export default function Footer() {
             MBEEF · Carne argentina
           </p>
           <p>{site.direccion}</p>
-          <p className="mt-1">Tel: {site.telPlanta}</p>
-          <p className="mt-1">CUIT: {site.cuit}</p>
+          <p className="mt-1">Tel: {site.tel}</p>
+          {site.hasCuit && <p className="mt-1">CUIT: {site.cuit}</p>}
         </div>
 
         <div className="text-sm leading-relaxed text-taupe">
@@ -40,12 +38,14 @@ export default function Footer() {
           >
             WhatsApp: +54 9 291 538-2539
           </a>
-          <a
-            href={site.mbeefUrl}
-            className="mt-1 block transition-colors hover:text-hueso"
-          >
-            Web institucional de MBEEF
-          </a>
+          {site.hasMbeefUrl && (
+            <a
+              href={site.mbeefUrl}
+              className="mt-1 block transition-colors hover:text-hueso"
+            >
+              Web institucional de MBEEF
+            </a>
+          )}
         </div>
       </div>
 

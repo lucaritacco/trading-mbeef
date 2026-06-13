@@ -20,11 +20,10 @@ export default function TrustBar() {
 
           <div className="space-y-1.5">
             <p className="font-serif text-2xl font-medium">
-              MBEEF · Carne argentina · EST. 1994
+              MBEEF · Carne argentina · Desde 1944
             </p>
             <p className="text-sm text-carbon/65">
-              Planta propia en Adolfo Gonzales Chaves, provincia de Buenos
-              Aires. Frigorífico en actividad.
+              Operador mayorista de carne vacuna · Provincia de Buenos Aires
             </p>
           </div>
         </div>

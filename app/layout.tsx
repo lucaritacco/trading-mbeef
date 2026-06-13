@@ -16,11 +16,11 @@ const archivo = Archivo({
 export const metadata: Metadata = {
   title: "DeCarnes | Publicá tu lote. Nosotros lo vendemos.",
   description:
-    "La mesa de compras de MBEEF, abierta al mercado. Publicá tu lote de carne: lo colocamos, garantizamos el cobro y coordinamos la logística. Oferta en firme en menos de 24 horas hábiles.",
+    "La mesa de compras de MBEEF, abierta al mercado. Publicá tu lote de carne vacuna: te lo compramos en firme o lo colocamos a comisión, con la logística coordinada. Cotización en firme en 24 horas hábiles.",
   openGraph: {
     title: "DeCarnes | Publicá tu lote. Nosotros lo vendemos.",
     description:
-      "Oferta en firme en menos de 24 horas hábiles. Operaciones respaldadas por MBEEF, frigorífico en actividad.",
+      "Cotización en firme en 24 horas hábiles. Operaciones respaldadas por MBEEF · En el mercado de la carne desde 1944.",
     locale: "es_AR",
     type: "website",
     images: [{ url: "/images/hero.jpg" }],

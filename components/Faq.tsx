@@ -10,6 +10,7 @@ const PREGUNTAS = [
   },
   {
     q: "¿Cómo me garantizan el cobro?",
+    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
     a: "La operación la cerrás con nosotros, no con el comprador final. El riesgo del comprador lo administramos nosotros, con años de historial de quién paga y cómo, y te garantizamos el cobro.",
   },
   {

@@ -11,12 +11,13 @@ const STEPS = [
   },
   {
     n: "2",
-    title: "Recibís una oferta en firme en menos de 24 hs",
+    title: "Recibís una oferta en firme en menos de 24 horas hábiles",
     body: "Nuestro equipo analiza el lote y te ofrece comprártelo o colocarlo en nuestra red de compradores. Vos elegís.",
   },
   {
     n: "3",
     title: "Cobrás. Del resto nos ocupamos nosotros",
+    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
     body: "Colocación, cobranza garantizada y coordinación del flete refrigerado. Tu lote vendido, tu plata segura.",
   },
 ];
