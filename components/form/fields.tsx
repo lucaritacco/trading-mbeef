@@ -1,9 +1,9 @@
 "use client";
 
 import type { Opcion } from "@/lib/opciones";
+import { inputBase } from "@/lib/ui";
 
-export const inputBase =
-  "w-full rounded-none border border-hueso/20 bg-carbon/40 px-4 py-3 text-hueso placeholder:text-taupe/40 outline-none transition-colors focus:border-bordo";
+export { inputBase };
 
 export function FieldShell({
   label,
