@@ -57,3 +57,60 @@ export async function cerrarSesion(): Promise<void> {
   await supabase.auth.signOut();
   redirect("/panel/login");
 }
+
+// ---------- Compradores (registro de demanda) ----------
+
+function txt(fd: FormData, k: string): string | null {
+  const v = fd.get(k);
+  return typeof v === "string" && v.trim() !== "" ? v.trim() : null;
+}
+function num(fd: FormData, k: string): number | null {
+  const v = txt(fd, k);
+  if (v === null) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+function datosComprador(fd: FormData) {
+  return {
+    nombre: txt(fd, "nombre"),
+    contacto: txt(fd, "contacto"),
+    cortes_busca: txt(fd, "cortes_busca"),
+    volumenes: txt(fd, "volumenes"),
+    frecuencia: txt(fd, "frecuencia"),
+    precio_max: num(fd, "precio_max"),
+    plazo_habitual: txt(fd, "plazo_habitual"),
+    linea_credito: num(fd, "linea_credito"),
+    notas: txt(fd, "notas"),
+  };
+}
+
+export async function crearComprador(formData: FormData): Promise<void> {
+  const datos = datosComprador(formData);
+  if (!datos.nombre) redirect("/panel/compradores?error=nombre");
+  const supabase = await createSupabaseServer();
+  const { error } = await supabase.from("compradores").insert(datos);
+  if (error) redirect(`/panel/compradores?error=${encodeURIComponent(error.message)}`);
+  revalidatePath("/panel/compradores");
+  redirect("/panel/compradores?ok=creado");
+}
+
+export async function actualizarComprador(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  if (typeof id !== "string") redirect("/panel/compradores");
+  const datos = datosComprador(formData);
+  if (!datos.nombre) redirect(`/panel/compradores/${id}?error=nombre`);
+  const supabase = await createSupabaseServer();
+  const { error } = await supabase.from("compradores").update(datos).eq("id", id);
+  if (error) redirect(`/panel/compradores/${id}?error=${encodeURIComponent(error.message)}`);
+  revalidatePath("/panel/compradores");
+  redirect("/panel/compradores?ok=actualizado");
+}
+
+export async function borrarComprador(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  if (typeof id !== "string") redirect("/panel/compradores");
+  const supabase = await createSupabaseServer();
+  await supabase.from("compradores").delete().eq("id", id);
+  revalidatePath("/panel/compradores");
+  redirect("/panel/compradores?ok=borrado");
+}

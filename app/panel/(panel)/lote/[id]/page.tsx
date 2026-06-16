@@ -5,10 +5,12 @@ import LoteInterno from "@/components/panel/LoteInterno";
 import TogglePublico from "@/components/panel/TogglePublico";
 import {
   CONFIG_DEFAULT,
+  calcularScorecard,
   formatARS,
   formatFecha,
   type Config,
   type Lote,
+  type LoteScorecardInput,
 } from "@/lib/panel";
 
 async function signedUrl(
@@ -53,6 +55,19 @@ export default async function LoteDetalle({
   const { data } = await supabase.from("lotes").select("*").eq("id", id).maybeSingle();
   if (!data) notFound();
   const l = data as Lote;
+
+  // Scorecard del proveedor: agregado de todos los lotes del mismo CUIT.
+  let scorecard: ReturnType<typeof calcularScorecard> | null = null;
+  if (l.cuit) {
+    const { data: delProveedor } = await supabase
+      .from("lotes")
+      .select("id, created_at, estado, observaciones_calidad, notas_internas")
+      .eq("cuit", l.cuit)
+      .order("created_at", { ascending: false });
+    if (delProveedor) {
+      scorecard = calcularScorecard(delProveedor as LoteScorecardInput[]);
+    }
+  }
 
   const fotos = await Promise.all(
     (l.fotos_paths ?? []).map((p) => signedUrl(supabase, "lotes-fotos", p)),
@@ -180,8 +195,39 @@ export default async function LoteDetalle({
             <h2 className="mb-5 font-serif text-xl font-medium text-hueso">Análisis y oferta</h2>
             <LoteInterno lote={l} config={config} />
           </div>
+
+          {scorecard && (
+            <Seccion titulo="Historial del proveedor">
+              <p className="-mt-3 mb-4 text-xs text-taupe">Por CUIT {l.cuit}</p>
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <Metrica n={scorecard.publicados} label="Publicados" />
+                <Metrica n={scorecard.ofertados} label="Ofertados" />
+                <Metrica n={scorecard.concretados} label="Concretados" />
+              </div>
+              {scorecard.notas.length > 0 && (
+                <div className="mt-5 space-y-3 border-t border-hueso/10 pt-4">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-taupe">Notas de calidad</p>
+                  {scorecard.notas.map((nota, i) => (
+                    <p key={i} className="text-sm text-taupe">
+                      <span className="text-taupe/60">{formatFecha(nota.fecha)} · </span>
+                      {nota.texto}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </Seccion>
+          )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function Metrica({ n, label }: { n: number; label: string }) {
+  return (
+    <div className="border border-hueso/10 py-4">
+      <span className="block font-serif text-3xl text-hueso">{n}</span>
+      <span className="mt-1 block text-[11px] uppercase tracking-[0.14em] text-taupe">{label}</span>
     </div>
   );
 }

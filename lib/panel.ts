@@ -57,6 +57,45 @@ export type Lote = {
   notas_internas: string | null;
 };
 
+export type Comprador = {
+  id: string;
+  created_at: string;
+  nombre: string;
+  contacto: string | null;
+  cortes_busca: string | null;
+  volumenes: string | null;
+  frecuencia: string | null;
+  precio_max: number | null;
+  plazo_habitual: string | null;
+  linea_credito: number | null;
+  notas: string | null;
+};
+
+const ESTADOS_OFERTADOS = new Set(["ofertado", "aceptado", "colocado", "cobrado"]);
+const ESTADOS_CONCRETADOS = new Set(["colocado", "cobrado"]);
+
+export type LoteScorecardInput = {
+  id: string;
+  created_at: string;
+  estado: string | null;
+  observaciones_calidad: string | null;
+  notas_internas: string | null;
+};
+
+/** Agregado por proveedor (mismo CUIT) sobre la tabla `lotes`. */
+export function calcularScorecard(lotes: LoteScorecardInput[]) {
+  const publicados = lotes.length;
+  const ofertados = lotes.filter((l) => l.estado && ESTADOS_OFERTADOS.has(l.estado)).length;
+  const concretados = lotes.filter((l) => l.estado && ESTADOS_CONCRETADOS.has(l.estado)).length;
+  const notas = lotes
+    .map((l) => ({
+      fecha: l.created_at,
+      texto: [l.observaciones_calidad, l.notas_internas].filter(Boolean).join(" · "),
+    }))
+    .filter((n) => n.texto);
+  return { publicados, ofertados, concretados, notas };
+}
+
 export type PipelineEstado =
   | "nuevo"
   | "en_analisis"

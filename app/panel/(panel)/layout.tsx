@@ -45,6 +45,7 @@ export default async function PanelLayout({
             </Link>
             <nav className="hidden items-center gap-5 text-sm text-taupe sm:flex">
               <Link href="/panel" className="transition-colors hover:text-hueso">Lotes</Link>
+              <Link href="/panel/compradores" className="transition-colors hover:text-hueso">Compradores</Link>
               <Link href="/panel/config" className="transition-colors hover:text-hueso">Configuración</Link>
             </nav>
           </div>
