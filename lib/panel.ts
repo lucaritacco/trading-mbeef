@@ -5,6 +5,7 @@ export type Lote = {
   created_at: string;
   estado: string | null;
   legajo_estado: string | null;
+  publico: boolean | null;
   // Contacto
   contacto_nombre: string | null;
   contacto_telefono: string | null;

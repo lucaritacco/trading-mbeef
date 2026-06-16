@@ -26,6 +26,18 @@ export async function actualizarLote(
   return { ok: true };
 }
 
+export async function setPublico(
+  id: string,
+  publico: boolean,
+): Promise<{ ok: true } | { error: string }> {
+  const supabase = await createSupabaseServer();
+  const { error } = await supabase.from("lotes").update({ publico }).eq("id", id);
+  if (error) return { error: error.message };
+  revalidatePath(`/panel/lote/${id}`);
+  revalidatePath("/panel");
+  return { ok: true };
+}
+
 export async function actualizarConfig(formData: FormData): Promise<void> {
   const supabase = await createSupabaseServer();
   await supabase

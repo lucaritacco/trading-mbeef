@@ -109,3 +109,9 @@ export const provinciaOpciones: Opcion[] = PROVINCIAS.map((p) => ({
   value: p,
   label: p,
 }));
+
+/** Devuelve la etiqueta legible de un valor, o el propio valor si no está en la lista. */
+export function labelDe(opts: Opcion[], value: string | null | undefined): string {
+  if (!value) return "";
+  return opts.find((o) => o.value === value)?.label ?? value;
+}

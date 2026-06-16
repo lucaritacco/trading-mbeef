@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import LoteInterno from "@/components/panel/LoteInterno";
+import TogglePublico from "@/components/panel/TogglePublico";
 import {
   CONFIG_DEFAULT,
   formatARS,
@@ -75,6 +76,10 @@ export default async function LoteDetalle({
         <span className="font-mono text-xs text-taupe">{l.id}</span>
       </div>
       <p className="mt-1 text-sm text-taupe">Ingresó el {formatFecha(l.created_at)}</p>
+
+      <div className="mt-6">
+        <TogglePublico id={l.id} publico={l.publico ?? false} />
+      </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
         {/* Columna izquierda: datos del lote */}
