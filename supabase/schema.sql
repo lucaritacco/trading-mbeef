@@ -209,3 +209,63 @@ create policy "staff lee lotes-fotos" on storage.objects
   for select to authenticated using (bucket_id = 'lotes-fotos' and public.is_staff());
 
 insert into public.staff (email) values ('lucarita2006@gmail.com') on conflict do nothing;
+
+-- ============================================================================
+-- 6) Ficha pública de lote (item C)
+-- ============================================================================
+alter table public.lotes
+  add column if not exists publico boolean not null default false;
+
+create or replace function public.get_ficha_publica(p_id uuid)
+returns table (
+  id uuid, created_at timestamptz, tipo_producto text, especie_categoria text,
+  cortes text[], cortes_otro text, kilos_totales numeric, piezas_cajas integer,
+  lote_estado text, envasado_tipo text, envasado_marca text, fecha_faena date,
+  fecha_vencimiento date, ubicacion_provincia text, ubicacion_localidad text,
+  observaciones_calidad text, fotos_paths text[]
+)
+language sql security definer set search_path = public stable as $$
+  select id, created_at, tipo_producto, especie_categoria, cortes, cortes_otro,
+         kilos_totales, piezas_cajas, lote_estado, envasado_tipo, envasado_marca,
+         fecha_faena, fecha_vencimiento, ubicacion_provincia, ubicacion_localidad,
+         observaciones_calidad, fotos_paths
+  from public.lotes where id = p_id and publico = true;
+$$;
+revoke all on function public.get_ficha_publica(uuid) from public;
+grant execute on function public.get_ficha_publica(uuid) to anon, authenticated;
+
+create or replace function public.es_lote_publico(p_id text)
+returns boolean language sql security definer set search_path = public stable as $$
+  select exists (select 1 from public.lotes where id::text = p_id and publico = true);
+$$;
+grant execute on function public.es_lote_publico(text) to anon, authenticated;
+
+drop policy if exists "publico lee fotos de lotes publicos" on storage.objects;
+create policy "publico lee fotos de lotes publicos" on storage.objects
+  for select to anon
+  using (bucket_id = 'lotes-fotos' and public.es_lote_publico((storage.foldername(name))[1]));
+
+-- ============================================================================
+-- 7) Registro de demanda de compradores (item B2) · solo staff
+-- ============================================================================
+create table if not exists public.compradores (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  nombre text not null,
+  contacto text, cortes_busca text, volumenes text, frecuencia text,
+  precio_max numeric, plazo_habitual text, linea_credito numeric, notas text
+);
+alter table public.compradores enable row level security;
+
+drop policy if exists "compradores staff select" on public.compradores;
+create policy "compradores staff select" on public.compradores
+  for select to authenticated using (public.is_staff());
+drop policy if exists "compradores staff insert" on public.compradores;
+create policy "compradores staff insert" on public.compradores
+  for insert to authenticated with check (public.is_staff());
+drop policy if exists "compradores staff update" on public.compradores;
+create policy "compradores staff update" on public.compradores
+  for update to authenticated using (public.is_staff()) with check (public.is_staff());
+drop policy if exists "compradores staff delete" on public.compradores;
+create policy "compradores staff delete" on public.compradores
+  for delete to authenticated using (public.is_staff());
