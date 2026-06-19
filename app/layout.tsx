@@ -13,7 +13,10 @@ const archivo = Archivo({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "DeCarnes | Publicá tu lote. Nosotros lo vendemos.",
   description:
     "La mesa de compras de MBEEF, abierta al mercado. Publicá tu lote de carne vacuna: te lo compramos en firme o lo colocamos a comisión, con la logística coordinada. Cotización en firme en 24 horas hábiles.",

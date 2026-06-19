@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { cerrarSesion } from "../actions";
+import PanelNav from "@/components/panel/PanelNav";
 
 export default async function PanelLayout({
   children,
@@ -36,28 +36,8 @@ export default async function PanelLayout({
 
   return (
     <div className="min-h-svh">
-      <header className="sticky top-0 z-40 border-b border-hueso/10 bg-carbon/85 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
-          <div className="flex items-center gap-6">
-            <Link href="/panel" className="font-serif text-xl font-semibold tracking-[0.06em] text-hueso">
-              DECARNES
-              <span className="ml-2 align-middle text-[10px] uppercase tracking-[0.25em] text-taupe">Mesa</span>
-            </Link>
-            <nav className="hidden items-center gap-5 text-sm text-taupe sm:flex">
-              <Link href="/panel" className="transition-colors hover:text-hueso">Lotes</Link>
-              <Link href="/panel/compradores" className="transition-colors hover:text-hueso">Compradores</Link>
-              <Link href="/panel/config" className="transition-colors hover:text-hueso">Configuración</Link>
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="hidden text-xs text-taupe md:inline">{user.email}</span>
-            <form action={cerrarSesion}>
-              <button className="text-sm text-taupe transition-colors hover:text-hueso">Salir</button>
-            </form>
-          </div>
-        </div>
-      </header>
-      <main className="mx-auto max-w-7xl px-5 py-10 sm:px-8">{children}</main>
+      <PanelNav email={user.email} />
+      <main className="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-10">{children}</main>
     </div>
   );
 }

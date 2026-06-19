@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
+import MobileMenu from "./MobileMenu";
 
 export default function Header() {
   return (
@@ -40,10 +41,11 @@ export default function Header() {
           </a>
           <Link
             href="/publicar"
-            className="bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
+            className="hidden bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo sm:inline-block"
           >
             Publicar un lote
           </Link>
+          <MobileMenu />
         </div>
       </div>
     </header>

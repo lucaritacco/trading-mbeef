@@ -112,7 +112,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-24 pt-36 sm:px-8 sm:pb-28">
-        <h1 className="max-w-4xl font-serif text-[clamp(2.6rem,8vw,5.5rem)] font-medium leading-[1.04] text-hueso">
+        <h1 className="max-w-4xl font-serif text-[clamp(2rem,7vw,5.5rem)] font-medium leading-[1.06] text-hueso">
           <StaggeredLine text={LINE_1} baseDelay={0.15} reduced={!!reduced} />
           <StaggeredLine
             text={LINE_2}

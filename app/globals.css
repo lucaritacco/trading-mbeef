@@ -37,6 +37,7 @@ body {
   background: var(--carbon);
   color: var(--hueso);
   font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
 ::selection {
