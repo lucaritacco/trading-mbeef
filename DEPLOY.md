@@ -3,8 +3,9 @@
 Sí: el deploy se hace **desde GitHub**. Vercel se conecta a tu repo y cada vez
 que subís cambios (`git push`), actualiza la web sola. Es gratis para empezar.
 
-> ⚠️ Importante: el código de la app está en la **subcarpeta `decarnes/`** dentro
-> del repo. En el paso 3 hay que decirle eso a Vercel (Root Directory).
+> ℹ️ El proyecto está en la **raíz** del repo (el `package.json` está arriba de
+> todo). NO hay subcarpeta `decarnes` en GitHub. Por eso, en Vercel **dejá el
+> Root Directory como viene** (no lo cambies).
 
 ## Paso a paso
 
@@ -13,8 +14,7 @@ que subís cambios (`git push`), actualiza la web sola. Es gratis para empezar.
 2. **Add New… → Project**. Te muestra tus repos de GitHub. Elegí
    **`trading-mbeef`** → **Import**.
 3. En la pantalla de configuración:
-   - **Root Directory**: clic en **Edit** y poné **`decarnes`** (la subcarpeta).
-     *(Esto es lo más fácil de olvidar.)*
+   - **Root Directory**: **dejalo como está** (la raíz). No pongas nada.
    - **Framework Preset**: debería detectar **Next.js** solo.
 4. Abrí **Environment Variables** y agregá estas tres (las mismas de tu
    `.env.local`, más la URL del sitio):
