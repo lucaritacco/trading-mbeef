@@ -5,29 +5,24 @@ import { Reveal } from "./motion";
 
 const PREGUNTAS = [
   {
-    q: "¿Quién compra mi lote?",
-    a: "Nuestra red de compradores activos: restaurantes, carnicerías y puntos de venta que ya operan con MBEEF. En algunos casos, el comprador es MBEEF directamente, con una compra en firme.",
+    q: "¿Qué es DeCarnes?",
+    a: "Un mercado donde la oferta y la demanda de carne de todo el país publican y se encuentran. Publicar es gratis.",
   },
   {
-    q: "¿Cómo me garantizan el cobro?",
-    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
-    a: "La operación la cerrás con nosotros, no con el comprador final. El riesgo del comprador lo administramos nosotros, con años de historial de quién paga y cómo, y te garantizamos el cobro.",
+    q: "¿Tiene costo?",
+    a: "Publicar y navegar el mercado es gratis. Algunos servicios de operación de MBEEF son bajo consulta.",
   },
   {
-    q: "¿Qué pasa si no les interesa mi lote?",
-    a: "Te lo decimos en el mismo plazo. Sin vueltas.",
+    q: "¿Quién puede publicar?",
+    a: "Empresas del rubro con habilitación sanitaria vigente, inscripción RUCA y CUIT activo.",
   },
   {
-    q: "¿Quién paga el flete?",
-    a: "Se define en la oferta, según la operación.",
+    q: "¿Qué rol juega MBEEF?",
+    a: "MBEEF impulsa la plataforma y opera en el mercado como un actor más, con más de 30 años de trayectoria.",
   },
   {
-    q: "¿Tiene costo publicar?",
-    a: "No. Publicar y recibir oferta es gratis.",
-  },
-  {
-    q: "¿Qué documentación necesito?",
-    a: "Para publicar: constancia de inscripción en AFIP, habilitación sanitaria vigente e inscripción RUCA. La documentación de tránsito de cada operación la coordinamos junto con vos.",
+    q: "¿Cómo contacto a la otra parte?",
+    a: "Desde la publicación coordinás el contacto para cerrar la operación.",
   },
 ];
 

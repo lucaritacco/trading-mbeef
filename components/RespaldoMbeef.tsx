@@ -10,7 +10,7 @@ export default function RespaldoMbeef() {
           {/* Foto provisional: reemplazar por fotografía propia (ver public/images/LEEME.md) */}
           <Image
             src="/images/campo.jpg"
-            alt="Hacienda vacuna en el campo al atardecer"
+            alt="Hacienda en el campo al atardecer"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
@@ -20,14 +20,14 @@ export default function RespaldoMbeef() {
 
         <Reveal delay={0.15}>
           <p className="font-serif text-3xl font-medium leading-snug text-hueso sm:text-4xl">
-            DeCarnes es la mesa de compras de MBEEF, abierta al mercado.
+            DeCarnes es el mercado de carne impulsado por MBEEF, abierto a todos.
           </p>
           <p className="mt-6 leading-relaxed text-taupe">
             MBEEF es una empresa argentina dedicada a la compra y venta
-            mayorista de carne vacuna, con raíces en el rubro desde 1944.
-            Conocemos el mercado porque lo operamos todos los días: compramos,
-            colocamos y movemos carne entre frigoríficos, distribuidores y
-            puntos de venta de todo el país.
+            mayorista de carne, con raíces en el rubro desde 1944. Conocemos el
+            mercado porque lo operamos todos los días: compramos, colocamos y
+            movemos carne entre frigoríficos, distribuidores y puntos de venta
+            de todo el país.
           </p>
           {/* [COMPLETAR] Historia real de MBEEF: reemplazar este párrafo marcado */}
           <p className="mt-4 border border-dashed border-taupe/40 p-4 text-sm leading-relaxed text-taupe/70">
