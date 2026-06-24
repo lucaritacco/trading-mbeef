@@ -12,7 +12,7 @@ export default function TrustBar() {
               className="font-serif text-7xl font-medium leading-none text-bordo sm:text-8xl"
             />
             <p className="max-w-[16ch] text-sm uppercase tracking-[0.18em] text-carbon/70">
-              años de trayectoria en el mercado de la carne
+              años de MBEEF en el mercado de la carne
             </p>
           </div>
 
@@ -23,7 +23,7 @@ export default function TrustBar() {
               MBEEF · Carne argentina · Desde 1944
             </p>
             <p className="text-sm text-carbon/65">
-              Operador mayorista de carne vacuna · Provincia de Buenos Aires
+              Operador mayorista de carne · Provincia de Buenos Aires
             </p>
           </div>
         </div>

@@ -6,19 +6,18 @@ import { EASE, Reveal, Stagger, StaggerItem } from "./motion";
 const STEPS = [
   {
     n: "1",
-    title: "Publicás tu lote",
-    body: "Cargás la ficha en 5 minutos: producto, faena, envasado, fotos y tu precio pretendido.",
+    title: "Publicás tus cortes",
+    body: "Cargás tu lote en minutos: producto, cantidad, ubicación y fotos. Queda visible para compradores de todo el país.",
   },
   {
     n: "2",
-    title: "Recibís una oferta en firme en menos de 24 horas hábiles",
-    body: "Nuestro equipo analiza el lote y te ofrece comprártelo o colocarlo en nuestra red de compradores. Vos elegís.",
+    title: "Conectás con el mercado",
+    body: "Compradores activos ven tu publicación y te contactan. Más ojos sobre tu stock que tu agenda de siempre.",
   },
   {
     n: "3",
-    title: "Cobrás. Del resto nos ocupamos nosotros",
-    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
-    body: "Colocación, cobranza garantizada y coordinación del flete refrigerado. Tu lote vendido, tu plata segura.",
+    title: "Cerrás la operación",
+    body: "Acordás directo con la otra parte.",
   },
 ];
 
