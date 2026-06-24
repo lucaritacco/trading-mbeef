@@ -2,21 +2,20 @@ import { Reveal, Stagger, StaggerItem } from "./motion";
 
 const ITEMS = [
   {
-    title: "Vendemos por vos",
-    body: "Acceso inmediato a una red de compradores activos: restaurantes, carnicerías y puntos de venta que ya nos compran. No esperás a que alguien aparezca: nosotros salimos a colocar.",
+    title: "Más visibilidad",
+    body: "En un mercado donde sobra oferta, lo difícil es que te vean. Acá tu lote lo ve todo el mercado, no solo tus contactos.",
   },
   {
-    title: "Cobro sin riesgo",
-    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
-    body: "Te garantizamos el cobro de la operación. El riesgo del comprador lo administramos nosotros, con años de historial de quién paga y cómo.",
+    title: "Todo el país en un lugar",
+    body: "Cortes de distintas provincias y proveedores, comparables en una sola pantalla.",
   },
   {
-    title: "Logística resuelta",
-    body: "Coordinamos el transporte refrigerado y la documentación de tránsito. Tu lote viaja en regla y con frío.",
+    title: "Respaldo de MBEEF",
+    body: "Detrás de DeCarnes hay un operador con más de 30 años en el mercado de la carne. No es una plataforma anónima.",
   },
   {
-    title: "Precio con fundamento",
-    body: "Operamos el mercado todos los días. Nuestra oferta refleja valores reales de transacción, no especulación.",
+    title: "Publicar es gratis",
+    body: "Sumás tu stock sin costo ni comisión por publicar.",
   },
 ];
 
@@ -26,11 +25,8 @@ export default function Advantages() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <h2 className="font-serif text-4xl font-medium sm:text-5xl">
-            La solución integral
+            Por qué DeCarnes
           </h2>
-          <p className="mt-4 max-w-xl text-carbon/65">
-            Una sola contraparte para colocar, cobrar y mover tu lote.
-          </p>
         </Reveal>
 
         <Stagger

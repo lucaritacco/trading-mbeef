@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
 import HowItWorks from "@/components/HowItWorks";
 import Advantages from "@/components/Advantages";
+import Servicios from "@/components/Servicios";
 import Comparison from "@/components/Comparison";
 import Requirements from "@/components/Requirements";
 import RespaldoMbeef from "@/components/RespaldoMbeef";
@@ -19,6 +20,7 @@ export default function Home() {
         <TrustBar />
         <HowItWorks />
         <Advantages />
+        <Servicios />
         <Comparison />
         <Requirements />
         <RespaldoMbeef />
