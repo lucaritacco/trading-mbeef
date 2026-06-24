@@ -98,7 +98,7 @@ export default function SumateForm() {
           <TextField id="nombre_contacto" label="Nombre y apellido" required value={data.nombre_contacto} onChange={set("nombre_contacto")} error={errores.nombre_contacto} />
           <TextField id="empresa" label="Empresa / razón social" required value={data.empresa} onChange={set("empresa")} error={errores.empresa} />
         </div>
-        <TextField id="cuit" label="CUIT" required inputMode="numeric" placeholder="XX-XXXXXXXX-X" maxLength={13} value={data.cuit} onChange={(v) => set("cuit")(formatearCuit(v))} error={errores.cuit} hint="No te pedimos constancias ni documentos." />
+        <TextField id="cuit" label="CUIT" required inputMode="numeric" placeholder="XX-XXXXXXXX-X" maxLength={13} value={data.cuit} onChange={(v) => set("cuit")(formatearCuit(v))} error={errores.cuit} />
         <RadioCards label="¿Qué hacés?" required value={data.rol} onChange={set("rol")} options={ROL_OPCIONES} error={errores.rol} />
         <TextField id="contacto" label="WhatsApp o email" required placeholder="Cómo te contactamos" value={data.contacto} onChange={set("contacto")} error={errores.contacto} />
         <TextArea id="notas" label="Comentario" placeholder="Lo que quieras contarnos (opcional)" value={data.notas} onChange={set("notas")} />
