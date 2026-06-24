@@ -135,7 +135,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: subDelay + 0.15, ease: EASE }}
         >
           <Link
-            href="/publicar"
+            href="/sumate"
             className="bg-bordo px-7 py-4 text-base font-medium text-hueso transition-colors hover:bg-rojo"
           >
             Sumate

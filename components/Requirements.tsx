@@ -17,13 +17,13 @@ export default function Requirements() {
             Para quién es
           </h2>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-carbon/75">
-            Trabajamos con proveedores habilitados. Para publicar necesitás:
+            Trabajamos con proveedores habilitados. Para sumarte necesitás:
           </p>
           <p className="mt-8 font-serif text-2xl font-medium text-bordo">
             ¿Cumplís? Sumate al mercado.
           </p>
           <Link
-            href="/publicar"
+            href="/sumate"
             className="mt-6 inline-block bg-bordo px-6 py-3.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
           >
             Sumate

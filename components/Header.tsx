@@ -4,7 +4,7 @@ import MobileMenu from "./MobileMenu";
 
 export default function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-hueso/10 bg-carbon/85 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-hueso/10 bg-carbon/95 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
         <Link href="/" className="flex items-baseline gap-3">
           <span className="font-serif text-2xl font-semibold tracking-[0.08em] text-hueso">
@@ -43,7 +43,7 @@ export default function Header() {
             Hablar con un operador
           </a>
           <Link
-            href="/publicar"
+            href="/sumate"
             className="hidden bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo sm:inline-block"
           >
             Sumate

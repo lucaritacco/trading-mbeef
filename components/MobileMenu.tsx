@@ -52,7 +52,7 @@ export default function MobileMenu() {
               Hablar con un operador
             </a>
             <Link
-              href="/publicar"
+              href="/sumate"
               onClick={() => setAbierto(false)}
               className="mt-2 bg-bordo px-4 py-3 text-center text-sm font-medium text-hueso transition-colors hover:bg-rojo"
             >

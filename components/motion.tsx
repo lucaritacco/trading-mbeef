@@ -105,13 +105,10 @@ export function Counter({
   const reduced = useReducedMotion();
 
   useEffect(() => {
+    // Solo anima cuando entra en viewport y no hay reduced-motion.
+    // El valor final ya es el inicial (ver JSX), así que nunca queda "0+".
     const node = ref.current;
-    if (!node) return;
-    if (!inView) return;
-    if (reduced) {
-      node.textContent = `${to}${suffix}`;
-      return;
-    }
+    if (!node || !inView || reduced) return;
     const controls = animate(0, to, {
       duration: 1.8,
       ease: EASE,
@@ -124,7 +121,8 @@ export function Counter({
 
   return (
     <span ref={ref} className={className} aria-label={`${to}${suffix}`}>
-      0{suffix}
+      {to}
+      {suffix}
     </span>
   );
 }

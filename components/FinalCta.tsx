@@ -16,7 +16,7 @@ export default function FinalCta() {
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <Link
-              href="/publicar"
+              href="/sumate"
               className="bg-hueso px-8 py-4 text-base font-medium text-carbon transition-colors hover:bg-white"
             >
               Sumate
