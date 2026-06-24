@@ -6,7 +6,8 @@ import { site } from "@/lib/site";
 
 const SECCIONES = [
   { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#ventajas", label: "Ventajas" },
+  { href: "#ventajas", label: "Por qué" },
+  { href: "#servicios", label: "Servicios" },
   { href: "#requisitos", label: "Requisitos" },
   { href: "#faq", label: "Preguntas" },
 ];
@@ -55,7 +56,7 @@ export default function MobileMenu() {
               onClick={() => setAbierto(false)}
               className="mt-2 bg-bordo px-4 py-3 text-center text-sm font-medium text-hueso transition-colors hover:bg-rojo"
             >
-              Publicar un lote
+              Sumate
             </Link>
           </nav>
         </div>

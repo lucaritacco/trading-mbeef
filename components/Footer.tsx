@@ -9,11 +9,10 @@ export default function Footer() {
             DECARNES
           </p>
           <p className="mt-3 max-w-[32ch] text-sm leading-relaxed text-taupe">
-            La mesa de compras de MBEEF, abierta al mercado.
+            El mercado de la carne, impulsado por MBEEF.
           </p>
           <p className="mt-6 max-w-[34ch] text-[11px] uppercase leading-relaxed tracking-[0.28em] text-taupe">
-            Operaciones respaldadas por MBEEF · En el mercado de la carne desde
-            1944
+            Powered by MBEEF · En el mercado de la carne desde 1944
           </p>
         </div>
 

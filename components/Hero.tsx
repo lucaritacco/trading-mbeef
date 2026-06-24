@@ -6,14 +6,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import { EASE } from "./motion";
 import { site } from "@/lib/site";
 
-const LINE_1 = "Compramos y colocamos lotes de carne vacuna.";
-const LINE_2 = "Cotización en firme en 24 horas hábiles.";
+const LINE_1 = "El mercado de la carne, en un solo lugar.";
+const LINE_2 = "Publicá tus cortes. Encontrá los que buscás.";
 
-// Alternativas de H1 para A/B futuro:
-// "Compramos tu lote, o lo colocamos. Vos elegís."
-// "Tu lote, cotizado en 24 horas hábiles."
-
-const SELLO = "Operaciones respaldadas por MBEEF · En el mercado de la carne desde 1944";
+const SELLO = "Powered by MBEEF · En el mercado de la carne desde 1944";
 
 // Cortes de referencia para la cinta de cotizaciones del hero.
 // Solo nombres y dirección de tendencia: nunca valores monetarios.
@@ -128,9 +124,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: subDelay, ease: EASE }}
         >
-          Publicá tu lote: te lo compramos en firme o lo colocamos a comisión
-          en nuestra red de compradores, con la logística coordinada. Publicar
-          es gratis.
+          DeCarnes conecta la oferta y la demanda de carne de todo el país.
+          Publicar es gratis. Powered by MBEEF, operador del mercado desde 1944.
         </motion.p>
 
         <motion.div
@@ -143,7 +138,7 @@ export default function Hero() {
             href="/publicar"
             className="bg-bordo px-7 py-4 text-base font-medium text-hueso transition-colors hover:bg-rojo"
           >
-            Publicar un lote
+            Sumate
           </Link>
           <a
             href={site.whatsappHref}

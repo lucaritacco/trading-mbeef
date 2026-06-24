@@ -11,7 +11,7 @@ export default function Header() {
             DECARNES
           </span>
           <span className="hidden text-[10px] uppercase tracking-[0.28em] text-taupe md:inline">
-            La mesa de compras de MBEEF
+            El mercado de la carne
           </span>
         </Link>
 
@@ -20,7 +20,10 @@ export default function Header() {
             Cómo funciona
           </a>
           <a href="#ventajas" className="transition-colors hover:text-hueso">
-            Ventajas
+            Por qué
+          </a>
+          <a href="#servicios" className="transition-colors hover:text-hueso">
+            Servicios
           </a>
           <a href="#requisitos" className="transition-colors hover:text-hueso">
             Requisitos
@@ -43,7 +46,7 @@ export default function Header() {
             href="/publicar"
             className="hidden bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo sm:inline-block"
           >
-            Publicar un lote
+            Sumate
           </Link>
           <MobileMenu />
         </div>
