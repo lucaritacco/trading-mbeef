@@ -13,20 +13,31 @@ const archivo = Archivo({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+// Default a la URL de producción para que las OG/Twitter sean absolutas (no localhost).
+// En Vercel se puede sobreescribir con NEXT_PUBLIC_SITE_URL (dominio propio).
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://trading-mbeef.vercel.app";
+
+const title = "DeCarnes | El mercado de la carne, en un solo lugar";
+const description =
+  "Publicá tus cortes y encontrá los que buscás. El mercado de la carne de todo el país, en un solo lugar. Publicar es gratis. Powered by MBEEF.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "DeCarnes | Publicá tu lote. Nosotros lo vendemos.",
-  description:
-    "La mesa de compras de MBEEF, abierta al mercado. Publicá tu lote de carne vacuna: te lo compramos en firme o lo colocamos a comisión, con la logística coordinada. Cotización en firme en 24 horas hábiles.",
+  title,
+  description,
   openGraph: {
-    title: "DeCarnes | Publicá tu lote. Nosotros lo vendemos.",
-    description:
-      "Cotización en firme en 24 horas hábiles. Operaciones respaldadas por MBEEF · En el mercado de la carne desde 1944.",
+    title,
+    description,
     locale: "es_AR",
     type: "website",
     images: [{ url: "/images/hero.jpg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/images/hero.jpg"],
   },
 };
 
