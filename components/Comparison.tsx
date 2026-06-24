@@ -5,30 +5,29 @@ import { EASE, Reveal } from "./motion";
 
 const ROWS = [
   {
-    label: "Tiempo de venta",
-    solo: "Semanas esperando que aparezca comprador",
-    decarnes: "Oferta en firme en menos de 24 horas hábiles",
+    label: "Alcance",
+    solo: "Tu agenda de contactos",
+    decarnes: "Compradores de todo el país",
   },
   {
-    label: "Riesgo de cobro",
-    solo: "Lo asumís vos",
-    // TODO: redacción de garantía de cobro pendiente de definición comercial — no publicar a producción sin resolver
-    decarnes: "Cobro garantizado por MBEEF",
+    label: "Precios",
+    solo: "Negociás a ciegas",
+    decarnes: "Comparás oferta en una pantalla",
   },
   {
-    label: "Logística",
-    solo: "Flete y frío por tu cuenta",
-    decarnes: "Transporte refrigerado coordinado",
+    label: "Visibilidad",
+    solo: "Tu stock lo ven pocos",
+    decarnes: "Tu lote lo ve todo el mercado",
   },
   {
-    label: "Alcance de compradores",
-    solo: "Tu cartera de contactos",
-    decarnes: "Red activa de compradores de MBEEF",
+    label: "Respaldo",
+    solo: "Plataforma anónima",
+    decarnes: "Powered by MBEEF, +30 años",
   },
   {
-    label: "Documentación",
-    solo: "Trámites de tránsito por tu cuenta",
-    decarnes: "Documentación coordinada con vos",
+    label: "Costo",
+    solo: "—",
+    decarnes: "Publicar es gratis",
   },
 ];
 
@@ -90,14 +89,14 @@ export default function Comparison() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <h2 className="max-w-2xl font-serif text-4xl font-medium text-hueso sm:text-5xl">
-            Vender solo vs. vender con DeCarnes
+            El mercado hoy vs. con DeCarnes
           </h2>
         </Reveal>
 
         <div className="mt-14 overflow-hidden border border-hueso/15">
           <div className="hidden grid-cols-[1fr_1.2fr_1.2fr] border-b border-hueso/15 bg-hueso/5 text-[11px] uppercase tracking-[0.22em] text-taupe md:grid">
             <span className="px-6 py-4" />
-            <span className="px-6 py-4">Vender solo</span>
+            <span className="px-6 py-4">El mercado hoy</span>
             <span className="px-6 py-4 text-hueso">Con DeCarnes</span>
           </div>
 
@@ -115,7 +114,7 @@ export default function Comparison() {
                   <Cross />
                   <span>
                     <span className="mr-2 text-[10px] uppercase tracking-[0.2em] text-taupe/60 md:hidden">
-                      Solo:
+                      Hoy:
                     </span>
                     {row.solo}
                   </span>

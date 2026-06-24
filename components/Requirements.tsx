@@ -20,13 +20,13 @@ export default function Requirements() {
             Trabajamos con proveedores habilitados. Para publicar necesitás:
           </p>
           <p className="mt-8 font-serif text-2xl font-medium text-bordo">
-            ¿Cumplís? Tu lote puede estar ofertado mañana.
+            ¿Cumplís? Sumate al mercado.
           </p>
           <Link
             href="/publicar"
             className="mt-6 inline-block bg-bordo px-6 py-3.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
           >
-            Publicar un lote
+            Sumate
           </Link>
         </Reveal>
 
