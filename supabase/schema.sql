@@ -269,3 +269,26 @@ create policy "compradores staff update" on public.compradores
 drop policy if exists "compradores staff delete" on public.compradores;
 create policy "compradores staff delete" on public.compradores
   for delete to authenticated using (public.is_staff());
+
+-- ============================================================================
+-- 8) Alta de beta con aprobación manual (`solicitudes_beta`)
+-- ============================================================================
+create table if not exists public.solicitudes_beta (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  nombre_contacto text, empresa text, cuit text,
+  rol text,        -- 'vende' | 'compra' | 'ambas'
+  contacto text, notas text,
+  estado text not null default 'pendiente'  -- 'pendiente' | 'aprobada' | 'rechazada'
+);
+alter table public.solicitudes_beta enable row level security;
+
+drop policy if exists "solicitudes anon insert" on public.solicitudes_beta;
+create policy "solicitudes anon insert" on public.solicitudes_beta
+  for insert to anon with check (true);
+drop policy if exists "solicitudes staff select" on public.solicitudes_beta;
+create policy "solicitudes staff select" on public.solicitudes_beta
+  for select to authenticated using (public.is_staff());
+drop policy if exists "solicitudes staff update" on public.solicitudes_beta;
+create policy "solicitudes staff update" on public.solicitudes_beta
+  for update to authenticated using (public.is_staff()) with check (public.is_staff());

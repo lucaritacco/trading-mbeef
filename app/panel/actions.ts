@@ -114,3 +114,20 @@ export async function borrarComprador(formData: FormData): Promise<void> {
   revalidatePath("/panel/compradores");
   redirect("/panel/compradores?ok=borrado");
 }
+
+// ---------- Solicitudes de beta (aprobación manual) ----------
+
+export async function setEstadoSolicitud(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  const estado = formData.get("estado");
+  if (
+    typeof id !== "string" ||
+    typeof estado !== "string" ||
+    !["pendiente", "aprobada", "rechazada"].includes(estado)
+  ) {
+    return;
+  }
+  const supabase = await createSupabaseServer();
+  await supabase.from("solicitudes_beta").update({ estado }).eq("id", id);
+  revalidatePath("/panel/solicitudes");
+}
