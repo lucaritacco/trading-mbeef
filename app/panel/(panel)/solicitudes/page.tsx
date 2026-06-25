@@ -14,7 +14,12 @@ type Solicitud = {
   contacto: string | null;
   notas: string | null;
   estado: string | null;
+  invitacion_token: string | null;
+  invitacion_usada: boolean | null;
 };
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://trading-mbeef.vercel.app";
 
 const ESTADOS = [
   { value: "pendiente", label: "Pendiente" },
@@ -155,6 +160,22 @@ export default async function SolicitudesPage({
                           </form>
                         )}
                       </div>
+                      {s.estado === "aprobada" && s.invitacion_token && (
+                        <p className="mt-2 max-w-[44ch] text-xs">
+                          {s.invitacion_usada ? (
+                            <span className="text-taupe/60">Invitación ya usada (cuenta creada).</span>
+                          ) : (
+                            <>
+                              <span className="block text-[10px] uppercase tracking-[0.18em] text-taupe/60">
+                                Enlace de invitación (mandar por WhatsApp):
+                              </span>
+                              <span className="block break-all text-salmon">
+                                {SITE_URL}/registro?token={s.invitacion_token}
+                              </span>
+                            </>
+                          )}
+                        </p>
+                      )}
                       {s.notas && <p className="mt-2 max-w-[40ch] text-xs text-taupe/70">{s.notas}</p>}
                     </td>
                   </tr>
