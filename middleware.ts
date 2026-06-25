@@ -1,7 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Refresca la sesión y protege /panel/*: sin sesión → /panel/login.
+// Refresca la sesión y protege rutas privadas:
+//   /panel/*  (staff)         → sin sesión va a /panel/login   (lógica intacta)
+//   /cuenta/* (usuarios beta) → sin sesión va a /login
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
 
@@ -31,6 +33,8 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const path = request.nextUrl.pathname;
+
+  // --- Staff (/panel) — lógica existente, sin cambios ---
   const esPanel = path.startsWith("/panel");
   const esLogin = path === "/panel/login";
 
@@ -48,9 +52,17 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // --- Usuarios de beta (/cuenta) ---
+  if (path.startsWith("/cuenta") && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.search = "";
+    return NextResponse.redirect(url);
+  }
+
   return response;
 }
 
 export const config = {
-  matcher: ["/panel/:path*"],
+  matcher: ["/panel/:path*", "/cuenta/:path*"],
 };
