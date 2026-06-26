@@ -40,22 +40,46 @@ export default async function CuentaLayout({
     );
   }
 
+  const links = [
+    { href: "/cuenta/mercado", label: "Mercado" },
+    { href: "/cuenta/mis-lotes", label: "Mis lotes" },
+    { href: "/cuenta/publicar", label: "Publicar lote" },
+    { href: "/cuenta/empresa", label: "Mi empresa" },
+  ];
+
   return (
     <div className="min-h-svh">
       <header className="sticky top-0 z-40 border-b border-hueso/10 bg-carbon/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-5 sm:px-8">
-          <Link href="/cuenta" className="font-serif text-xl font-semibold tracking-[0.06em] text-hueso">
-            DECARNES
-          </Link>
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
+          <div className="flex items-center gap-6">
+            <Link href="/cuenta" className="font-serif text-xl font-semibold tracking-[0.06em] text-hueso">
+              DECARNES
+            </Link>
+            <nav className="hidden items-center gap-5 text-sm text-taupe md:flex">
+              {links.map((l) => (
+                <Link key={l.href} href={l.href} className="transition-colors hover:text-hueso">
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
           <div className="flex items-center gap-4">
-            <span className="hidden text-xs text-taupe sm:inline">{usuario.empresa ?? user.email}</span>
+            <span className="hidden text-xs text-taupe lg:inline">{usuario.empresa ?? user.email}</span>
             <form action={cerrarSesionUsuario}>
               <button className="text-sm text-taupe transition-colors hover:text-hueso">Salir</button>
             </form>
           </div>
         </div>
+        {/* Nav en celular: fila desplazable */}
+        <nav className="flex gap-4 overflow-x-auto border-t border-hueso/10 px-5 py-3 text-sm text-taupe md:hidden">
+          {links.map((l) => (
+            <Link key={l.href} href={l.href} className="whitespace-nowrap transition-colors hover:text-hueso">
+              {l.label}
+            </Link>
+          ))}
+        </nav>
       </header>
-      <main className="mx-auto max-w-5xl px-5 py-10 sm:px-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-5 py-10 sm:px-8">{children}</main>
     </div>
   );
 }
