@@ -126,6 +126,7 @@ language sql security definer set search_path = public stable as $$
   limit 200;
 $$;
 revoke all on function public.catalogo(text, text, text, text) from public;
+revoke execute on function public.catalogo(text, text, text, text) from anon;
 grant execute on function public.catalogo(text, text, text, text) to authenticated;
 
 -- 6) Contacto: WhatsApp del dueño de un lote publicado (solo al hacer clic).
@@ -141,4 +142,5 @@ language sql security definer set search_path = public stable as $$
   limit 1;
 $$;
 revoke all on function public.contacto_lote(uuid) from public;
+revoke execute on function public.contacto_lote(uuid) from anon;
 grant execute on function public.contacto_lote(uuid) to authenticated;

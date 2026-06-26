@@ -421,6 +421,7 @@ language sql security definer set search_path = public stable as $$
   order by l.created_at desc limit 200;
 $$;
 revoke all on function public.catalogo(text, text, text, text) from public;
+revoke execute on function public.catalogo(text, text, text, text) from anon;
 grant execute on function public.catalogo(text, text, text, text) to authenticated;
 
 create or replace function public.contacto_lote(p_lote_id uuid)
@@ -432,4 +433,5 @@ language sql security definer set search_path = public stable as $$
   where l.id = p_lote_id and l.publico = true and l.user_id is not null limit 1;
 $$;
 revoke all on function public.contacto_lote(uuid) from public;
+revoke execute on function public.contacto_lote(uuid) from anon;
 grant execute on function public.contacto_lote(uuid) to authenticated;
