@@ -55,6 +55,32 @@ export const HABILITACION_TIPO: Opcion[] = [
   { value: "senasa_municipal", label: "Municipal" },
 ];
 
+export const MODALIDAD_ENTREGA: Opcion[] = [
+  { value: "retira_comprador", label: "Retira el comprador" },
+  { value: "entrega_coordinar", label: "Entrega a coordinar" },
+];
+
+export const VIGENCIA: Opcion[] = [
+  { value: "7", label: "1 semana" },
+  { value: "14", label: "2 semanas" },
+  { value: "30", label: "1 mes" },
+];
+
+export const CERTIFICADOS: string[] = [
+  "SENASA",
+  "HACCP",
+  "Halal",
+  "Kosher",
+  "Orgánico",
+  "Tránsito federal",
+];
+
+export const ROL_MERCADO: Opcion[] = [
+  { value: "vende", label: "Vendo carne" },
+  { value: "compra", label: "Compro carne" },
+  { value: "ambas", label: "Ambas" },
+];
+
 export const CORTES: string[] = [
   "Asado",
   "Vacío",
