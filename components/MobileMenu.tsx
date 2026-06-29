@@ -47,10 +47,17 @@ export default function MobileMenu() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setAbierto(false)}
-              className="py-3 text-sm text-taupe transition-colors hover:text-hueso"
+              className="border-b border-hueso/5 py-3 text-sm text-taupe transition-colors hover:text-hueso"
             >
               Hablar con un operador
             </a>
+            <Link
+              href="/login"
+              onClick={() => setAbierto(false)}
+              className="py-3 text-sm text-taupe transition-colors hover:text-hueso"
+            >
+              Ingresar
+            </Link>
             <Link
               href="/sumate"
               onClick={() => setAbierto(false)}

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { site } from "@/lib/site";
 import MobileMenu from "./MobileMenu";
 
 export default function Header() {
@@ -33,15 +32,13 @@ export default function Header() {
           </a>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <a
-            href={site.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="flex items-center gap-4">
+          <Link
+            href="/login"
             className="hidden text-sm text-taupe transition-colors hover:text-hueso sm:inline"
           >
-            Hablar con un operador
-          </a>
+            Ingresar
+          </Link>
           <Link
             href="/sumate"
             className="hidden bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo sm:inline-block"
