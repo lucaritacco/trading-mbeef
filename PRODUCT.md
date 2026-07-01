@@ -4,7 +4,7 @@ register: brand
 
 ## Qué es
 
-DeCarnes es la plataforma de trading de carne de MBEEF, una empresa argentina comercializadora/operadora mayorista de carne vacuna, con más de 30 años de trayectoria y raíces en el rubro desde 1944. MBEEF NO es un frigorífico, NO tiene planta propia y NO produce ni faena carne: compra, coloca y mueve carne entre frigoríficos, distribuidores y puntos de venta. No es un marketplace abierto: es una mesa de compra y colocación de lotes. El proveedor publica un lote, MBEEF responde en menos de 24 horas hábiles con una oferta en firme (compra directa o colocación a comisión) y coordina la logística refrigerada. (La garantía de cobro está pendiente de definición comercial: ver TODOs en el código.)
+DeCarnes es la plataforma de trading de carne de MBEEF, una empresa argentina comercializadora/operadora mayorista de carne vacuna, con más de 30 años de trayectoria y raíces en el rubro desde 1994. MBEEF NO es un frigorífico, NO tiene planta propia y NO produce ni faena carne: compra, coloca y mueve carne entre frigoríficos, distribuidores y puntos de venta. No es un marketplace abierto: es una mesa de compra y colocación de lotes. El proveedor publica un lote, MBEEF responde en menos de 24 horas hábiles con una oferta en firme (compra directa o colocación a comisión) y coordina la logística refrigerada. (La garantía de cobro está pendiente de definición comercial: ver TODOs en el código.)
 
 ## Usuarios
 
@@ -17,7 +17,7 @@ Español rioplatense, voseo, directo y sobrio. Tres palabras de marca: **pesado,
 ## Arquitectura de marcas
 
 - **DeCarnes**: el mercado (wordmark tipográfico serif "DECARNES").
-- **MBEEF**: el respaldo. Sello "Operaciones respaldadas por MBEEF · En el mercado de la carne desde 1944" en sub-hero, header y footer.
+- **MBEEF**: el respaldo. Sello "Operaciones respaldadas por MBEEF · En el mercado de la carne desde 1994" en sub-hero, header y footer.
 
 ## Sistema visual (del manual de marca MBEEF)
 
@@ -27,7 +27,7 @@ Español rioplatense, voseo, directo y sobrio. Tres palabras de marca: **pesado,
 
 ## Reglas duras
 
-- Nunca inventar métricas, testimonios ni datos. Única métrica aprobada: 30+ años de trayectoria; raíces en el rubro desde 1944.
+- Nunca inventar métricas, testimonios ni datos. Única métrica aprobada: 30+ años de trayectoria; raíces en el rubro desde 1994.
 - Cero texto en inglés de cara al usuario. Cero lorem ipsum.
 - Simplicidad, seriedad y velocidad de carga antes que efectos. Animaciones sutiles al scroll.
 - v1 sin: cuentas de comprador, chat, pujas, pagos online, registro de compradores.

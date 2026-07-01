@@ -24,7 +24,7 @@ export default function RespaldoMbeef() {
           </p>
           <p className="mt-6 leading-relaxed text-taupe">
             MBEEF es una empresa argentina dedicada a la compra y venta
-            mayorista de carne, con raíces en el rubro desde 1944. Conocemos el
+            mayorista de carne, con raíces en el rubro desde 1994. Conocemos el
             mercado porque lo operamos todos los días: compramos, colocamos y
             movemos carne entre frigoríficos, distribuidores y puntos de venta
             de todo el país.

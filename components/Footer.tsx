@@ -12,7 +12,7 @@ export default function Footer() {
             El mercado de la carne, impulsado por MBEEF.
           </p>
           <p className="mt-6 max-w-[34ch] text-[11px] uppercase leading-relaxed tracking-[0.28em] text-taupe">
-            Powered by MBEEF · En el mercado de la carne desde 1944
+            Powered by MBEEF · En el mercado de la carne desde 1994
           </p>
         </div>
 

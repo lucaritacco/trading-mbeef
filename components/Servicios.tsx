@@ -3,8 +3,8 @@ import { site } from "@/lib/site";
 
 const SERVICIOS = [
   {
-    title: "Asesoramiento comercial",
-    body: "Te ayudamos a definir precio y colocar lotes grandes.",
+    title: "Gestión integral del abastecimiento",
+    body: "Optimizamos tus compras, stock y almacenamiento para reducir pérdidas y quiebres. Diagnóstico, planificación y control, como servicio aparte.",
   },
   {
     title: "Colocación a comisión",

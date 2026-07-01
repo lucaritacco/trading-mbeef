@@ -9,7 +9,7 @@ import { site } from "@/lib/site";
 const LINE_1 = "El mercado de la carne, en un solo lugar.";
 const LINE_2 = "Publicá tus cortes. Encontrá los que buscás.";
 
-const SELLO = "Powered by MBEEF · En el mercado de la carne desde 1944";
+const SELLO = "Powered by MBEEF · En el mercado de la carne desde 1994";
 
 // Cortes de referencia para la cinta de cotizaciones del hero.
 // Solo nombres y dirección de tendencia: nunca valores monetarios.
@@ -125,7 +125,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: subDelay, ease: EASE }}
         >
           DeCarnes conecta la oferta y la demanda de carne de todo el país.
-          Publicar es gratis. Powered by MBEEF, operador del mercado desde 1944.
+          Publicar es gratis. Powered by MBEEF, operador del mercado desde 1994.
         </motion.p>
 
         <motion.div

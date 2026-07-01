@@ -23,9 +23,9 @@ Alcance: **solo la landing y su copy/estructura**. NO se tocó el formulario
 - H1 L1 (hueso): "El mercado de la carne, en un solo lugar."
 - H1 L2 (rojo-claro): "Publicá tus cortes. Encontrá los que buscás."
 - Subtítulo: "DeCarnes conecta la oferta y la demanda de carne de todo el país.
-  Publicar es gratis. Powered by MBEEF, operador del mercado desde 1944."
+  Publicar es gratis. Powered by MBEEF, operador del mercado desde 1994."
 - CTA primario: "Sumate" (→ `/publicar`). Secundario: "Hablar con un operador".
-- Sello: "Powered by MBEEF · En el mercado de la carne desde 1944".
+- Sello: "Powered by MBEEF · En el mercado de la carne desde 1994".
 - Ticker de cortes: **sin cambios**. Se borraron los comentarios A/B del modelo viejo.
 
 ### Header / MobileMenu (`components/Header.tsx`, `components/MobileMenu.tsx`)
@@ -88,7 +88,7 @@ Alcance: **solo la landing y su copy/estructura**. NO se tocó el formulario
 - "La mesa de compras de MBEEF, abierta al mercado." → "El mercado de la carne,
   impulsado por MBEEF."
 - "Operaciones respaldadas por MBEEF · …" → "Powered by MBEEF · En el mercado de
-  la carne desde 1944".
+  la carne desde 1994".
 
 ## Criterios de aceptación
 - ✅ Cero "garantía de cobro / cotización en 24hs / te compramos en firme /
