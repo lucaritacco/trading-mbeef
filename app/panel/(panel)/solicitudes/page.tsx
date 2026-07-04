@@ -11,6 +11,7 @@ type Solicitud = {
   empresa: string | null;
   cuit: string | null;
   rol: string | null;
+  habilitacion_nro: string | null;
   contacto: string | null;
   notas: string | null;
   estado: string | null;
@@ -104,6 +105,7 @@ export default async function SolicitudesPage({
                 <th className="px-4 py-3 font-normal">Nombre</th>
                 <th className="px-4 py-3 font-normal">CUIT</th>
                 <th className="px-4 py-3 font-normal">Rol</th>
+                <th className="px-4 py-3 font-normal">Habilitación</th>
                 <th className="px-4 py-3 font-normal">Contacto</th>
                 <th className="px-4 py-3 font-normal">Estado</th>
                 <th className="px-4 py-3 font-normal">Acciones</th>
@@ -119,6 +121,7 @@ export default async function SolicitudesPage({
                     <td className="px-4 py-3 text-taupe">{s.nombre_contacto ?? "—"}</td>
                     <td className="px-4 py-3 text-taupe">{s.cuit ?? "—"}</td>
                     <td className="px-4 py-3 text-taupe">{rolLabel(s.rol)}</td>
+                    <td className="px-4 py-3 text-taupe">{s.habilitacion_nro ?? "—"}</td>
                     <td className="px-4 py-3">
                       {c ? (
                         <a href={c.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-rojo-claro hover:text-hueso">

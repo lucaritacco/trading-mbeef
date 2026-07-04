@@ -7,10 +7,10 @@ export default function RespaldoMbeef() {
     <section className="bg-carbon py-24 sm:py-32">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 sm:px-8 md:grid-cols-2 md:gap-16">
         <Reveal className="relative aspect-[4/3] overflow-hidden">
-          {/* Foto provisional: reemplazar por fotografía propia (ver public/images/LEEME.md) */}
+          {/* Foto de stock (Unsplash, licencia libre) — reemplazable por foto propia (ver public/images/LEEME.md) */}
           <Image
-            src="/images/campo.jpg"
-            alt="Hacienda en el campo al atardecer"
+            src="/images/producto.jpg"
+            alt="Cortes de carne vacuna sobre tabla de carnicero"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"

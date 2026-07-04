@@ -5,9 +5,15 @@ export type SolicitudData = {
   empresa: string;
   cuit: string;
   rol: string; // 'vende' | 'compra' | 'ambas'
+  habilitacion_nro: string; // habilitación SENASA/provincial/municipal (solo vende/ambas)
   contacto: string;
   notas: string;
 };
+
+/** ¿El rol elegido vende (y por ende necesita habilitación)? */
+export function rolVende(rol: string): boolean {
+  return rol === "vende" || rol === "ambas";
+}
 
 export const ROL_OPCIONES = [
   { value: "vende", label: "Vendo carne" },
@@ -26,6 +32,8 @@ export async function crearSolicitud(data: SolicitudData): Promise<void> {
     empresa: data.empresa.trim(),
     cuit: data.cuit.trim(),
     rol: data.rol,
+    // La habilitación solo aplica a vendedores; para "compra" se guarda null.
+    habilitacion_nro: rolVende(data.rol) ? data.habilitacion_nro.trim() || null : null,
     contacto: data.contacto.trim(),
     notas: data.notas.trim() || null,
     estado: "pendiente",

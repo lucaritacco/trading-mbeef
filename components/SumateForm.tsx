@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { crearSolicitud, ROL_OPCIONES, type SolicitudData } from "@/lib/beta";
+import { crearSolicitud, rolVende, ROL_OPCIONES, type SolicitudData } from "@/lib/beta";
 import { validarCuit, formatearCuit } from "@/lib/validators";
 import { TextField, TextArea, RadioCards } from "@/components/form/fields";
 
@@ -11,6 +11,7 @@ const EMPTY: SolicitudData = {
   empresa: "",
   cuit: "",
   rol: "",
+  habilitacion_nro: "",
   contacto: "",
   notas: "",
 };
@@ -35,6 +36,8 @@ export default function SumateForm() {
     if (!data.empresa.trim()) e.empresa = "Tu empresa o razón social.";
     if (!validarCuit(data.cuit)) e.cuit = "CUIT inválido (revisá el número).";
     if (!data.rol) e.rol = "Elegí una opción.";
+    if (rolVende(data.rol) && !data.habilitacion_nro.trim())
+      e.habilitacion_nro = "Como vendés, necesitamos tu N° de habilitación.";
     if (!data.contacto.trim()) e.contacto = "Dejanos un WhatsApp o email.";
     return e;
   }
@@ -100,6 +103,18 @@ export default function SumateForm() {
         </div>
         <TextField id="cuit" label="CUIT" required inputMode="numeric" placeholder="XX-XXXXXXXX-X" maxLength={13} value={data.cuit} onChange={(v) => set("cuit")(formatearCuit(v))} error={errores.cuit} />
         <RadioCards label="¿Qué hacés?" required value={data.rol} onChange={set("rol")} options={ROL_OPCIONES} error={errores.rol} />
+        {rolVende(data.rol) && (
+          <TextField
+            id="habilitacion_nro"
+            label="N° de habilitación / establecimiento (SENASA, provincial o municipal)"
+            required
+            placeholder="Ej.: 1234 / SENASA 51/5"
+            value={data.habilitacion_nro}
+            onChange={set("habilitacion_nro")}
+            error={errores.habilitacion_nro}
+            hint="La verificamos a mano contra el registro antes de aprobarte."
+          />
+        )}
         <TextField id="contacto" label="WhatsApp o email" required placeholder="Cómo te contactamos" value={data.contacto} onChange={set("contacto")} error={errores.contacto} />
         <TextArea id="notas" label="Comentario" placeholder="Lo que quieras contarnos (opcional)" value={data.notas} onChange={set("notas")} />
 

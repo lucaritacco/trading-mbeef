@@ -2,10 +2,8 @@ import Link from "next/link";
 import { Reveal, Stagger, StaggerItem } from "./motion";
 
 const REQUISITOS = [
-  "Habilitación sanitaria vigente (SENASA, provincial o municipal)",
-  "Inscripción RUCA",
+  "Habilitación sanitaria vigente (SENASA, provincial o municipal, según tu operación)",
   "CUIT activo",
-  "Producto con trazabilidad",
 ];
 
 export default function Requirements() {
@@ -17,7 +15,7 @@ export default function Requirements() {
             Para quién es
           </h2>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-carbon/75">
-            Trabajamos con proveedores habilitados. Para sumarte necesitás:
+            Trabajamos con vendedores habilitados. Para publicar necesitás:
           </p>
           <p className="mt-8 font-serif text-2xl font-medium text-bordo">
             ¿Cumplís? Sumate al mercado.
@@ -51,6 +49,10 @@ export default function Requirements() {
               <span className="leading-snug">{req}</span>
             </StaggerItem>
           ))}
+          <p className="mt-6 text-sm leading-relaxed text-carbon/60">
+            ¿Solo comprás? Sumate igual: no necesitás habilitación para navegar el
+            mercado.
+          </p>
         </Stagger>
       </div>
     </section>

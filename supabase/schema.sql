@@ -293,6 +293,10 @@ drop policy if exists "solicitudes staff update" on public.solicitudes_beta;
 create policy "solicitudes staff update" on public.solicitudes_beta
   for update to authenticated using (public.is_staff()) with check (public.is_staff());
 
+-- N° de habilitación del vendedor (solo vende/ambas; verificación manual del staff)
+alter table public.solicitudes_beta
+  add column if not exists habilitacion_nro text;
+
 -- ============================================================================
 -- 9) Usuarios de beta + invitaciones por token
 -- ============================================================================
