@@ -29,31 +29,26 @@ export default function RespaldoMbeef() {
             movemos carne entre frigoríficos, distribuidores y puntos de venta
             de todo el país.
           </p>
-          {/* [COMPLETAR] Historia real de MBEEF: reemplazar este párrafo marcado */}
-          <p className="mt-4 border border-dashed border-taupe/40 p-4 text-sm leading-relaxed text-taupe/70">
-            [HISTORIA MBEEF: completar acá 3 o 4 líneas reales de trayectoria
-            de la empresa antes de publicar la página]
-          </p>
-          {site.hasMbeefUrl && (
-            <a
-              href={site.mbeefUrl}
-              className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-[0.22em] text-salmon transition-colors hover:text-hueso"
+          <a
+            href={site.nosotrosUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-[0.22em] text-salmon transition-colors hover:text-hueso"
+          >
+            Conocé quiénes somos
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
             >
-              Conocé MBEEF
-              <svg
-                viewBox="0 0 24 24"
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </a>
-          )}
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
         </Reveal>
       </div>
     </section>

@@ -153,6 +153,8 @@ export default function Hero() {
         {site.hasMbeefUrl ? (
           <motion.a
             href={site.mbeefUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-12 inline-flex items-center gap-3 border-t border-hueso/15 pt-5 text-[11px] uppercase tracking-[0.3em] text-taupe transition-colors hover:text-hueso"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

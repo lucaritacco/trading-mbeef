@@ -40,6 +40,8 @@ export default function Footer() {
           {site.hasMbeefUrl && (
             <a
               href={site.mbeefUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-1 block transition-colors hover:text-hueso"
             >
               Web institucional de MBEEF

@@ -1,6 +1,7 @@
 // Datos de contacto y placeholders pendientes de completar por el equipo MBEEF.
 
-const mbeefUrl = "[PEGAR URL REAL DE LA WEB DE MBEEF]";
+const mbeefUrl = "https://mbeef.shop";
+const nosotrosUrl = "https://mbeef.shop/nosotros";
 const cuit = "[CUIT MBEEF]";
 
 export const site = {
@@ -10,9 +11,9 @@ export const site = {
   tel: "02983 482500",
   direccion: "Juan Elicagaray 2020, Adolfo Gonzales Chaves, Buenos Aires (CP 7513)",
 
-  // [COMPLETAR] URL de la web institucional de MBEEF.
-  // Mientras no sea una URL real, los enlaces a MBEEF se renderizan como texto plano.
+  // Web institucional de MBEEF y su página "Quiénes somos".
   mbeefUrl,
+  nosotrosUrl,
   hasMbeefUrl: /^https?:\/\//.test(mbeefUrl),
 
   // [COMPLETAR] CUIT de MBEEF. Si no se completa, la línea se oculta en el footer.
