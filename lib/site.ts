@@ -9,7 +9,7 @@ export const site = {
   whatsappHref:
     "https://wa.me/5492915382539?text=Hola%2C%20quiero%20hablar%20con%20un%20operador%20de%20DeCarnes",
   tel: "02983 482500",
-  direccion: "Juan Elicagaray 2020, Adolfo Gonzales Chaves, Buenos Aires (CP 7513)",
+  direccion: "Thompson 1226, Bahía Blanca, Argentina",
 
   // Web institucional de MBEEF y su página "Quiénes somos".
   mbeefUrl,
