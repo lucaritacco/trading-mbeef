@@ -9,9 +9,6 @@ export default function Header() {
           <span className="font-serif text-2xl font-semibold tracking-[0.08em] text-hueso">
             DECARNES
           </span>
-          <span className="hidden text-[10px] uppercase tracking-[0.28em] text-taupe md:inline">
-            El mercado de la carne
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm text-taupe lg:flex">
