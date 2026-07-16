@@ -35,7 +35,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="block transition-colors hover:text-hueso"
           >
-            WhatsApp: +54 9 291 538-2539
+            WhatsApp: +54 9 291 414-5189
           </a>
           {site.hasMbeefUrl && (
             <a
