@@ -12,19 +12,22 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm text-taupe lg:flex">
-          <a href="#como-funciona" className="transition-colors hover:text-hueso">
+          <Link href="/mercado" className="text-hueso transition-colors hover:text-rojo-claro">
+            Mercado
+          </Link>
+          <a href="/#como-funciona" className="transition-colors hover:text-hueso">
             Cómo funciona
           </a>
-          <a href="#ventajas" className="transition-colors hover:text-hueso">
+          <a href="/#ventajas" className="transition-colors hover:text-hueso">
             Por qué
           </a>
-          <a href="#servicios" className="transition-colors hover:text-hueso">
+          <a href="/#servicios" className="transition-colors hover:text-hueso">
             Servicios
           </a>
-          <a href="#requisitos" className="transition-colors hover:text-hueso">
+          <a href="/#requisitos" className="transition-colors hover:text-hueso">
             Requisitos
           </a>
-          <a href="#faq" className="transition-colors hover:text-hueso">
+          <a href="/#faq" className="transition-colors hover:text-hueso">
             Preguntas
           </a>
         </nav>

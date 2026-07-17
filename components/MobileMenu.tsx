@@ -5,11 +5,12 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 
 const SECCIONES = [
-  { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#ventajas", label: "Por qué" },
-  { href: "#servicios", label: "Servicios" },
-  { href: "#requisitos", label: "Requisitos" },
-  { href: "#faq", label: "Preguntas" },
+  { href: "/mercado", label: "Mercado" },
+  { href: "/#como-funciona", label: "Cómo funciona" },
+  { href: "/#ventajas", label: "Por qué" },
+  { href: "/#servicios", label: "Servicios" },
+  { href: "/#requisitos", label: "Requisitos" },
+  { href: "/#faq", label: "Preguntas" },
 ];
 
 export default function MobileMenu() {
