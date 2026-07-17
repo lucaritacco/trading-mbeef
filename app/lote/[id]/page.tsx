@@ -7,17 +7,23 @@ import {
   TIPO_PRODUCTO,
   LOTE_ESTADO,
   ENVASADO,
+  MODALIDAD_ENTREGA,
   labelDe,
 } from "@/lib/opciones";
 import { formatFecha } from "@/lib/panel";
 
+function nombreLote(f: { titulo: string | null; tipo_producto: string | null }): string {
+  return f.titulo || labelDe(TIPO_PRODUCTO, f.tipo_producto) || "Lote de carne";
+}
+
 function tituloLote(f: {
+  titulo: string | null;
   tipo_producto: string | null;
   kilos_totales: number | null;
   ubicacion_provincia: string | null;
 }): string {
   const partes = [
-    `Lote ${labelDe(TIPO_PRODUCTO, f.tipo_producto) || "de carne"}`,
+    nombreLote(f),
     f.kilos_totales ? `${f.kilos_totales} kg` : null,
     f.ubicacion_provincia,
   ].filter(Boolean);
@@ -110,14 +116,21 @@ export default async function FichaPublicaPage({
           Lote {ref}
         </p>
         <h1 className="mt-3 font-serif text-3xl font-medium leading-tight text-hueso sm:text-4xl">
-          {labelDe(TIPO_PRODUCTO, f.tipo_producto) || "Lote de carne"}
-          {f.especie_categoria ? ` · ${f.especie_categoria}` : ""}
+          {nombreLote(f)}
         </h1>
         <p className="mt-2 text-taupe">
-          {[f.kilos_totales ? `${f.kilos_totales} kg` : null, ubicacion]
+          {[
+            f.corte,
+            f.especie_categoria,
+            f.kilos_totales ? `${f.kilos_totales} kg` : null,
+            ubicacion,
+          ]
             .filter(Boolean)
             .join(" · ")}
         </p>
+        {f.descripcion && (
+          <p className="mt-4 max-w-2xl leading-relaxed text-taupe">{f.descripcion}</p>
+        )}
 
         {/* Fotos */}
         {fotos.length > 0 && (
@@ -139,16 +152,18 @@ export default async function FichaPublicaPage({
 
         {/* Especificaciones (solo datos comerciales) */}
         <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-hueso/10 pt-8 sm:grid-cols-3">
-          <Dato label="Tipo de producto" value={labelDe(TIPO_PRODUCTO, f.tipo_producto)} />
+          <Dato label="Corte / artículo" value={f.corte || cortes || labelDe(TIPO_PRODUCTO, f.tipo_producto)} />
           <Dato label="Especie / categoría" value={f.especie_categoria} />
-          <Dato label="Cortes" value={cortes} />
           <Dato label="Kilos totales" value={f.kilos_totales ? `${f.kilos_totales} kg` : null} />
           <Dato label="Piezas / cajas" value={f.piezas_cajas} />
+          <Dato label="Compra mínima" value={f.moq ? `${f.moq} kg` : null} />
           <Dato label="Estado" value={labelDe(LOTE_ESTADO, f.lote_estado)} />
           <Dato
             label="Envasado"
             value={[labelDe(ENVASADO, f.envasado_tipo), f.envasado_marca].filter(Boolean).join(" · ")}
           />
+          <Dato label="Entrega" value={labelDe(MODALIDAD_ENTREGA, f.modalidad_entrega)} />
+          <Dato label="Certificados" value={(f.certificados ?? []).join(", ")} />
           <Dato label="Faena" value={formatFecha(f.fecha_faena)} />
           <Dato label="Vencimiento" value={formatFecha(f.fecha_vencimiento)} />
           <Dato label="Ubicación" value={ubicacion} />
