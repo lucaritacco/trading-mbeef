@@ -16,6 +16,7 @@ export type FichaPublica = {
   piezas_cajas: number | null;
   moq: number | null;
   modalidad_entrega: string | null;
+  precio_pretendido_kg: number | null;
   lote_estado: string | null;
   envasado_tipo: string | null;
   envasado_marca: string | null;
