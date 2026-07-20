@@ -72,6 +72,13 @@ export default function ConsultaLote({
       setAviso("El vendedor todavía no cargó su WhatsApp.");
       return;
     }
+    // Avisa por email al vendedor y al admin (sin bloquear la apertura de WhatsApp).
+    void fetch("/api/eventos/consulta", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ loteId, tipo: key }),
+    }).catch(() => {});
+
     const ficha = `${window.location.origin}/lote/${loteId}`;
     const msg = `${baseMsg()} ${pregunta}\n${ficha}`;
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");

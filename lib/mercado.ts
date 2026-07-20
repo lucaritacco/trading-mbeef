@@ -125,6 +125,15 @@ export async function crearLote(data: LoteForm, fotos: File[]): Promise<string> 
     ...filaDesde(data),
   });
   if (error) throw new Error(error.message);
+
+  // Dispara los avisos por email (admin + todos los usuarios). Sin await ni
+  // romper la publicación: si falla, el lote igual queda publicado.
+  void fetch("/api/eventos/lote-publicado", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ loteId: id }),
+  }).catch(() => {});
+
   return id;
 }
 

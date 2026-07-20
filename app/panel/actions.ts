@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { enviarEmail, plantilla, SITE_URL } from "@/lib/email";
 
 export type CamposLote = {
   estado?: string;
@@ -130,4 +131,28 @@ export async function setEstadoSolicitud(formData: FormData): Promise<void> {
   const supabase = await createSupabaseServer();
   await supabase.from("solicitudes_beta").update({ estado }).eq("id", id);
   revalidatePath("/panel/solicitudes");
+
+  // Al aprobar: si el contacto es un email, le mandamos el enlace de invitación.
+  // Si dejó un WhatsApp, no hay a dónde mandar mail (el link se copia del panel).
+  if (estado === "aprobada") {
+    const { data: s } = await supabase
+      .from("solicitudes_beta")
+      .select("empresa, contacto, invitacion_token, invitacion_usada")
+      .eq("id", id)
+      .maybeSingle();
+    if (s?.contacto?.includes("@") && s.invitacion_token && !s.invitacion_usada) {
+      const link = `${SITE_URL}/registro?token=${s.invitacion_token}`;
+      await enviarEmail({
+        to: s.contacto.trim(),
+        subject: "Tu acceso a DeCarnes está listo",
+        html: plantilla({
+          titulo: "¡Bienvenido a DeCarnes!",
+          intro: `Aprobamos el acceso de ${s.empresa ?? "tu empresa"} a la beta del mercado. Creá tu cuenta con este enlace para empezar a publicar y consultar lotes.`,
+          ctaLabel: "Crear mi cuenta",
+          ctaHref: link,
+          nota: "El enlace es de un solo uso y personal. Si no fuiste vos quien lo pidió, ignorá este mail.",
+        }),
+      });
+    }
+  }
 }
