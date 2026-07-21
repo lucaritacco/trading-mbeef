@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { crearSolicitud, rolVende, ROL_OPCIONES, type SolicitudData } from "@/lib/beta";
+import { crearSolicitud, rolVende, emailValido, ROL_OPCIONES, type SolicitudData } from "@/lib/beta";
 import { validarCuit, formatearCuit } from "@/lib/validators";
 import { TextField, TextArea, RadioCards } from "@/components/form/fields";
 
@@ -12,7 +12,8 @@ const EMPTY: SolicitudData = {
   cuit: "",
   rol: "",
   habilitacion_nro: "",
-  contacto: "",
+  email: "",
+  whatsapp: "",
   notas: "",
 };
 
@@ -38,7 +39,8 @@ export default function SumateForm() {
     if (!data.rol) e.rol = "Elegí una opción.";
     if (rolVende(data.rol) && !data.habilitacion_nro.trim())
       e.habilitacion_nro = "Como vendés, necesitamos tu N° de habilitación.";
-    if (!data.contacto.trim()) e.contacto = "Dejanos un WhatsApp o email.";
+    if (!data.email.trim()) e.email = "Necesitamos tu email.";
+    else if (!emailValido(data.email)) e.email = "Revisá el email (ej.: nombre@empresa.com).";
     return e;
   }
 
@@ -115,7 +117,10 @@ export default function SumateForm() {
             hint="La verificamos a mano contra el registro antes de aprobarte."
           />
         )}
-        <TextField id="contacto" label="WhatsApp o email" required placeholder="Cómo te contactamos" value={data.contacto} onChange={set("contacto")} error={errores.contacto} />
+        <div className="grid gap-7 sm:grid-cols-2">
+          <TextField id="email" label="Email" required type="email" inputMode="email" placeholder="nombre@empresa.com" value={data.email} onChange={set("email")} error={errores.email} hint="Te avisamos la aprobación y los lotes nuevos por acá." />
+          <TextField id="whatsapp" label="WhatsApp (opcional)" placeholder="Para contactarte más rápido" value={data.whatsapp} onChange={set("whatsapp")} error={errores.whatsapp} />
+        </div>
         <TextArea id="notas" label="Comentario" placeholder="Lo que quieras contarnos (opcional)" value={data.notas} onChange={set("notas")} />
 
         <div className="flex items-center justify-between pt-2">

@@ -3,11 +3,12 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import {
   enviarEmail,
-  enviarLote,
+  enviarBatch,
   plantilla,
   ADMIN_EMAIL,
   SITE_URL,
   emailConfigurado,
+  type Mensaje,
 } from "@/lib/email";
 import { labelDe, TIPO_PRODUCTO } from "@/lib/opciones";
 import { formatARS } from "@/lib/panel";
@@ -82,24 +83,28 @@ export async function POST(req: Request) {
     }),
   });
 
-  // 2) Broadcast a todos los usuarios activos (excepto el propio vendedor).
+  // 2) Broadcast a los usuarios activos que quieren avisos (excepto el vendedor).
+  //    Cada mail lleva su propio link de baja (token personal).
   const admin = createSupabaseAdmin();
   let enviados = 0;
   if (admin) {
     const { data: emails } = await admin.rpc("emails_usuarios_activos", { p_excluir: user.id });
-    const lista = (emails ?? []).map((r: { email: string }) => r.email);
-    enviados = await enviarLote(
-      lista,
-      `Nuevo lote en el mercado: ${nombre}`,
-      plantilla({
+    const filas2 = emails ?? [];
+    const subject = `Nuevo lote en el mercado: ${nombre}`;
+    const mensajes: Mensaje[] = filas2.map((r: { email: string; token: string }) => ({
+      to: r.email,
+      subject,
+      html: plantilla({
         titulo: "Nuevo lote disponible",
         intro: `Se sumó un lote al mercado de DeCarnes: "${nombre}".`,
         filas,
         ctaLabel: "Ver el lote",
         ctaHref: fichaUrl,
         nota: "Entrá a la ficha y consultá al vendedor si te interesa.",
+        bajaHref: `${SITE_URL}/avisos?token=${r.token}`,
       }),
-    );
+    }));
+    enviados = await enviarBatch(mensajes);
   }
 
   return NextResponse.json({ ok: true, enviados });

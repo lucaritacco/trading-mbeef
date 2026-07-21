@@ -49,6 +49,19 @@ export async function guardarEmpresa(formData: FormData): Promise<void> {
   redirect("/cuenta?ok=empresa");
 }
 
+// Activar/desactivar los avisos de lotes nuevos (RLS own update: solo su fila).
+export async function setAvisos(formData: FormData): Promise<void> {
+  const recibir = formData.get("recibir") === "true";
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  await supabase.from("usuarios").update({ recibir_avisos: recibir }).eq("id", user.id);
+  revalidatePath("/cuenta");
+  redirect("/cuenta?ok=avisos");
+}
+
 // Publicar / despublicar un lote PROPIO (RLS own update lo limita a los suyos).
 export async function setPublicoLote(formData: FormData): Promise<void> {
   const id = formData.get("id");

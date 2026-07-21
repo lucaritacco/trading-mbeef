@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { setAvisos } from "./actions";
 
 export const metadata: Metadata = {
   title: "Mi cuenta | DeCarnes",
@@ -19,9 +20,10 @@ export default async function CuentaPage({
   } = await supabase.auth.getUser();
   const { data: u } = await supabase
     .from("usuarios")
-    .select("empresa, nombre_fantasia, razon_social, perfil_completo, whatsapp")
+    .select("empresa, nombre_fantasia, razon_social, perfil_completo, whatsapp, recibir_avisos")
     .eq("id", user!.id)
     .maybeSingle();
+  const recibeAvisos = u?.recibir_avisos ?? true;
 
   const nombre = u?.nombre_fantasia || u?.razon_social || u?.empresa || "";
   const perfilOk = u?.perfil_completo && u?.whatsapp;
@@ -31,6 +33,11 @@ export default async function CuentaPage({
       {ok === "empresa" && (
         <p className="mb-6 border border-verde-claro/40 bg-verde/15 px-4 py-3 text-sm text-verde-claro">
           Datos de empresa guardados.
+        </p>
+      )}
+      {ok === "avisos" && (
+        <p className="mb-6 border border-verde-claro/40 bg-verde/15 px-4 py-3 text-sm text-verde-claro">
+          Preferencia de avisos actualizada.
         </p>
       )}
 
@@ -59,6 +66,30 @@ export default async function CuentaPage({
         <Acceso href="/cuenta/publicar" titulo="Publicar lote" texto="Cargá un lote con fotos y especificaciones." />
         <Acceso href="/cuenta/mercado" titulo="Mercado" texto="Mirá los lotes publicados por todo el país." />
         <Acceso href="/cuenta/mis-lotes" titulo="Mis lotes" texto="Gestioná, despublicá o editá tus lotes." />
+      </div>
+
+      {/* Preferencia de avisos por email */}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border border-hueso/15 p-6">
+        <div>
+          <p className="font-medium text-hueso">Avisos de lotes nuevos</p>
+          <p className="mt-1 text-sm text-taupe">
+            {recibeAvisos
+              ? "Te llega un email cuando se publica un lote nuevo en el mercado."
+              : "No estás recibiendo avisos de lotes nuevos."}
+          </p>
+        </div>
+        <form action={setAvisos}>
+          <input type="hidden" name="recibir" value={recibeAvisos ? "false" : "true"} />
+          <button
+            className={
+              recibeAvisos
+                ? "whitespace-nowrap border border-hueso/25 px-5 py-2.5 text-sm text-taupe transition-colors hover:border-rojo hover:text-rojo-claro"
+                : "whitespace-nowrap border border-verde-claro/50 px-5 py-2.5 text-sm text-verde-claro transition-colors hover:bg-verde/20"
+            }
+          >
+            {recibeAvisos ? "Desactivar avisos" : "Activar avisos"}
+          </button>
+        </form>
       </div>
     </div>
   );

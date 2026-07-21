@@ -306,6 +306,10 @@ alter table public.solicitudes_beta
 create unique index if not exists solicitudes_beta_token_idx
   on public.solicitudes_beta (invitacion_token);
 
+-- WhatsApp opcional del alta (el `contacto` guarda el email obligatorio; tanda 0014)
+alter table public.solicitudes_beta
+  add column if not exists whatsapp text;
+
 create table if not exists public.usuarios (
   id uuid primary key references auth.users(id) on delete cascade,
   created_at timestamptz not null default now(),
@@ -313,6 +317,12 @@ create table if not exists public.usuarios (
   empresa text, cuit text, rol_mercado text,
   estado text not null default 'activo'
 );
+-- Preferencia de avisos por email + token para el enlace de baja (tanda 0014)
+alter table public.usuarios
+  add column if not exists recibir_avisos boolean not null default true,
+  add column if not exists avisos_token uuid not null default gen_random_uuid();
+create unique index if not exists usuarios_avisos_token_idx
+  on public.usuarios (avisos_token);
 alter table public.usuarios enable row level security;
 
 drop policy if exists "usuarios own select" on public.usuarios;
@@ -493,13 +503,16 @@ grant execute on function public.get_ficha_publica(uuid) to anon, authenticated;
 
 -- Emails para notificaciones (solo service_role; leen auth.users). No accesibles
 -- por anon ni authenticated: los usa el servidor para mandar avisos por email.
-create or replace function public.emails_usuarios_activos(p_excluir uuid default null)
-returns table (email text)
+-- Filtra por recibir_avisos y devuelve el token de baja de cada usuario (tanda 0014).
+drop function if exists public.emails_usuarios_activos(uuid);
+create function public.emails_usuarios_activos(p_excluir uuid default null)
+returns table (email text, token uuid)
 language sql security definer set search_path = public, auth stable as $$
-  select u.email
+  select u.email, usr.avisos_token
   from public.usuarios usr
   join auth.users u on u.id = usr.id
   where usr.estado = 'activo'
+    and usr.recibir_avisos = true
     and u.email is not null
     and (p_excluir is null or usr.id <> p_excluir);
 $$;

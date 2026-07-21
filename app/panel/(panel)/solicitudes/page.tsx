@@ -13,6 +13,7 @@ type Solicitud = {
   rol: string | null;
   habilitacion_nro: string | null;
   contacto: string | null;
+  whatsapp: string | null;
   notas: string | null;
   estado: string | null;
   invitacion_token: string | null;
@@ -114,6 +115,8 @@ export default async function SolicitudesPage({
             <tbody>
               {solicitudes.map((s) => {
                 const c = contactoHref(s.contacto);
+                const waDigits = (s.whatsapp ?? "").replace(/\D/g, "");
+                const waHref = waDigits.length >= 8 ? `https://wa.me/${waDigits}` : null;
                 return (
                   <tr key={s.id} className="border-b border-hueso/5 align-top">
                     <td className="px-4 py-3 text-taupe">{formatFecha(s.created_at)}</td>
@@ -139,8 +142,8 @@ export default async function SolicitudesPage({
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap items-center gap-2">
-                        {c?.tipo === "wa" && (
-                          <a href={c.href} target="_blank" rel="noopener noreferrer" className="border border-verde-claro/40 px-3 py-1.5 text-xs text-verde-claro transition-colors hover:bg-verde/20">
+                        {waHref && (
+                          <a href={waHref} target="_blank" rel="noopener noreferrer" className="border border-verde-claro/40 px-3 py-1.5 text-xs text-verde-claro transition-colors hover:bg-verde/20">
                             Avisar por WhatsApp
                           </a>
                         )}

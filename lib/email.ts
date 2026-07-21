@@ -38,18 +38,17 @@ export async function enviarEmail({ to, subject, html }: EnviarInput): Promise<b
   }
 }
 
-// Manda el mismo contenido a muchos destinatarios sin exponerlos entre sí
-// (un mensaje por persona). Usa el batch de Resend en tandas de 100.
-export async function enviarLote(
-  destinatarios: string[],
-  subject: string,
-  html: string,
-): Promise<number> {
+// Manda mensajes distintos a muchos destinatarios (cada uno puede tener su propio
+// html, p. ej. con un link de baja personalizado). Usa el batch de Resend en
+// tandas de 100 y nunca expone unos destinatarios a otros.
+export type Mensaje = { to: string; subject: string; html: string };
+
+export async function enviarBatch(mensajes: Mensaje[]): Promise<number> {
   if (!API_KEY) {
-    console.warn(`[email] RESEND_API_KEY ausente — broadcast omitido: "${subject}"`);
+    console.warn(`[email] RESEND_API_KEY ausente — batch omitido (${mensajes.length})`);
     return 0;
   }
-  const limpios = [...new Set(destinatarios.map((e) => e.trim()).filter(Boolean))];
+  const limpios = mensajes.filter((m) => m.to.trim());
   if (limpios.length === 0) return 0;
 
   const resend = new Resend(API_KEY);
@@ -58,7 +57,7 @@ export async function enviarLote(
     const tanda = limpios.slice(i, i + 100);
     try {
       const { error } = await resend.batch.send(
-        tanda.map((to) => ({ from: FROM, to, subject, html })),
+        tanda.map((m) => ({ from: FROM, to: m.to.trim(), subject: m.subject, html: m.html })),
       );
       if (error) console.error("[email] batch error:", error);
       else enviados += tanda.length;
@@ -91,8 +90,9 @@ export function plantilla(opts: {
   ctaLabel?: string;
   ctaHref?: string;
   nota?: string;
+  bajaHref?: string;
 }): string {
-  const { titulo, intro, filas = [], ctaLabel, ctaHref, nota } = opts;
+  const { titulo, intro, filas = [], ctaLabel, ctaHref, nota, bajaHref } = opts;
 
   const filasHtml = filas
     .filter((f) => f.valor)
@@ -127,6 +127,7 @@ export function plantilla(opts: {
     </td></tr>
     <tr><td style="padding:20px 0;color:${C.taupe};font-size:11px;opacity:.7;">
       DeCarnes · la mesa de compras de MBEEF · Thompson 1226, Bahía Blanca, Argentina
+      ${bajaHref ? `<br><a href="${bajaHref}" style="color:${C.taupe};text-decoration:underline;">No quiero recibir más avisos de lotes nuevos</a>` : ""}
     </td></tr>
   </table>
 </body></html>`;

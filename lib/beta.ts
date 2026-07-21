@@ -6,9 +6,17 @@ export type SolicitudData = {
   cuit: string;
   rol: string; // 'vende' | 'compra' | 'ambas'
   habilitacion_nro: string; // habilitación SENASA/provincial/municipal (solo vende/ambas)
-  contacto: string;
+  email: string; // obligatorio: por acá te avisamos la aprobación
+  whatsapp: string; // opcional
   notas: string;
 };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** ¿Es un email con forma válida? */
+export function emailValido(v: string): boolean {
+  return EMAIL_RE.test(v.trim());
+}
 
 /** ¿El rol elegido vende (y por ende necesita habilitación)? */
 export function rolVende(rol: string): boolean {
@@ -34,7 +42,9 @@ export async function crearSolicitud(data: SolicitudData): Promise<void> {
     rol: data.rol,
     // La habilitación solo aplica a vendedores; para "compra" se guarda null.
     habilitacion_nro: rolVende(data.rol) ? data.habilitacion_nro.trim() || null : null,
-    contacto: data.contacto.trim(),
+    // `contacto` guarda el email (obligatorio): con él avisamos la aprobación.
+    contacto: data.email.trim(),
+    whatsapp: data.whatsapp.trim() || null,
     notas: data.notas.trim() || null,
     estado: "pendiente",
   });
