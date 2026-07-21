@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getFicha, firmarFoto, type FichaPublica } from "@/lib/ficha";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import ConsultaLote from "@/components/ficha/ConsultaLote";
+import CompartirWhatsapp from "@/components/CompartirWhatsapp";
 import {
   TIPO_PRODUCTO,
   LOTE_ESTADO,
@@ -12,6 +13,8 @@ import {
   labelDe,
 } from "@/lib/opciones";
 import { formatFecha, formatARS } from "@/lib/panel";
+
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://decarnesonline.com";
 
 function nombreLote(f: { titulo: string | null; tipo_producto: string | null }): string {
   return f.titulo || labelDe(TIPO_PRODUCTO, f.tipo_producto) || "Lote de carne";
@@ -42,22 +45,35 @@ export async function generateMetadata({
 
   const titulo = tituloLote(f);
   const cortes = [...(f.cortes ?? []), f.cortes_otro].filter(Boolean).join(", ");
-  const descripcion =
+  // Descripción breve para la portada de WhatsApp: primero la del lote, si no un
+  // resumen comercial. Se recorta para que no quede cortada fea en la preview.
+  const resumen =
     [labelDe(TIPO_PRODUCTO, f.tipo_producto), f.especie_categoria, cortes]
       .filter(Boolean)
       .join(" · ") || "Carne vacuna. Consultá condiciones por WhatsApp.";
+  const cruda = (f.descripcion?.trim() || resumen).replace(/\s+/g, " ");
+  const descripcion = cruda.length > 180 ? `${cruda.slice(0, 177)}…` : cruda;
 
   const ogPath = f.fotos_paths?.[0];
   const ogUrl = ogPath ? await firmarFoto(ogPath) : null;
+  const fichaUrl = `${SITE}/lote/${id}`;
 
   return {
     title: titulo,
     description: descripcion,
+    alternates: { canonical: fichaUrl },
     openGraph: {
       title: titulo,
       description: descripcion,
+      url: fichaUrl,
       type: "website",
-      images: ogUrl ? [{ url: ogUrl }] : [],
+      images: ogUrl ? [{ url: ogUrl, alt: titulo }] : [],
+    },
+    twitter: {
+      card: ogUrl ? "summary_large_image" : "summary",
+      title: titulo,
+      description: descripcion,
+      images: ogUrl ? [ogUrl] : undefined,
     },
   };
 }
@@ -120,6 +136,18 @@ export default async function FichaPublicaPage({
     .join(", ");
 
   const ref = f.id.slice(0, 8).toUpperCase();
+  const vendedor =
+    f.vendedor_id && f.vendedor_nombre
+      ? { id: f.vendedor_id, nombre: f.vendedor_nombre }
+      : null;
+  const fichaUrl = `${SITE}/lote/${f.id}`;
+  const compartirTexto = `${nombreLote(f)} — ${[
+    corteVal,
+    f.kilos_totales ? `${f.kilos_totales} kg` : null,
+    f.ubicacion_provincia,
+  ]
+    .filter(Boolean)
+    .join(", ")}`;
 
   const datos: { label: string; value: React.ReactNode; consulta: string }[] = [
     { label: "Corte / artículo", value: corteVal, consulta: "Consultá el corte" },
@@ -160,6 +188,21 @@ export default async function FichaPublicaPage({
             .filter(Boolean)
             .join(" · ")}
         </p>
+
+        {/* Badge del vendedor: lleva a su vidriera con todos sus lotes */}
+        {vendedor && (
+          <Link
+            href={`/vendedor/${vendedor.id}`}
+            className="mt-4 inline-flex items-center gap-2 border border-hueso/20 px-3.5 py-2 text-sm text-hueso transition-colors hover:border-bordo"
+          >
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-bordo/20 text-xs font-semibold text-salmon">
+              {vendedor.nombre.charAt(0).toUpperCase()}
+            </span>
+            <span className="font-medium">{vendedor.nombre}</span>
+            <span className="text-salmon">· Ver más de este vendedor →</span>
+          </Link>
+        )}
+
         {f.descripcion && (
           <p className="mt-4 max-w-2xl leading-relaxed text-taupe">{f.descripcion}</p>
         )}
@@ -209,6 +252,9 @@ export default async function FichaPublicaPage({
               kg={f.kilos_totales}
               provincia={f.ubicacion_provincia}
             />
+            <div className="mt-3">
+              <CompartirWhatsapp texto={compartirTexto} url={fichaUrl} full label="Compartir por WhatsApp" />
+            </div>
           </aside>
         </div>
 

@@ -1,29 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
+import LoteCard from "@/components/LoteCard";
 import { supabase } from "@/lib/supabase";
-import { firmarFoto } from "@/lib/ficha";
-import { CORTES, LOTE_ESTADO, PROVINCIAS, labelDe } from "@/lib/opciones";
-import { formatARS } from "@/lib/panel";
+import { firmarFoto, type LoteFila } from "@/lib/ficha";
+import { CORTES, LOTE_ESTADO, PROVINCIAS } from "@/lib/opciones";
 import { inputBase } from "@/lib/ui";
 
 export const metadata: Metadata = {
   title: "Mercado de lotes | DeCarnes",
   description:
     "Mirá los lotes de carne publicados en DeCarnes: cortes, cantidades, provincia y precio. Consultá sin registrarte. Powered by MBEEF.",
-};
-
-type Fila = {
-  id: string;
-  titulo: string | null;
-  corte: string | null;
-  especie_categoria: string | null;
-  lote_estado: string | null;
-  precio_pretendido_kg: number | null;
-  kilos_totales: number | null;
-  ubicacion_provincia: string | null;
-  ubicacion_localidad: string | null;
-  foto_principal: string | null;
 };
 
 export default async function MercadoPublicoPage({
@@ -39,7 +26,7 @@ export default async function MercadoPublicoPage({
     p_estado: sp.estado || null,
     p_q: sp.q || null,
   });
-  const lotes = (data ?? []) as Fila[];
+  const lotes = (data ?? []) as LoteFila[];
 
   const fotos = new Map<string, string>();
   await Promise.all(
@@ -93,36 +80,9 @@ export default async function MercadoPublicoPage({
             </p>
           ) : (
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {lotes.map((l) => {
-                const foto = fotos.get(l.id);
-                return (
-                  <Link key={l.id} href={`/lote/${l.id}`} className="group flex flex-col border border-hueso/15 transition-colors hover:border-bordo">
-                    <div className="aspect-[4/3] overflow-hidden bg-carbon/40">
-                      {foto ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img src={foto} alt={l.titulo ?? "Lote"} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      ) : (
-                        <span className="flex h-full items-center justify-center text-xs text-taupe/50">Sin foto</span>
-                      )}
-                    </div>
-                    <div className="flex flex-1 flex-col p-5">
-                      <h2 className="font-serif text-xl font-medium text-hueso group-hover:text-rojo-claro">{l.titulo ?? "—"}</h2>
-                      <p className="mt-1 text-sm text-taupe">
-                        {[l.corte, l.especie_categoria, labelDe(LOTE_ESTADO, l.lote_estado)].filter(Boolean).join(" · ")}
-                      </p>
-                      <p className="mt-3 text-sm text-taupe">
-                        {[l.kilos_totales ? `${l.kilos_totales} kg` : null, [l.ubicacion_localidad, l.ubicacion_provincia].filter(Boolean).join(", ")].filter(Boolean).join(" · ") || "—"}
-                      </p>
-                      {l.precio_pretendido_kg && (
-                        <p className="mt-2 font-serif text-lg text-hueso">
-                          {formatARS(l.precio_pretendido_kg)}<span className="text-sm text-taupe"> /kg</span>
-                        </p>
-                      )}
-                      <span className="mt-auto pt-4 text-xs uppercase tracking-[0.18em] text-salmon">Ver y consultar →</span>
-                    </div>
-                  </Link>
-                );
-              })}
+              {lotes.map((l) => (
+                <LoteCard key={l.id} l={l} foto={fotos.get(l.id)} />
+              ))}
             </div>
           )}
         </div>
