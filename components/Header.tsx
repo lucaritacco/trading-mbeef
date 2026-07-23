@@ -12,9 +12,6 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm text-taupe lg:flex">
-          <Link href="/mercado" className="text-hueso transition-colors hover:text-rojo-claro">
-            Mercado
-          </Link>
           <a href="/#como-funciona" className="transition-colors hover:text-hueso">
             Cómo funciona
           </a>
@@ -33,6 +30,12 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <Link
+            href="/mercado"
+            className="hidden text-sm text-taupe transition-colors hover:text-hueso sm:inline"
+          >
+            Ver lotes publicados
+          </Link>
           <Link
             href="/login"
             className="hidden text-sm text-taupe transition-colors hover:text-hueso sm:inline"

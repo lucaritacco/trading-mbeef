@@ -5,7 +5,6 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 
 const SECCIONES = [
-  { href: "/mercado", label: "Mercado" },
   { href: "/#como-funciona", label: "Cómo funciona" },
   { href: "/#ventajas", label: "Por qué" },
   { href: "/#servicios", label: "Servicios" },
@@ -52,6 +51,13 @@ export default function MobileMenu() {
             >
               Hablar con un operador
             </a>
+            <Link
+              href="/mercado"
+              onClick={() => setAbierto(false)}
+              className="border-b border-hueso/5 py-3 text-sm text-taupe transition-colors hover:text-hueso"
+            >
+              Ver lotes publicados
+            </Link>
             <Link
               href="/login"
               onClick={() => setAbierto(false)}
