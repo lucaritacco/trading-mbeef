@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import PublicarLoteForm from "@/components/cuenta/PublicarLoteForm";
 import { LOTE_VACIO, type LoteForm } from "@/lib/mercado";
+import { firmarFoto } from "@/lib/ficha";
 
 export const metadata: Metadata = {
   title: "Publicar lote | DeCarnes",
@@ -49,11 +50,12 @@ export default async function PublicarPage({
     certificados: Array.isArray(l.certificados) ? l.certificados : [],
   };
 
+  const paths: string[] = Array.isArray(l.fotos_paths) ? l.fotos_paths : [];
+  const fotosExistentes = await Promise.all(
+    paths.map(async (p) => ({ path: p, url: await firmarFoto(p) })),
+  );
+
   return (
-    <PublicarLoteForm
-      loteId={l.id}
-      initial={initial}
-      fotosExistentes={Array.isArray(l.fotos_paths) ? l.fotos_paths : []}
-    />
+    <PublicarLoteForm loteId={l.id} initial={initial} fotosExistentes={fotosExistentes} />
   );
 }

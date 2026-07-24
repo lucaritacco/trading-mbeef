@@ -96,9 +96,10 @@ async function subirFotos(
   desde = 0,
 ): Promise<string[]> {
   const paths: string[] = [];
+  const lote = Date.now(); // prefijo único para no colisionar con fotos ya existentes
   for (let i = 0; i < fotos.length; i++) {
     const file = fotos[i];
-    const path = `${loteId}/${desde + i}-${sanitizar(file.name)}`;
+    const path = `${loteId}/${lote}-${desde + i}-${sanitizar(file.name)}`;
     const { error } = await supabase.storage
       .from("lotes-fotos")
       .upload(path, file, { contentType: file.type, upsert: false });

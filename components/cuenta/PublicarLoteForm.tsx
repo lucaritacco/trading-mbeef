@@ -29,6 +29,8 @@ const CORTE_OPCIONES: Opcion[] = [
 
 type Errores = Record<string, string>;
 
+type FotoExistente = { path: string; url: string | null };
+
 export default function PublicarLoteForm({
   loteId,
   initial,
@@ -36,11 +38,22 @@ export default function PublicarLoteForm({
 }: {
   loteId?: string;
   initial?: LoteForm;
-  fotosExistentes?: string[];
+  fotosExistentes?: FotoExistente[];
 }) {
   const router = useRouter();
   const esEdicion = !!loteId;
   const [data, setData] = useState<LoteForm>(initial ?? LOTE_VACIO);
+  // Fotos ya subidas: se pueden reordenar (portada = la primera) y eliminar.
+  const [existentes, setExistentes] = useState<FotoExistente[]>(fotosExistentes);
+
+  const hacerPortada = (path: string) =>
+    setExistentes((fs) => {
+      const el = fs.find((f) => f.path === path);
+      if (!el) return fs;
+      return [el, ...fs.filter((f) => f.path !== path)];
+    });
+  const eliminarExistente = (path: string) =>
+    setExistentes((fs) => fs.filter((f) => f.path !== path));
   const [corteOtro, setCorteOtro] = useState(
     initial && !CORTES.includes(initial.corte) ? initial.corte : "",
   );
@@ -64,7 +77,7 @@ export default function PublicarLoteForm({
     if (corteSel === "") e.corte = "Elegí el corte/artículo.";
     if (corteSel === "__otro__" && !corteOtro.trim()) e.corte = "Escribí qué corte es.";
     if (!esEdicion && fotos.length < 1) e.fotos = "Subí al menos 1 foto.";
-    if (esEdicion && fotos.length === 0 && fotosExistentes.length === 0)
+    if (esEdicion && fotos.length === 0 && existentes.length === 0)
       e.fotos = "Subí al menos 1 foto.";
     return e;
   }
@@ -82,7 +95,7 @@ export default function PublicarLoteForm({
     const payload: LoteForm = { ...data, corte };
     try {
       if (esEdicion && loteId) {
-        await editarLote(loteId, payload, fotos, fotosExistentes);
+        await editarLote(loteId, payload, fotos, existentes.map((f) => f.path));
       } else {
         await crearLote(payload, fotos);
       }
@@ -113,10 +126,73 @@ export default function PublicarLoteForm({
           <TextField id="corte_otro" label="¿Qué corte/artículo?" required value={corteOtro} onChange={setCorteOtro} />
         )}
         <TextArea id="descripcion" label="Descripción" placeholder="Detalles del lote (opcional)" value={data.descripcion} onChange={set("descripcion")} />
-        <PhotoUploader label="Fotos" fotos={fotos} onChange={setFotos} error={errores.fotos} min={1} max={10} />
-        {esEdicion && fotosExistentes.length > 0 && (
+        {/* Fotos ya subidas (solo en edición): elegir portada y eliminar */}
+        {esEdicion && existentes.length > 0 && (
+          <div>
+            <p className="text-sm text-hueso">Fotos actuales</p>
+            <p className="mt-1 text-xs text-taupe/70">
+              La <span className="text-salmon">portada</span> es la primera y es la que se ve
+              al compartir. Tocá una foto para hacerla portada, o eliminala.
+            </p>
+            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {existentes.map((f, i) => (
+                <div
+                  key={f.path}
+                  className={`group relative aspect-square overflow-hidden border ${i === 0 ? "border-bordo" : "border-hueso/15"}`}
+                >
+                  {f.url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={f.url} alt={`Foto ${i + 1}`} className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="flex h-full items-center justify-center text-xs text-taupe/50">
+                      Sin vista previa
+                    </span>
+                  )}
+
+                  {i === 0 && (
+                    <span className="absolute left-1.5 top-1.5 bg-bordo px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-hueso">
+                      Portada
+                    </span>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => eliminarExistente(f.path)}
+                    aria-label="Eliminar foto"
+                    className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center bg-carbon/80 text-hueso transition-colors hover:bg-rojo"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="M6 6l12 12M18 6L6 18" />
+                    </svg>
+                  </button>
+
+                  {i !== 0 && (
+                    <button
+                      type="button"
+                      onClick={() => hacerPortada(f.path)}
+                      className="absolute inset-x-0 bottom-0 bg-carbon/80 py-1.5 text-[11px] text-hueso transition-colors hover:bg-bordo"
+                    >
+                      Hacer portada
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <PhotoUploader
+          label={esEdicion ? "Agregar fotos nuevas" : "Fotos"}
+          fotos={fotos}
+          onChange={setFotos}
+          error={errores.fotos}
+          min={esEdicion ? 0 : 1}
+          max={10}
+        />
+        {esEdicion && (
           <p className="text-xs text-taupe/70">
-            Este lote ya tiene {fotosExistentes.length} foto(s). Las nuevas se suman.
+            Las fotos nuevas se suman al final. Para que una nueva sea la portada,
+            guardá y volvé a editar.
           </p>
         )}
 
