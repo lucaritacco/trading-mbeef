@@ -8,6 +8,7 @@ export type LoteForm = {
   especie_categoria: string;
   lote_estado: string;
   fecha_faena: string;
+  fecha_vencimiento: string;
   disponibilidad_desde: string;
   precio_pretendido_kg: string;
   modalidad_entrega: string;
@@ -28,6 +29,7 @@ export const LOTE_VACIO: LoteForm = {
   especie_categoria: "",
   lote_estado: "",
   fecha_faena: "",
+  fecha_vencimiento: "",
   disponibilidad_desde: "",
   precio_pretendido_kg: "",
   modalidad_entrega: "",
@@ -71,6 +73,7 @@ function filaDesde(data: LoteForm) {
     especie_categoria: txt(data.especie_categoria),
     lote_estado: txt(data.lote_estado),
     fecha_faena: data.fecha_faena || null,
+    fecha_vencimiento: data.fecha_vencimiento || null,
     disponibilidad_desde: data.disponibilidad_desde || null,
     precio_pretendido_kg: num(data.precio_pretendido_kg),
     modalidad_entrega: txt(data.modalidad_entrega),

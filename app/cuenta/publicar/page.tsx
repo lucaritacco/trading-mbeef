@@ -35,6 +35,7 @@ export default async function PublicarPage({
     especie_categoria: str(l.especie_categoria),
     lote_estado: str(l.lote_estado),
     fecha_faena: str(l.fecha_faena),
+    fecha_vencimiento: str(l.fecha_vencimiento),
     disponibilidad_desde: str(l.disponibilidad_desde),
     precio_pretendido_kg: str(l.precio_pretendido_kg),
     modalidad_entrega: str(l.modalidad_entrega),

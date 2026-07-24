@@ -144,8 +144,9 @@ export default function PublicarLoteForm({
               </div>
             </div>
             <RadioCards label="Estado" value={data.lote_estado} onChange={set("lote_estado")} options={LOTE_ESTADO} />
-            <div className="grid gap-7 sm:grid-cols-2">
+            <div className="grid gap-7 sm:grid-cols-3">
               <TextField id="fecha_faena" label="Fecha de faena" type="date" value={data.fecha_faena} onChange={set("fecha_faena")} />
+              <TextField id="fecha_vencimiento" label="Fecha de vencimiento" type="date" value={data.fecha_vencimiento} onChange={set("fecha_vencimiento")} />
               <TextField id="disponibilidad_desde" label="Lista para carga (desde)" type="date" value={data.disponibilidad_desde} onChange={set("disponibilidad_desde")} />
             </div>
             <RadioCards label="Modalidad de entrega" value={data.modalidad_entrega} onChange={set("modalidad_entrega")} options={MODALIDAD_ENTREGA} />
