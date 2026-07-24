@@ -14,7 +14,7 @@ const PREGUNTAS = [
   },
   {
     q: "¿Quién puede publicar?",
-    a: "Empresas del rubro con habilitación sanitaria vigente, inscripción RUCA y CUIT activo.",
+    a: "Empresas del rubro con habilitación sanitaria vigente y CUIT activo.",
   },
   {
     q: "¿Qué rol juega MBEEF?",
