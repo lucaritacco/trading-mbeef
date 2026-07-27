@@ -62,6 +62,25 @@ export async function setAvisos(formData: FormData): Promise<void> {
   redirect("/cuenta?ok=avisos");
 }
 
+// Cerrar una búsqueda PROPIA (RLS own update la limita a las suyas).
+export async function cerrarBusqueda(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  if (typeof id !== "string") return;
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  await supabase
+    .from("busquedas")
+    .update({ estado: "cerrada" })
+    .eq("id", id)
+    .eq("user_id", user.id);
+  revalidatePath(`/cuenta/busquedas/${id}`);
+  revalidatePath("/cuenta/mis-busquedas");
+  redirect(`/cuenta/busquedas/${id}`);
+}
+
 // Publicar / despublicar un lote PROPIO (RLS own update lo limita a los suyos).
 export async function setPublicoLote(formData: FormData): Promise<void> {
   const id = formData.get("id");

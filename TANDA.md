@@ -101,3 +101,48 @@ del panel, ya aplicada).
 - ✅ anon NO puede leer `solicitudes_beta` (RLS solo INSERT para anon).
 - ✅ `/panel/solicitudes` lista, filtra, aprueba/rechaza, con WhatsApp al contacto.
 - ✅ Esta TANDA.md con migración y pasos de prueba.
+
+---
+
+# TANDA · Búsquedas (RFQ) — el mercado invertido (0016)
+
+Sección nueva **separada de "Mercado"**: los compradores publican lo que buscan
+y los vendedores responden con **ofertas comparables**. Todo requiere login
+(`/cuenta/busquedas`). No toca el catálogo, el login, el panel ni las RLS previas.
+
+## ⚠️ Migración a correr (vos, a mano) — 1 sola
+
+Supabase → **SQL Editor** → **New query** → pegar el contenido de
+`supabase/migrations/0016_busquedas.sql` → **Run**.
+Es **aditiva** (no borra datos): crea las tablas `busquedas` y `ofertas`, sus RLS
+y las funciones (`busquedas_abiertas`, `busqueda_ver`, `crear_oferta`,
+`ofertas_de_busqueda`, `responder_oferta`, `contacto_oferta`, `mis_busquedas`,
+`mis_ofertas`). Todas las funciones se otorgan **solo a `authenticated`** (no anon).
+
+## Modelo de seguridad (aislamiento de ofertas)
+
+- `busquedas` y `ofertas` tienen RLS **own-only** (por acceso directo cada quien ve
+  solo sus filas). Las abiertas de otros y las ofertas del comprador se sirven por
+  **funciones SECURITY DEFINER** que chequean `auth.uid()` explícitamente.
+- Un **vendedor** por acceso directo (o vía `ofertas_de_busqueda`) ve **solo sus
+  propias** ofertas → nunca las de la competencia.
+- El **comprador dueño** de la búsqueda ve **todas** las ofertas (vía función).
+- `contacto_oferta` devuelve el WhatsApp del vendedor **solo** al comprador dueño y
+  **solo** si la oferta está `aceptada`. La lista no expone contacto crudo (solo
+  empresa/zona del comprador).
+
+## ✅ Checklist de seguridad (verificar con cuentas de prueba)
+
+- [ ] Vendedor A y Vendedor B ofertan la MISMA búsqueda. A **no** ve la oferta de B
+      ni por la UI ni consultando `ofertas` directo (RLS own-only) ni por
+      `ofertas_de_busqueda` (A recibe solo la suya).
+- [ ] El comprador dueño ve **todas** las ofertas de su búsqueda y puede
+      aceptar/rechazar (`responder_oferta`).
+- [ ] Un usuario solo edita/cierra **sus** búsquedas (RLS own update) y solo ve/crea
+      **sus** ofertas (`crear_oferta` inserta con `user_id = auth.uid()`).
+- [ ] La lista `busquedas_abiertas` **no** trae `user_id` crudo ni contacto (solo
+      empresa + zona). El contacto se habilita con login y al **aceptar**.
+- [ ] anon (sin login) **no** ejecuta ninguna función nueva (revoke a anon) ni entra
+      a `/cuenta/busquedas` (redirige a `/login`).
+- [ ] Un vendedor no puede ofertar una búsqueda **cerrada** ni la **propia**
+      (`crear_oferta` lo rechaza).
