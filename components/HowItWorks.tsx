@@ -17,7 +17,7 @@ const STEPS = [
   {
     n: "3",
     title: "Cerrás la operación",
-    body: "Acordás directo con la otra parte.",
+    body: "Filtramos los contactos y te devolvemos los calificados.",
   },
 ];
 
