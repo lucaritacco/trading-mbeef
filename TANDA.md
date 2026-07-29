@@ -184,3 +184,47 @@ coordina por operación. El formulario `/cuenta/publicar` queda para uso del sta
   solo, garantía de cobro o logística incluida (barrido en components/ y app/).
 - Comisión comunicada como "solo cuando se vende", sin porcentaje.
 - typecheck + build OK. main sin cambios.
+
+---
+
+# TANDA · Corrección de enfoque: landing comprador + catálogo público anónimo (rama servicio-colocacion)
+
+Landing casi enteramente dirigida al COMPRADOR; el vendedor queda en una franja
+chica al final. Catálogo y fichas navegables SIN login; consulta por WhatsApp a
+MBEEF. Proveedor ANÓNIMO en público.
+
+## ⚠️ Migración a correr (vos, a mano) — 1 sola
+Supabase → SQL Editor → pegar `supabase/migrations/0017_catalogo_anonimo.sql` → Run.
+**Aditiva, NO cambia permisos ni RLS.** Solo recorta columnas de dos funciones que
+YA eran públicas, y elimina dos funciones que exponían al frigorífico.
+
+## Cambios de landing
+Hero (una idea + CTA "Ver lotes", secundario "Hablar con un operador"; sin CTA de
+vender). Cómo funciona: solo comprador (3 pasos). Por qué: 4 tarjetas comprador
+("Consultar es gratis"). Comparativa "Comprar hoy vs. comprar con DeCarnes".
+Requisitos → franja chica "¿Tenés stock para colocar?" (WhatsApp) con el requisito
+en letra chica. CTA final solo "Ver lotes". FAQ reordenada (comprador primero).
+
+## Catálogo sin login + proveedor anónimo (privacidad)
+- /mercado y /lote/[id] ya eran rutas públicas; se quitó la fricción de login en la
+  consulta. ConsultaLote ahora abre WhatsApp DIRECTO a MBEEF (site.whatsapp) con
+  mensaje pre-cargado (ref, corte, kg, provincia, link a la ficha). No llama a
+  contacto_lote ni expone datos del vendedor.
+- get_ficha_publica: devuelve SOLO producto + provincia. Quitados vendedor_id,
+  vendedor_nombre y ubicacion_localidad. Verificado campo por campo: no hay empresa,
+  razón social, cuit, contacto, user_id ni localidad.
+- catalogo_publico: quitada ubicacion_localidad (ya no devolvía empresa ni user_id).
+- Se eliminaron perfil_vendedor y lotes_de_vendedor y la página /vendedor/[id]
+  (identificaban al frigorífico).
+- En ficha, donde estaba el badge del vendedor ahora dice "Frigorífico seleccionado
+  por MBEEF". El label "Ubicación" pasó a "Provincia".
+
+## Interno (NO se tocó)
+- La tabla `lotes` sigue con user_id y localidad. El panel de staff, la función
+  `catalogo` (interno) y el email de aviso siguen viendo el proveedor y su
+  localidad. Nada de panel/login/RLS cambia. El proveedor de cada lote se sigue
+  viendo en el panel para liquidar comisiones y scorecard.
+
+## Verificado
+- Hero con una idea y un CTA. Página argumenta para el comprador salvo la franja
+  final. typecheck + build OK. main intacto.

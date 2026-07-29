@@ -34,10 +34,7 @@ export default function LoteCard({ l, foto }: { l: LoteFila; foto?: string }) {
             .join(" · ")}
         </p>
         <p className="mt-3 text-sm text-taupe">
-          {[
-            l.kilos_totales ? `${l.kilos_totales} kg` : null,
-            [l.ubicacion_localidad, l.ubicacion_provincia].filter(Boolean).join(", "),
-          ]
+          {[l.kilos_totales ? `${l.kilos_totales} kg` : null, l.ubicacion_provincia]
             .filter(Boolean)
             .join(" · ") || "—"}
         </p>

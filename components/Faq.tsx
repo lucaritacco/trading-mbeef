@@ -6,31 +6,27 @@ import { Reveal } from "./motion";
 const PREGUNTAS = [
   {
     q: "¿Qué es DeCarnes?",
-    a: "Un catálogo de lotes de frigoríficos seleccionados. MBEEF publica y coloca el stock de sus proveedores en su red de compradores.",
+    a: "Un catálogo de lotes de frigoríficos seleccionados por MBEEF, operador del mercado desde 1994.",
   },
   {
-    q: "¿Tiene costo?",
-    a: "Para el comprador, ver el catálogo y consultar es gratis. Para el vendedor, cobramos comisión solo cuando se concreta la venta.",
+    q: "¿Cómo compro un lote?",
+    a: "Consultás el lote que te interesa y coordinamos la operación con el frigorífico.",
   },
   {
-    q: "¿Puedo publicar mi propio lote?",
-    a: "Publicamos nosotros: seleccionamos qué lotes van al catálogo. Si querés que publiquemos tu stock, escribinos.",
-  },
-  {
-    q: "¿Quién puede vender a través de DeCarnes?",
-    a: "Frigoríficos y operadores con habilitación sanitaria vigente y CUIT activo.",
-  },
-  {
-    q: "¿Quién cobra la venta?",
-    a: "El comprador le paga directo al vendedor. MBEEF no intermedia el pago.",
+    q: "¿Tiene costo consultar?",
+    a: "No. Ver el catálogo y consultar es gratis.",
   },
   {
     q: "¿Y el flete?",
     a: "El retiro y el transporte se coordinan en cada operación.",
   },
   {
-    q: "¿Qué rol juega MBEEF?",
-    a: "MBEEF opera el mercado: selecciona los frigoríficos, publica los lotes y los coloca en su red, con más de 30 años en el rubro.",
+    q: "¿Quién selecciona los frigoríficos?",
+    a: "MBEEF, con más de 30 años en el rubro. Trabajamos con proveedores que conocemos.",
+  },
+  {
+    q: "¿Puedo vender mi stock a través de DeCarnes?",
+    a: "Sí: nos pasás tu stock, lo publicamos y lo colocamos. El comprador te paga directo y cobramos comisión solo cuando se vende. Escribinos.",
   },
 ];
 

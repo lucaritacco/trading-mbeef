@@ -2,8 +2,8 @@ import { Reveal, Stagger, StaggerItem } from "./motion";
 
 const ITEMS = [
   {
-    title: "Más visibilidad",
-    body: "Tu stock llega a compradores de todo el país, no solo a tu agenda de siempre.",
+    title: "Frigoríficos seleccionados",
+    body: "No es un clasificado abierto: elegimos con qué frigoríficos trabajamos y qué lotes publicamos.",
   },
   {
     title: "Todo el país en un lugar",
@@ -14,8 +14,8 @@ const ITEMS = [
     body: "Detrás de DeCarnes hay un operador con más de 30 años en el mercado de la carne. No es una plataforma anónima.",
   },
   {
-    title: "Frigoríficos seleccionados",
-    body: "Trabajamos con frigoríficos que conocemos y que trabajan bien. No es un clasificado abierto: elegimos qué publicamos.",
+    title: "Consultar es gratis",
+    body: "Ver el catálogo y consultar no tiene costo.",
   },
 ];
 

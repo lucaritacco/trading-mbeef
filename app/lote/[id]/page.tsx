@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getFicha, firmarFoto, type FichaPublica } from "@/lib/ficha";
-import { createSupabaseServer } from "@/lib/supabase/server";
 import ConsultaLote from "@/components/ficha/ConsultaLote";
 import CompartirWhatsapp from "@/components/CompartirWhatsapp";
 import {
@@ -113,13 +112,6 @@ export default async function FichaPublicaPage({
   const f: FichaPublica | null = await getFicha(id);
   if (!f) notFound();
 
-  // Estado de sesión: decide si los botones consultan (logueado) o mandan a login (anónimo).
-  const supabaseServer = await createSupabaseServer();
-  const {
-    data: { user },
-  } = await supabaseServer.auth.getUser();
-  const logueado = Boolean(user);
-
   const fotos = (
     await Promise.all((f.fotos_paths ?? []).map((p) => firmarFoto(p)))
   ).filter((u): u is string => Boolean(u));
@@ -131,15 +123,9 @@ export default async function FichaPublicaPage({
     .filter(Boolean)
     .join(" · ");
   const certificados = (f.certificados ?? []).join(", ");
-  const ubicacion = [f.ubicacion_localidad, f.ubicacion_provincia]
-    .filter(Boolean)
-    .join(", ");
+  const ubicacion = f.ubicacion_provincia;
 
   const ref = f.id.slice(0, 8).toUpperCase();
-  const vendedor =
-    f.vendedor_id && f.vendedor_nombre
-      ? { id: f.vendedor_id, nombre: f.vendedor_nombre }
-      : null;
   const fichaUrl = `${SITE}/lote/${f.id}`;
   const compartirTexto = `${nombreLote(f)} — ${[
     corteVal,
@@ -162,7 +148,7 @@ export default async function FichaPublicaPage({
     { label: "Certificados", value: certificados, consulta: "Consultá los certificados" },
     { label: "Faena", value: f.fecha_faena ? formatFecha(f.fecha_faena) : null, consulta: "Consultá la fecha de faena" },
     { label: "Vencimiento", value: f.fecha_vencimiento ? formatFecha(f.fecha_vencimiento) : null, consulta: "Consultá el vencimiento" },
-    { label: "Ubicación", value: ubicacion, consulta: "Consultá la ubicación" },
+    { label: "Provincia", value: ubicacion, consulta: "Consultá la provincia" },
   ];
 
   return (
@@ -189,19 +175,13 @@ export default async function FichaPublicaPage({
             .join(" · ")}
         </p>
 
-        {/* Badge del vendedor: lleva a su vidriera con todos sus lotes */}
-        {vendedor && (
-          <Link
-            href={`/vendedor/${vendedor.id}`}
-            className="mt-4 inline-flex items-center gap-2 border border-hueso/20 px-3.5 py-2 text-sm text-hueso transition-colors hover:border-bordo"
-          >
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-bordo/20 text-xs font-semibold text-salmon">
-              {vendedor.nombre.charAt(0).toUpperCase()}
-            </span>
-            <span className="font-medium">{vendedor.nombre}</span>
-            <span className="text-salmon">· Ver más de este vendedor →</span>
-          </Link>
-        )}
+        {/* Origen anónimo: todos los lotes se presentan bajo el paraguas de MBEEF */}
+        <span className="mt-4 inline-flex items-center gap-2 border border-hueso/20 px-3.5 py-2 text-sm text-taupe">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-bordo/20 text-xs font-semibold text-salmon">
+            M
+          </span>
+          Frigorífico seleccionado por MBEEF
+        </span>
 
         {f.descripcion && (
           <p className="mt-4 max-w-2xl leading-relaxed text-taupe">{f.descripcion}</p>
@@ -245,12 +225,11 @@ export default async function FichaPublicaPage({
           {/* Columna de consulta */}
           <aside className="lg:sticky lg:top-8 lg:self-start">
             <ConsultaLote
-              logueado={logueado}
-              loteId={f.id}
               refCode={ref}
               corte={corteVal}
               kg={f.kilos_totales}
               provincia={f.ubicacion_provincia}
+              fichaUrl={fichaUrl}
             />
             <div className="mt-3">
               <CompartirWhatsapp texto={compartirTexto} url={fichaUrl} full label="Compartir por WhatsApp" />

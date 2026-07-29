@@ -124,9 +124,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: subDelay, ease: EASE }}
         >
-          Comprá directo del catálogo. ¿Vendés? Pasanos tu stock: lo publicamos y
-          lo colocamos en nuestra red de compradores. Powered by MBEEF, operador
-          del mercado desde 1994.
+          Comprá directo del catálogo. Cortes de frigoríficos que elegimos uno por
+          uno. Powered by MBEEF, operador del mercado desde 1994.
         </motion.p>
 
         <motion.div
@@ -137,17 +136,17 @@ export default function Hero() {
         >
           <Link
             href="/mercado"
-            className="bg-bordo px-7 py-4 text-base font-medium text-hueso transition-colors hover:bg-rojo"
+            className="bg-bordo px-8 py-4 text-lg font-medium text-hueso transition-colors hover:bg-rojo"
           >
             Ver lotes
           </Link>
           <a
-            href={site.whatsappVenderHref}
+            href={site.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-hueso/30 px-7 py-4 text-base text-hueso transition-colors hover:border-hueso/70"
+            className="text-base text-taupe underline-offset-4 transition-colors hover:text-hueso hover:underline"
           >
-            Quiero vender mi stock
+            Hablar con un operador
           </a>
         </motion.div>
 
