@@ -8,26 +8,25 @@ export default function FinalCta() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <h2 className="max-w-3xl font-serif text-[clamp(2.4rem,6vw,4.5rem)] font-medium leading-[1.05]">
-            Sumate al mercado de la carne.
+            Lotes seleccionados, todos los días.
           </h2>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-hueso/85">
-            Publicá tus cortes y conectá con compradores de todo el país.
-            Powered by MBEEF.
+            Mirá el catálogo o escribinos para que coloquemos tu stock.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <Link
-              href="/sumate"
+              href="/mercado"
               className="bg-hueso px-8 py-4 text-base font-medium text-carbon transition-colors hover:bg-white"
             >
-              Sumate
+              Ver lotes
             </Link>
             <a
-              href={site.whatsappHref}
+              href={site.whatsappVenderHref}
               target="_blank"
               rel="noopener noreferrer"
               className="border border-hueso/40 px-8 py-4 text-base text-hueso transition-colors hover:border-hueso"
             >
-              Hablar con un operador
+              Quiero vender mi stock
             </a>
           </div>
         </Reveal>

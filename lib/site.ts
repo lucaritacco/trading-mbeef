@@ -8,6 +8,10 @@ export const site = {
   whatsapp: "5492914145189",
   whatsappHref:
     "https://wa.me/5492914145189?text=Hola%2C%20quiero%20hablar%20con%20un%20operador%20de%20DeCarnes",
+  // CTA para vendedores: pedir que MBEEF publique y coloque su stock.
+  whatsappVenderHref:
+    "https://wa.me/5492914145189?text=" +
+    encodeURIComponent("Hola, quiero que publiquen y coloquen mi stock en DeCarnes"),
   tel: "+54 9 291 414-5189",
   direccion: "Thompson 1226, Bahía Blanca, Argentina",
 

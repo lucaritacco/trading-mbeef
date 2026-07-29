@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Reveal, Stagger, StaggerItem } from "./motion";
+import { site } from "@/lib/site";
 
 const REQUISITOS = [
   "Habilitación sanitaria vigente (SENASA, provincial o municipal, según tu operación)",
@@ -15,17 +15,20 @@ export default function Requirements() {
             Para quién es
           </h2>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-carbon/75">
-            Trabajamos con vendedores habilitados. Para publicar necesitás:
+            Trabajamos con frigoríficos habilitados. Para que publiquemos tu stock
+            necesitás:
           </p>
           <p className="mt-8 font-serif text-2xl font-medium text-bordo">
-            ¿Cumplís? Sumate al mercado.
+            ¿Cumplís? Escribinos.
           </p>
-          <Link
-            href="/sumate"
+          <a
+            href={site.whatsappVenderHref}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-6 inline-block bg-bordo px-6 py-3.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
           >
-            Sumate
-          </Link>
+            Quiero vender mi stock
+          </a>
         </Reveal>
 
         <Stagger className="space-y-0 self-center" step={0.1}>
@@ -50,8 +53,8 @@ export default function Requirements() {
             </StaggerItem>
           ))}
           <p className="mt-6 text-sm leading-relaxed text-carbon/60">
-            ¿Solo comprás? Sumate igual: no necesitás habilitación para navegar el
-            mercado.
+            ¿Solo comprás? Sumate igual: no necesitás habilitación para ver el
+            catálogo.
           </p>
         </Stagger>
       </div>

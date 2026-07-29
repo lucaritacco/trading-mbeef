@@ -10,14 +10,14 @@ const ROWS = [
     decarnes: "Compradores de todo el país",
   },
   {
-    label: "Precios",
-    solo: "Negociás a ciegas",
-    decarnes: "Comparás oferta en una pantalla",
+    label: "Colocación",
+    solo: "Salís a vender solo",
+    decarnes: "Salimos a colocar tu stock por vos",
   },
   {
-    label: "Visibilidad",
-    solo: "Tu stock lo ven pocos",
-    decarnes: "Tu lote lo ve todo el mercado",
+    label: "Selección",
+    solo: "Comprás a ciegas",
+    decarnes: "Frigoríficos seleccionados por MBEEF",
   },
   {
     label: "Respaldo",
@@ -27,7 +27,7 @@ const ROWS = [
   {
     label: "Costo",
     solo: "—",
-    decarnes: "Publicar es gratis",
+    decarnes: "Comisión solo cuando se vende",
   },
 ];
 

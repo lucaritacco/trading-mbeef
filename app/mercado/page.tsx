@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Header from "@/components/Header";
 import LoteCard from "@/components/LoteCard";
 import { supabase } from "@/lib/supabase";
 import { firmarFoto, type LoteFila } from "@/lib/ficha";
 import { CORTES, LOTE_ESTADO, PROVINCIAS } from "@/lib/opciones";
 import { inputBase } from "@/lib/ui";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Mercado de lotes | DeCarnes",
@@ -45,9 +45,11 @@ export default async function MercadoPublicoPage({
           <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">El mercado de la carne</p>
           <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">Lotes publicados</h1>
           <p className="mt-3 max-w-xl leading-relaxed text-taupe">
-            Mirá los lotes disponibles y consultá por el que te interese. Para
-            publicar los tuyos,{" "}
-            <Link href="/sumate" className="text-salmon hover:text-hueso">sumate al mercado</Link>.
+            Lotes de frigoríficos seleccionados. Consultá por el que te interese.
+            ¿Tenés stock para vender?{" "}
+            <a href={site.whatsappVenderHref} target="_blank" rel="noopener noreferrer" className="text-salmon hover:text-hueso">
+              Escribinos y lo publicamos
+            </a>.
           </p>
 
           {/* Filtros (GET, funcionan sin login) */}
