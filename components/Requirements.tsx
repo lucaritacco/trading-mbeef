@@ -15,8 +15,9 @@ export default function Requirements() {
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-taupe">
                 Trabajamos con frigoríficos habilitados: nos pasás tu stock, lo
-                publicamos y lo colocamos en nuestra red de compradores. El comprador
-                te paga directo a vos y cobramos comisión solo cuando se vende.
+                publicamos y lo colocamos en nuestra red de compradores. Coordinamos
+                la logística de cada operación. El comprador te paga directo a vos y
+                cobramos comisión solo cuando se vende.
               </p>
               <p className="mt-2 text-xs text-taupe/60">
                 Necesitás habilitación sanitaria vigente y CUIT activo.
