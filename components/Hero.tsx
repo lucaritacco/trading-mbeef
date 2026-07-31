@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { EASE } from "./motion";
 import { site } from "@/lib/site";
 
-const LINE_1 = "Lotes de frigoríficos seleccionados,";
+const LINE_1 = "Los mejores lotes de frigoríficos seleccionados,";
 const LINE_2 = "en un solo lugar.";
 
 const SELLO = "Powered by MBEEF · En el mercado de la carne desde 1994";
