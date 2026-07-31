@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
+import { site } from "@/lib/site";
 
 export default function Header() {
   return (
@@ -17,9 +18,6 @@ export default function Header() {
           </a>
           <a href="/#ventajas" className="transition-colors hover:text-hueso">
             Por qué
-          </a>
-          <a href="/#servicios" className="transition-colors hover:text-hueso">
-            Servicios
           </a>
           <a href="/#requisitos" className="transition-colors hover:text-hueso">
             Requisitos
@@ -42,12 +40,14 @@ export default function Header() {
           >
             Ingresar
           </Link>
-          <Link
-            href="/sumate"
+          <a
+            href={site.whatsappVenderHref}
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo sm:inline-block"
           >
-            Sumate
-          </Link>
+            Quiero vender
+          </a>
           <MobileMenu />
         </div>
       </div>

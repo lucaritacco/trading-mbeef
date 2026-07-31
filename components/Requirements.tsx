@@ -1,59 +1,38 @@
-import Link from "next/link";
-import { Reveal, Stagger, StaggerItem } from "./motion";
+import { Reveal } from "./motion";
+import { site } from "@/lib/site";
 
-const REQUISITOS = [
-  "Habilitación sanitaria vigente (SENASA, provincial o municipal, según tu operación)",
-  "CUIT activo",
-];
-
+// Franja chica para el lado vendedor: el público de la landing es el comprador,
+// así que el vendedor queda en una banda discreta antes del CTA final.
 export default function Requirements() {
   return (
-    <section id="requisitos" className="bg-hueso py-24 text-carbon sm:py-32">
-      <div className="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 md:grid-cols-[1.1fr_1fr] md:gap-20">
+    <section id="requisitos" className="bg-carbon py-14 sm:py-16">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <h2 className="font-serif text-4xl font-medium sm:text-5xl">
-            Para quién es
-          </h2>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-carbon/75">
-            Trabajamos con vendedores habilitados. Para publicar necesitás:
-          </p>
-          <p className="mt-8 font-serif text-2xl font-medium text-bordo">
-            ¿Cumplís? Sumate al mercado.
-          </p>
-          <Link
-            href="/sumate"
-            className="mt-6 inline-block bg-bordo px-6 py-3.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
-          >
-            Sumate
-          </Link>
-        </Reveal>
-
-        <Stagger className="space-y-0 self-center" step={0.1}>
-          {REQUISITOS.map((req, i) => (
-            <StaggerItem
-              key={req}
-              className={`flex items-center gap-4 py-5 ${i > 0 ? "border-t border-carbon/15" : ""}`}
+          <div className="flex flex-col gap-6 border border-hueso/12 bg-hueso/[0.03] p-7 sm:p-9 md:flex-row md:items-center md:justify-between md:gap-10">
+            <div>
+              <h2 className="font-serif text-2xl font-medium text-hueso">
+                ¿Tenés stock para colocar?
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-taupe">
+                Trabajamos con frigoríficos habilitados: nos pasás tu stock, lo
+                publicamos y lo colocamos en nuestra red de compradores. Coordinamos
+                la logística de cada operación. El comprador te paga directo a vos y
+                cobramos comisión solo cuando se vende.
+              </p>
+              <p className="mt-2 text-xs text-taupe/60">
+                Necesitás habilitación sanitaria vigente y CUIT activo.
+              </p>
+            </div>
+            <a
+              href={site.whatsappVenderHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 self-start bg-bordo px-6 py-3.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo md:self-auto"
             >
-              <svg
-                viewBox="0 0 24 24"
-                className="h-5 w-5 shrink-0"
-                fill="none"
-                stroke="var(--verde)"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M4 12.5l5 5L20 6.5" />
-              </svg>
-              <span className="leading-snug">{req}</span>
-            </StaggerItem>
-          ))}
-          <p className="mt-6 text-sm leading-relaxed text-carbon/60">
-            ¿Solo comprás? Sumate igual: no necesitás habilitación para navegar el
-            mercado.
-          </p>
-        </Stagger>
+              Escribinos
+            </a>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

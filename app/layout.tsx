@@ -18,9 +18,9 @@ const archivo = Archivo({
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://trading-mbeef.vercel.app";
 
-const title = "DeCarnes | El mercado de la carne, en un solo lugar";
+const title = "DeCarnes | Lotes de frigoríficos seleccionados";
 const description =
-  "Publicá tus cortes y encontrá los que buscás. El mercado de la carne de todo el país, en un solo lugar. Publicar es gratis. Powered by MBEEF.";
+  "Comprá directo del catálogo de lotes de frigoríficos seleccionados. ¿Vendés? Pasanos tu stock: lo publicamos y lo colocamos en nuestra red de compradores. Powered by MBEEF, operador del mercado desde 1994.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

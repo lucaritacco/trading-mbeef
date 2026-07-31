@@ -6,8 +6,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { EASE } from "./motion";
 import { site } from "@/lib/site";
 
-const LINE_1 = "El mercado de la carne, en un solo lugar.";
-const LINE_2 = "Publicá tus cortes. Encontrá los que buscás.";
+const LINE_1 = "Los mejores lotes de frigoríficos seleccionados,";
+const LINE_2 = "en un solo lugar.";
 
 const SELLO = "Powered by MBEEF · En el mercado de la carne desde 1994";
 
@@ -124,8 +124,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: subDelay, ease: EASE }}
         >
-          DeCarnes conecta la oferta y la demanda de carne de todo el país.
-          Publicar es gratis. Powered by MBEEF, operador del mercado desde 1994.
+          Comprá directo del catálogo. Cortes de frigoríficos que elegimos uno por
+          uno. Powered by MBEEF, operador del mercado desde 1994.
         </motion.p>
 
         <motion.div
@@ -135,16 +135,16 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: subDelay + 0.15, ease: EASE }}
         >
           <Link
-            href="/sumate"
-            className="bg-bordo px-7 py-4 text-base font-medium text-hueso transition-colors hover:bg-rojo"
+            href="/mercado"
+            className="bg-bordo px-8 py-4 text-lg font-medium text-hueso transition-colors hover:bg-rojo"
           >
-            Sumate
+            Ver lotes
           </Link>
           <a
             href={site.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-hueso/30 px-7 py-4 text-base text-hueso transition-colors hover:border-hueso/70"
+            className="text-base text-taupe underline-offset-4 transition-colors hover:text-hueso hover:underline"
           >
             Hablar con un operador
           </a>

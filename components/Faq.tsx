@@ -6,23 +6,27 @@ import { Reveal } from "./motion";
 const PREGUNTAS = [
   {
     q: "¿Qué es DeCarnes?",
-    a: "Un mercado donde la oferta y la demanda de carne de todo el país publican y se encuentran. Publicar es gratis.",
+    a: "Un catálogo de lotes de frigoríficos seleccionados por MBEEF, operador del mercado desde 1994.",
   },
   {
-    q: "¿Tiene costo?",
-    a: "Publicar y navegar el mercado es gratis. Algunos servicios de operación de MBEEF son bajo consulta.",
+    q: "¿Cómo compro un lote?",
+    a: "Consultás el lote que te interesa y coordinamos la operación con el frigorífico.",
   },
   {
-    q: "¿Quién puede publicar?",
-    a: "Empresas del rubro con habilitación sanitaria vigente y CUIT activo.",
+    q: "¿Tiene costo consultar?",
+    a: "No. Ver el catálogo y consultar es gratis.",
   },
   {
-    q: "¿Qué rol juega MBEEF?",
-    a: "MBEEF impulsa la plataforma y opera en el mercado como un actor más, con más de 30 años de trayectoria.",
+    q: "¿Y el flete?",
+    a: "El retiro y el transporte se coordinan en cada operación.",
   },
   {
-    q: "¿Cómo contacto a la otra parte?",
-    a: "Desde la publicación coordinás el contacto para cerrar la operación.",
+    q: "¿Quién selecciona los frigoríficos?",
+    a: "MBEEF, con más de 30 años en el rubro. Trabajamos con proveedores que conocemos.",
+  },
+  {
+    q: "¿Puedo vender mi stock a través de DeCarnes?",
+    a: "Sí: nos pasás tu stock, lo publicamos y lo colocamos. El comprador te paga directo y cobramos comisión solo cuando se vende. Escribinos.",
   },
 ];
 

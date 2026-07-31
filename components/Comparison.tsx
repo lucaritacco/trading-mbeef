@@ -5,29 +5,24 @@ import { EASE, Reveal } from "./motion";
 
 const ROWS = [
   {
-    label: "Alcance",
-    solo: "Tu agenda de contactos",
-    decarnes: "Compradores de todo el país",
+    label: "Proveedores",
+    solo: "Los mismos de siempre",
+    decarnes: "Frigoríficos seleccionados de varias provincias",
   },
   {
     label: "Precios",
     solo: "Negociás a ciegas",
-    decarnes: "Comparás oferta en una pantalla",
+    decarnes: "Comparás lotes en una pantalla",
   },
   {
-    label: "Visibilidad",
-    solo: "Tu stock lo ven pocos",
-    decarnes: "Tu lote lo ve todo el mercado",
+    label: "Búsqueda",
+    solo: "Llamás uno por uno",
+    decarnes: "Ves lo disponible en un solo lugar",
   },
   {
     label: "Respaldo",
-    solo: "Plataforma anónima",
-    decarnes: "Powered by MBEEF, +30 años",
-  },
-  {
-    label: "Costo",
-    solo: "—",
-    decarnes: "Publicar es gratis",
+    solo: "Proveedor desconocido",
+    decarnes: "Seleccionado por MBEEF, +30 años",
   },
 ];
 
@@ -89,14 +84,14 @@ export default function Comparison() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <h2 className="max-w-2xl font-serif text-4xl font-medium text-hueso sm:text-5xl">
-            El mercado hoy vs. con DeCarnes
+            Comprar hoy vs. comprar con DeCarnes
           </h2>
         </Reveal>
 
         <div className="mt-14 overflow-hidden border border-hueso/15">
           <div className="hidden grid-cols-[1fr_1.2fr_1.2fr] border-b border-hueso/15 bg-hueso/5 text-[11px] uppercase tracking-[0.22em] text-taupe md:grid">
             <span className="px-6 py-4" />
-            <span className="px-6 py-4">El mercado hoy</span>
+            <span className="px-6 py-4">Comprar hoy</span>
             <span className="px-6 py-4 text-hueso">Con DeCarnes</span>
           </div>
 

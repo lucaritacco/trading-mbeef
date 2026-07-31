@@ -7,7 +7,6 @@ import { site } from "@/lib/site";
 const SECCIONES = [
   { href: "/#como-funciona", label: "Cómo funciona" },
   { href: "/#ventajas", label: "Por qué" },
-  { href: "/#servicios", label: "Servicios" },
   { href: "/#requisitos", label: "Requisitos" },
   { href: "/#faq", label: "Preguntas" },
 ];
@@ -65,13 +64,15 @@ export default function MobileMenu() {
             >
               Ingresar
             </Link>
-            <Link
-              href="/sumate"
+            <a
+              href={site.whatsappVenderHref}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setAbierto(false)}
               className="mt-2 bg-bordo px-4 py-3 text-center text-sm font-medium text-hueso transition-colors hover:bg-rojo"
             >
-              Sumate
-            </Link>
+              Quiero vender
+            </a>
           </nav>
         </div>
       )}
