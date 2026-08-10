@@ -11,16 +11,47 @@ export const metadata: Metadata = {
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-// Cambia la preferencia. Solo ocurre al enviar el formulario (no en un GET),
-// para que ningún prefetch de correo dé de baja sin intención del usuario.
+type Entidad = { tipo: "usuario" | "suscriptor"; nombre: string | null; recibe: boolean };
+
+// Resuelve el token: puede ser de un usuario de beta (avisos_token) o de un
+// suscriptor liviano (baja_token). Devuelve el estado normalizado.
+async function resolver(token: string): Promise<Entidad | null> {
+  if (!UUID_RE.test(token)) return null;
+  const admin = createSupabaseAdmin();
+  if (!admin) return null;
+
+  const { data: u } = await admin
+    .from("usuarios")
+    .select("empresa, recibir_avisos")
+    .eq("avisos_token", token)
+    .maybeSingle();
+  if (u) return { tipo: "usuario", nombre: u.empresa, recibe: u.recibir_avisos };
+
+  const { data: s } = await admin
+    .from("suscriptores")
+    .select("nombre, baja")
+    .eq("baja_token", token)
+    .maybeSingle();
+  if (s) return { tipo: "suscriptor", nombre: s.nombre, recibe: !s.baja };
+
+  return null;
+}
+
+// Solo cambia al enviar el formulario (no en un GET), para que ningún prefetch de
+// correo dé de baja sin intención del usuario.
 async function cambiarAvisos(formData: FormData): Promise<void> {
   "use server";
   const token = String(formData.get("token") ?? "");
+  const tipo = String(formData.get("tipo") ?? "");
   const recibir = formData.get("recibir") === "true";
   if (UUID_RE.test(token)) {
     const admin = createSupabaseAdmin();
     if (admin) {
-      await admin.from("usuarios").update({ recibir_avisos: recibir }).eq("avisos_token", token);
+      if (tipo === "usuario") {
+        await admin.from("usuarios").update({ recibir_avisos: recibir }).eq("avisos_token", token);
+      } else if (tipo === "suscriptor") {
+        await admin.from("suscriptores").update({ baja: !recibir }).eq("baja_token", token);
+      }
     }
   }
   redirect(`/avisos?token=${token}&ok=1`);
@@ -32,19 +63,7 @@ export default async function AvisosPage({
   searchParams: Promise<{ token?: string; ok?: string }>;
 }) {
   const { token, ok } = await searchParams;
-
-  let usuario: { empresa: string | null; recibir_avisos: boolean } | null = null;
-  if (token && UUID_RE.test(token)) {
-    const admin = createSupabaseAdmin();
-    if (admin) {
-      const { data } = await admin
-        .from("usuarios")
-        .select("empresa, recibir_avisos")
-        .eq("avisos_token", token)
-        .maybeSingle();
-      usuario = data;
-    }
-  }
+  const ent = token ? await resolver(token) : null;
 
   return (
     <div className="min-h-svh">
@@ -65,10 +84,11 @@ export default async function AvisosPage({
           Preferencia de avisos
         </h1>
 
-        {!usuario ? (
+        {!ent ? (
           <p className="mt-6 leading-relaxed text-taupe">
-            El enlace no es válido o expiró. Si querés cambiar tus avisos, entrá a{" "}
-            <Link href="/cuenta" className="text-salmon hover:text-hueso">tu cuenta</Link>.
+            El enlace no es válido o expiró. Si querés volver a recibir los lotes nuevos,
+            suscribite en{" "}
+            <Link href="/enterate" className="text-salmon hover:text-hueso">/enterate</Link>.
           </p>
         ) : (
           <div className="mt-8 border border-hueso/15 bg-carbon/40 p-7">
@@ -78,8 +98,8 @@ export default async function AvisosPage({
               </p>
             )}
             <p className="text-hueso">
-              {usuario.empresa ? <span className="font-medium">{usuario.empresa}</span> : "Tu cuenta"}
-              {usuario.recibir_avisos ? (
+              {ent.nombre ? <span className="font-medium">{ent.nombre}</span> : "Tu email"}
+              {ent.recibe ? (
                 <> está recibiendo avisos de <strong>lotes nuevos</strong>.</>
               ) : (
                 <> <strong>no</strong> está recibiendo avisos de lotes nuevos.</>
@@ -88,8 +108,9 @@ export default async function AvisosPage({
 
             <form action={cambiarAvisos} className="mt-6">
               <input type="hidden" name="token" value={token} />
-              <input type="hidden" name="recibir" value={usuario.recibir_avisos ? "false" : "true"} />
-              {usuario.recibir_avisos ? (
+              <input type="hidden" name="tipo" value={ent.tipo} />
+              <input type="hidden" name="recibir" value={ent.recibe ? "false" : "true"} />
+              {ent.recibe ? (
                 <button className="bg-bordo px-6 py-3 text-sm font-medium text-hueso transition-colors hover:bg-rojo">
                   Darme de baja de estos avisos
                 </button>
@@ -99,11 +120,6 @@ export default async function AvisosPage({
                 </button>
               )}
             </form>
-
-            <p className="mt-5 text-xs text-taupe/70">
-              Los avisos transaccionales (consultas a tus lotes, aprobación de cuenta) se
-              envían igual; esto controla solo los avisos de lotes nuevos del mercado.
-            </p>
           </div>
         )}
       </main>

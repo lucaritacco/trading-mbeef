@@ -228,3 +228,34 @@ en letra chica. CTA final solo "Ver lotes". FAQ reordenada (comprador primero).
 ## Verificado
 - Hero con una idea y un CTA. Página argumenta para el comprador salvo la franja
   final. typecheck + build OK. main intacto.
+
+---
+
+# TANDA · Embudo de suscriptores: "Enterate a tiempo de nuevas oportunidades" (0018)
+
+Público de traders/retailers que quieren enterarse de los lotes nuevos sin
+registrar empresa. El CTA "Ver lotes" (hero + CTA final) pasa por una suscripción
+liviana (nombre + email) y después va directo al catálogo. Embudo BLANDO: /mercado
+y las fichas siguen accesibles por link directo y para Google.
+
+## ⚠️ Migración a correr (vos, a mano) — 1 sola
+Supabase → SQL Editor → pegar `supabase/migrations/0018_suscriptores.sql` → Run.
+Crea la tabla `suscriptores` (RLS: alta solo por función, lectura solo staff) y las
+funciones `suscribir()` (anon), `emails_suscriptores()` (service_role, excluye a
+quienes ya reciben como usuarios de beta para no duplicar el mail).
+
+## Flujo
+- /enterate: página con "Enterate a tiempo de nuevas oportunidades" + form
+  nombre+email → suscribir() → redirige a /mercado. Link discreto "Prefiero solo
+  ver el catálogo →" (embudo blando).
+- Broadcast de "lote nuevo" (route /api/eventos/lote-publicado): ahora manda a
+  usuarios de beta + suscriptores, cada uno con su link de baja. La ubicación en el
+  mail pasó a solo PROVINCIA (coherente con el anonimato del proveedor).
+- Baja: /avisos ahora resuelve el token de usuario (avisos_token) o de suscriptor
+  (baja_token) y da de baja en la tabla que corresponda.
+- CTAs "Ver lotes" del hero y del CTA final → /enterate. El header "Ver lotes
+  publicados" sigue directo a /mercado (acceso rápido).
+
+## Notas
+- No se toca login/panel/RLS existentes. La suscripción es sin cuenta (no auth).
+- Catálogo y fichas siguen públicos e indexables (sitemap intacto).

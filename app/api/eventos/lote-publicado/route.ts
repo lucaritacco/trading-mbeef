@@ -51,13 +51,13 @@ export async function POST(req: Request) {
 
   const nombre = lote.titulo || labelDe(TIPO_PRODUCTO, lote.tipo_producto) || "Lote de carne";
   const ref = lote.id.slice(0, 8).toUpperCase();
-  const ubicacion = [lote.ubicacion_localidad, lote.ubicacion_provincia].filter(Boolean).join(", ");
   const fichaUrl = `${SITE_URL}/lote/${lote.id}`;
 
+  // Solo provincia en el mail público (el proveedor y la localidad son anónimos).
   const filas = [
     { etiqueta: "Corte / artículo", valor: lote.corte ?? "" },
     { etiqueta: "Kilos", valor: lote.kilos_totales ? `${lote.kilos_totales} kg` : "" },
-    { etiqueta: "Ubicación", valor: ubicacion },
+    { etiqueta: "Provincia", valor: lote.ubicacion_provincia ?? "" },
     { etiqueta: "Precio por kg", valor: lote.precio_pretendido_kg ? formatARS(lote.precio_pretendido_kg) : "" },
   ];
 
@@ -88,21 +88,30 @@ export async function POST(req: Request) {
   const admin = createSupabaseAdmin();
   let enviados = 0;
   if (admin) {
-    const { data: emails } = await admin.rpc("emails_usuarios_activos", { p_excluir: user.id });
-    const filas2 = emails ?? [];
     const subject = `Nuevo lote en el mercado: ${nombre}`;
-    const mensajes: Mensaje[] = filas2.map((r: { email: string; token: string }) => ({
-      to: r.email,
-      subject,
-      html: plantilla({
+    const armar = (token: string): Mensaje["html"] =>
+      plantilla({
         titulo: "Nuevo lote disponible",
         intro: `Se sumó un lote al mercado de DeCarnes: "${nombre}".`,
         filas,
         ctaLabel: "Ver el lote",
         ctaHref: fichaUrl,
-        nota: "Entrá a la ficha y consultá al vendedor si te interesa.",
-        bajaHref: `${SITE_URL}/avisos?token=${r.token}`,
-      }),
+        nota: "Entrá a la ficha y consultá si te interesa.",
+        bajaHref: `${SITE_URL}/avisos?token=${token}`,
+      });
+
+    // Usuarios de beta que quieren avisos (excepto el vendedor) + suscriptores.
+    const { data: usuarios } = await admin.rpc("emails_usuarios_activos", { p_excluir: user.id });
+    const { data: suscriptores } = await admin.rpc("emails_suscriptores");
+    const destinatarios = [...(usuarios ?? []), ...(suscriptores ?? [])] as {
+      email: string;
+      token: string;
+    }[];
+
+    const mensajes: Mensaje[] = destinatarios.map((r) => ({
+      to: r.email,
+      subject,
+      html: armar(r.token),
     }));
     enviados = await enviarBatch(mensajes);
   }

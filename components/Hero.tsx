@@ -135,7 +135,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: subDelay + 0.15, ease: EASE }}
         >
           <Link
-            href="/mercado"
+            href="/enterate"
             className="bg-bordo px-8 py-4 text-lg font-medium text-hueso transition-colors hover:bg-rojo"
           >
             Ver lotes
