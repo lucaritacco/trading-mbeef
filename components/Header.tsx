@@ -29,7 +29,7 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           <Link
-            href="/mercado"
+            href="/enterate"
             className="hidden text-sm text-taupe transition-colors hover:text-hueso sm:inline"
           >
             Ver lotes publicados

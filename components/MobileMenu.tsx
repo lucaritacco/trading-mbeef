@@ -51,7 +51,7 @@ export default function MobileMenu() {
               Hablar con un operador
             </a>
             <Link
-              href="/mercado"
+              href="/enterate"
               onClick={() => setAbierto(false)}
               className="border-b border-hueso/5 py-3 text-sm text-taupe transition-colors hover:text-hueso"
             >
