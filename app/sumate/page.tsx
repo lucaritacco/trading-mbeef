@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import SumateForm from "@/components/SumateForm";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/sumate" },
   title: "Sumate al mercado de la carne | DeCarnes",
   description:
     "Dejanos tus datos y te contactamos para darte acceso al mercado de la carne. Powered by MBEEF.",

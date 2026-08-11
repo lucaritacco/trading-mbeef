@@ -1,9 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import { site } from "@/lib/site";
 
-// Consulta pública de un lote: SIN login. Abre WhatsApp directo a MBEEF (número
-// público de site config) con un mensaje pre-cargado que incluye la referencia,
-// corte, kg, provincia y el link a la ficha. Nunca llama a contacto_lote ni
-// expone datos del frigorífico: el contacto es siempre con MBEEF.
+// Consulta pública de un lote (sin login). Al hacer clic pide al servidor el
+// WhatsApp del dueño del lote y abre la conversación con el vendedor; en paralelo
+// el servidor le avisa al admin (MBEEF) que hubo una consulta. Si el vendedor no
+// tiene número cargado, cae al WhatsApp de MBEEF. El número no va en el HTML.
 
 const ESPECIFICAS = [
   { key: "esp", label: "Pedir especificaciones", q: "¿Me pasás las especificaciones completas?" },
@@ -22,46 +25,78 @@ function WhatsappIcon() {
 }
 
 export default function ConsultaLote({
+  loteId,
   refCode,
   corte,
   kg,
   provincia,
   fichaUrl,
 }: {
+  loteId: string;
   refCode: string;
   corte: string | null;
   kg: number | null;
   provincia: string | null;
   fichaUrl: string;
 }) {
+  const [cargando, setCargando] = useState<string | null>(null);
+
   const detalle = [corte, kg ? `${kg} kg` : null, provincia].filter(Boolean).join(", ");
   const base = `Hola, me interesa el lote ${refCode}${detalle ? ` (${detalle})` : ""}.`;
-  const wa = (pregunta: string) =>
-    `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`${base} ${pregunta}\n${fichaUrl}`)}`;
+
+  async function consultar(key: string, pregunta: string) {
+    if (cargando) return;
+    setCargando(key);
+    // Abrimos la ventana YA (sincrónico) para que el navegador no la bloquee;
+    // después la redirigimos al WhatsApp correcto.
+    const win = window.open("", "_blank");
+    let numero = site.whatsapp; // fallback: WhatsApp de MBEEF
+    try {
+      const res = await fetch("/api/eventos/consulta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ loteId, tipo: key }),
+      });
+      const j = await res.json();
+      if (typeof j?.whatsapp === "string" && j.whatsapp.length >= 8) numero = j.whatsapp;
+    } catch {
+      /* si falla el aviso, igual abrimos el WhatsApp con el fallback */
+    }
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(`${base} ${pregunta}\n${fichaUrl}`)}`;
+    if (win) win.location.href = url;
+    else window.location.href = url;
+    setCargando(null);
+  }
 
   const secClass =
-    "block w-full border border-hueso/20 px-5 py-3 text-left text-sm text-hueso transition-colors hover:border-bordo hover:bg-hueso/[0.03]";
+    "block w-full border border-hueso/20 px-5 py-3 text-left text-sm text-hueso transition-colors hover:border-bordo hover:bg-hueso/[0.03] disabled:opacity-60";
 
   return (
     <div className="border border-hueso/15 bg-carbon/40 p-6">
       <p className="font-serif text-xl font-medium text-hueso">Consultá este lote</p>
       <p className="mt-1 text-sm text-taupe">
-        Te contesta un operador de MBEEF con disponibilidad, precio y condiciones.
+        Se abre WhatsApp con el mensaje listo para enviar.
       </p>
-      <a
-        href={wa(GENERICA)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-5 flex w-full items-center justify-center gap-2 bg-bordo px-6 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo"
+      <button
+        type="button"
+        onClick={() => consultar("gen", GENERICA)}
+        disabled={cargando !== null}
+        className="mt-5 flex w-full items-center justify-center gap-2 bg-bordo px-6 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60"
       >
         <WhatsappIcon />
-        Consultar por WhatsApp
-      </a>
+        {cargando === "gen" ? "Abriendo…" : "Consultar por WhatsApp"}
+      </button>
       <div className="mt-3 space-y-2">
         {ESPECIFICAS.map((b) => (
-          <a key={b.key} href={wa(b.q)} target="_blank" rel="noopener noreferrer" className={secClass}>
-            {b.label}
-          </a>
+          <button
+            key={b.key}
+            type="button"
+            onClick={() => consultar(b.key, b.q)}
+            disabled={cargando !== null}
+            className={secClass}
+          >
+            {cargando === b.key ? "Abriendo…" : b.label}
+          </button>
         ))}
       </div>
     </div>

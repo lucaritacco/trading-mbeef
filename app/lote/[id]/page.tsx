@@ -12,8 +12,9 @@ import {
   labelDe,
 } from "@/lib/opciones";
 import { formatFecha, formatARS } from "@/lib/panel";
+import { SITE_URL, jsonLdBreadcrumbs, jsonLdProps } from "@/lib/seo";
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://decarnesonline.com";
+const SITE = SITE_URL;
 
 function nombreLote(f: { titulo: string | null; tipo_producto: string | null }): string {
   return f.titulo || labelDe(TIPO_PRODUCTO, f.tipo_producto) || "Lote de carne";
@@ -151,8 +152,53 @@ export default async function FichaPublicaPage({
     { label: "Provincia", value: ubicacion, consulta: "Consultá la provincia" },
   ];
 
+  // Product + Offer: es lo que habilita a Google a mostrar el lote como
+  // resultado enriquecido (precio, disponibilidad) en vez de un link pelado.
+  // Nota: las fotos son URLs firmadas con vencimiento; Google las re-descarga
+  // en cada crawl, así que sirven, pero no son estables para cachear.
+  const productoJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${fichaUrl}#producto`,
+    name: nombreLote(f),
+    description:
+      f.descripcion?.trim() ||
+      [especie, corteVal, ubicacion].filter(Boolean).join(" · ") ||
+      "Lote de carne vacuna de frigorífico seleccionado por MBEEF.",
+    category: corteVal || "Carne vacuna",
+    ...(fotos.length > 0 ? { image: fotos } : {}),
+    brand: { "@type": "Brand", name: "MBEEF" },
+    sku: ref,
+    ...(f.precio_pretendido_kg
+      ? {
+          offers: {
+            "@type": "Offer",
+            url: fichaUrl,
+            priceCurrency: "ARS",
+            price: f.precio_pretendido_kg,
+            availability: "https://schema.org/InStock",
+            eligibleQuantity: f.kilos_totales
+              ? { "@type": "QuantitativeValue", value: f.kilos_totales, unitCode: "KGM" }
+              : undefined,
+            areaServed: "AR",
+            seller: { "@type": "Organization", name: "DeCarnes" },
+          },
+        }
+      : {}),
+  };
+
   return (
     <div className="min-h-svh">
+      <script
+        {...jsonLdProps([
+          jsonLdBreadcrumbs([
+            { nombre: "Inicio", path: "/" },
+            { nombre: "Lotes publicados", path: "/mercado" },
+            { nombre: nombreLote(f), path: `/lote/${f.id}` },
+          ]),
+          productoJsonLd,
+        ])}
+      />
       <header className="border-b border-hueso/10">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-8">
           <Link href="/" className="font-serif text-xl font-semibold tracking-[0.07em] text-hueso">
@@ -225,6 +271,7 @@ export default async function FichaPublicaPage({
           {/* Columna de consulta */}
           <aside className="lg:sticky lg:top-8 lg:self-start">
             <ConsultaLote
+              loteId={f.id}
               refCode={ref}
               corte={corteVal}
               kg={f.kilos_totales}

@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { EB_Garamond, Archivo } from "next/font/google";
 import "./globals.css";
+import {
+  SITE_URL,
+  jsonLdOrganizacion,
+  jsonLdProps,
+  jsonLdWebSite,
+} from "@/lib/seo";
 
 const garamond = EB_Garamond({
   variable: "--font-garamond",
@@ -13,10 +19,9 @@ const archivo = Archivo({
   subsets: ["latin"],
 });
 
-// Default a la URL de producción para que las OG/Twitter sean absolutas (no localhost).
-// En Vercel se puede sobreescribir con NEXT_PUBLIC_SITE_URL (dominio propio).
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://trading-mbeef.vercel.app";
+// La URL canónica vive en lib/seo.ts: de ahí salen metadataBase, canonicals,
+// sitemap, robots y JSON-LD, para que Google vea siempre el mismo dominio.
+const siteUrl = SITE_URL;
 
 const title = "DeCarnes | Lotes de frigoríficos seleccionados";
 const description =
@@ -24,9 +29,38 @@ const description =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title,
+  title: {
+    default: title,
+    // Las páginas internas ya traen su propio título completo.
+    template: "%s",
+  },
   description,
+  applicationName: "DeCarnes",
+  keywords: [
+    "lotes de carne",
+    "carne vacuna mayorista",
+    "frigoríficos argentina",
+    "comprar carne por mayor",
+    "mercado de carne",
+    "MBEEF",
+  ],
+  // El canonical NO va acá: en el App Router los hijos heredan `alternates`
+  // del layout, y todas las páginas terminarían apuntando a la home. Cada
+  // página define el suyo (ver app/page.tsx, /mercado, /enterate, /sumate, /lote).
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
+    url: siteUrl,
+    siteName: "DeCarnes",
     title,
     description,
     locale: "es_AR",
@@ -48,9 +82,13 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="es"
+      lang="es-AR"
       className={`${garamond.variable} ${archivo.variable} h-full antialiased`}
     >
+      <head>
+        {/* Identidad del sitio para Google: quién es DeCarnes y de quién depende. */}
+        <script {...jsonLdProps([jsonLdOrganizacion(), jsonLdWebSite()])} />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

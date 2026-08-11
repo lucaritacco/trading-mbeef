@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import EnterateForm from "@/components/EnterateForm";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/enterate" },
   title: "Enterate a tiempo de nuevas oportunidades | DeCarnes",
   description:
     "Dejanos tu nombre y email y te avisamos apenas se publica un lote nuevo de frigoríficos seleccionados. Sin costo.",

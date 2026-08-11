@@ -9,7 +9,7 @@ const API_KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM ?? "DeCarnes <avisos@decarnes.com>";
 export const ADMIN_EMAIL = process.env.EMAIL_ADMIN ?? "lucarita2006@gmail.com";
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://trading-mbeef.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.decarnesonline.com";
 
 export const emailConfigurado = Boolean(API_KEY);
 

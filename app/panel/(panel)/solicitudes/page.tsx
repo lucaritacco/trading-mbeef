@@ -21,7 +21,7 @@ type Solicitud = {
 };
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://trading-mbeef.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.decarnesonline.com";
 
 const ESTADOS = [
   { value: "pendiente", label: "Pendiente" },

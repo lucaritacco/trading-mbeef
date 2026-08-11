@@ -9,10 +9,19 @@ import RespaldoMbeef from "@/components/RespaldoMbeef";
 import Faq from "@/components/Faq";
 import FinalCta from "@/components/FinalCta";
 import Footer from "@/components/Footer";
+import type { Metadata } from "next";
+import { PREGUNTAS } from "@/lib/faq";
+import { jsonLdFaq, jsonLdProps } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
     <>
+      {/* Mismas preguntas que muestra el acordeón: candidato a rich result. */}
+      <script {...jsonLdProps(jsonLdFaq(PREGUNTAS))} />
       <Header />
       <main>
         <Hero />

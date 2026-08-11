@@ -6,11 +6,22 @@ import { firmarFoto, type LoteFila } from "@/lib/ficha";
 import { CORTES, LOTE_ESTADO, PROVINCIAS } from "@/lib/opciones";
 import { inputBase } from "@/lib/ui";
 import { site } from "@/lib/site";
+import { absoluta, jsonLdBreadcrumbs, jsonLdProps } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Mercado de lotes | DeCarnes",
   description:
     "Mirá los lotes de carne publicados en DeCarnes: cortes, cantidades, provincia y precio. Consultá sin registrarte. Powered by MBEEF.",
+  // Los filtros (?corte=&provincia=&estado=&q=) generan decenas de URLs con el
+  // mismo contenido. El canónico apunta siempre a la versión sin parámetros
+  // para que Google no gaste crawl budget ni las trate como duplicados.
+  alternates: { canonical: "/mercado" },
+  openGraph: {
+    title: "Mercado de lotes | DeCarnes",
+    description:
+      "Lotes de carne de frigoríficos seleccionados: cortes, cantidades, provincia y precio.",
+    url: absoluta("/mercado"),
+  },
 };
 
 export default async function MercadoPublicoPage({
@@ -37,8 +48,31 @@ export default async function MercadoPublicoPage({
     }),
   );
 
+  // ItemList: le da a Google la estructura del catálogo (cada lote es una
+  // entrada con su URL), lo que ayuda a que descubra las fichas más rápido.
+  const listaJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Lotes publicados en DeCarnes",
+    numberOfItems: lotes.length,
+    itemListElement: lotes.map((l, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: absoluta(`/lote/${l.id}`),
+    })),
+  };
+
   return (
     <>
+      <script
+        {...jsonLdProps([
+          jsonLdBreadcrumbs([
+            { nombre: "Inicio", path: "/" },
+            { nombre: "Lotes publicados", path: "/mercado" },
+          ]),
+          listaJsonLd,
+        ])}
+      />
       <Header />
       <main className="min-h-svh">
         <div className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8">
