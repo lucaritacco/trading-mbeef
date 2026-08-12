@@ -88,7 +88,7 @@ export default async function AvisosPage({
           <p className="mt-6 leading-relaxed text-taupe">
             El enlace no es válido o expiró. Si querés volver a recibir los lotes nuevos,
             suscribite en{" "}
-            <Link href="/enterate" className="text-salmon hover:text-hueso">/enterate</Link>.
+            <Link href="/compradores" className="text-salmon hover:text-hueso">/compradores</Link>.
           </p>
         ) : (
           <div className="mt-8 border border-hueso/15 bg-carbon/40 p-7">

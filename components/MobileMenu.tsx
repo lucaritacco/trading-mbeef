@@ -4,15 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { site } from "@/lib/site";
 
-const SECCIONES = [
-  { href: "/#como-funciona", label: "Cómo funciona" },
-  { href: "/#ventajas", label: "Por qué" },
-  { href: "/#requisitos", label: "Requisitos" },
-  { href: "/#faq", label: "Preguntas" },
+const LINKS = [
+  { href: "/", label: "Comprar carne" },
+  { href: "/vendedores", label: "Vender carne" },
+  { href: "/mercado", label: "Ver todos los lotes" },
+  { href: "/compradores", label: "Para compradores" },
 ];
 
-export default function MobileMenu() {
+export default function MobileMenu({ logueado = false }: { logueado?: boolean }) {
   const [abierto, setAbierto] = useState(false);
+  const cerrar = () => setAbierto(false);
 
   return (
     <div className="lg:hidden">
@@ -30,49 +31,63 @@ export default function MobileMenu() {
 
       {abierto && (
         <div className="absolute inset-x-0 top-16 border-b border-hueso/10 bg-carbon/95 px-5 py-3 backdrop-blur-md">
+          <form action="/mercado" method="get" className="mb-3">
+            <input
+              name="q"
+              type="search"
+              placeholder="Buscar cortes, lotes…"
+              aria-label="Buscar lotes"
+              className="w-full border border-hueso/20 bg-carbon/60 px-3 py-2.5 text-sm text-hueso placeholder:text-taupe/50 outline-none focus:border-bordo"
+            />
+          </form>
+
           <nav className="flex flex-col">
-            {SECCIONES.map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                onClick={() => setAbierto(false)}
+            {LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={cerrar}
                 className="border-b border-hueso/5 py-3 text-sm text-taupe transition-colors hover:text-hueso"
               >
-                {s.label}
-              </a>
+                {l.label}
+              </Link>
             ))}
             <a
               href={site.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => setAbierto(false)}
+              onClick={cerrar}
               className="border-b border-hueso/5 py-3 text-sm text-taupe transition-colors hover:text-hueso"
             >
               Hablar con un operador
             </a>
-            <Link
-              href="/enterate"
-              onClick={() => setAbierto(false)}
-              className="border-b border-hueso/5 py-3 text-sm text-taupe transition-colors hover:text-hueso"
-            >
-              Ver lotes publicados
-            </Link>
-            <Link
-              href="/login"
-              onClick={() => setAbierto(false)}
-              className="py-3 text-sm text-taupe transition-colors hover:text-hueso"
-            >
-              Ingresar
-            </Link>
-            <a
-              href={site.whatsappVenderHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setAbierto(false)}
-              className="mt-2 bg-bordo px-4 py-3 text-center text-sm font-medium text-hueso transition-colors hover:bg-rojo"
-            >
-              Quiero vender
-            </a>
+
+            {logueado ? (
+              <Link
+                href="/cuenta"
+                onClick={cerrar}
+                className="mt-2 bg-bordo px-4 py-3 text-center text-sm font-medium text-hueso transition-colors hover:bg-rojo"
+              >
+                Mi cuenta
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={cerrar}
+                  className="py-3 text-sm text-taupe transition-colors hover:text-hueso"
+                >
+                  Ingresar
+                </Link>
+                <Link
+                  href="/sumate"
+                  onClick={cerrar}
+                  className="mt-2 bg-bordo px-4 py-3 text-center text-sm font-medium text-hueso transition-colors hover:bg-rojo"
+                >
+                  Crear cuenta
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       )}

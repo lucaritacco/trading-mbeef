@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getFicha, firmarFoto, type FichaPublica } from "@/lib/ficha";
+import { getFicha, firmarFoto, getPrecios, type FichaPublica } from "@/lib/ficha";
+import { createSupabaseServer } from "@/lib/supabase/server";
 import ConsultaLote from "@/components/ficha/ConsultaLote";
 import CompartirWhatsapp from "@/components/CompartirWhatsapp";
 import {
@@ -113,6 +114,17 @@ export default async function FichaPublicaPage({
   const f: FichaPublica | null = await getFicha(id);
   if (!f) notFound();
 
+  // La ficha es pública e indexable, pero el PRECIO va detrás del login: no se
+  // expone la lista de precios del vendedor a la competencia ni a Google.
+  const supabaseServer = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabaseServer.auth.getUser();
+  const logueado = Boolean(user);
+  const precio = logueado
+    ? (await getPrecios(supabaseServer, [f.id])).get(f.id) ?? null
+    : null;
+
   const fotos = (
     await Promise.all((f.fotos_paths ?? []).map((p) => firmarFoto(p)))
   ).filter((u): u is string => Boolean(u));
@@ -142,7 +154,6 @@ export default async function FichaPublicaPage({
     { label: "Kilos totales", value: f.kilos_totales ? `${f.kilos_totales} kg` : null, consulta: "Consultá los kilos" },
     { label: "Piezas / cajas", value: f.piezas_cajas, consulta: "Consultá las piezas/cajas" },
     { label: "Compra mínima", value: f.moq ? `${f.moq} kg` : null, consulta: "Consultá la cantidad mínima" },
-    { label: "Precio por kg", value: f.precio_pretendido_kg ? formatARS(f.precio_pretendido_kg) : null, consulta: "Consultá el precio" },
     { label: "Estado", value: labelDe(LOTE_ESTADO, f.lote_estado), consulta: "Consultá el estado" },
     { label: "Envasado", value: packaging, consulta: "Consultá el packaging" },
     { label: "Entrega", value: labelDe(MODALIDAD_ENTREGA, f.modalidad_entrega), consulta: "Consultá la modalidad de entrega" },
@@ -152,8 +163,8 @@ export default async function FichaPublicaPage({
     { label: "Provincia", value: ubicacion, consulta: "Consultá la provincia" },
   ];
 
-  // Product + Offer: es lo que habilita a Google a mostrar el lote como
-  // resultado enriquecido (precio, disponibilidad) en vez de un link pelado.
+  // Product para Google. NO lleva `offers` con precio: el precio está detrás del
+  // login, así que no debe viajar en el marcado (Google lo leería y lo mostraría).
   // Nota: las fotos son URLs firmadas con vencimiento; Google las re-descarga
   // en cada crawl, así que sirven, pero no son estables para cachear.
   const productoJsonLd = {
@@ -169,22 +180,6 @@ export default async function FichaPublicaPage({
     ...(fotos.length > 0 ? { image: fotos } : {}),
     brand: { "@type": "Brand", name: "MBEEF" },
     sku: ref,
-    ...(f.precio_pretendido_kg
-      ? {
-          offers: {
-            "@type": "Offer",
-            url: fichaUrl,
-            priceCurrency: "ARS",
-            price: f.precio_pretendido_kg,
-            availability: "https://schema.org/InStock",
-            eligibleQuantity: f.kilos_totales
-              ? { "@type": "QuantitativeValue", value: f.kilos_totales, unitCode: "KGM" }
-              : undefined,
-            areaServed: "AR",
-            seller: { "@type": "Organization", name: "DeCarnes" },
-          },
-        }
-      : {}),
   };
 
   return (
@@ -268,16 +263,52 @@ export default async function FichaPublicaPage({
             )}
           </div>
 
-          {/* Columna de consulta */}
+          {/* Columna de precio + consulta */}
           <aside className="lg:sticky lg:top-8 lg:self-start">
-            <ConsultaLote
-              loteId={f.id}
-              refCode={ref}
-              corte={corteVal}
-              kg={f.kilos_totales}
-              provincia={f.ubicacion_provincia}
-              fichaUrl={fichaUrl}
-            />
+            {/* Precio: solo con cuenta (no se expone a la competencia ni a Google) */}
+            <div className="mb-3 border border-hueso/15 bg-carbon/40 p-6">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-taupe">Precio por kg</p>
+              {logueado ? (
+                precio != null ? (
+                  <p className="mt-1 font-serif text-3xl text-hueso">
+                    {formatARS(precio)}
+                    <span className="text-base text-taupe"> /kg</span>
+                  </p>
+                ) : (
+                  <p className="mt-1 text-sm italic text-taupe/60">Consultá el precio</p>
+                )
+              ) : (
+                <>
+                  <p className="mt-1 font-serif text-2xl text-taupe/50">— — —</p>
+                  <p className="mt-2 text-sm text-taupe">
+                    El precio y la consulta son para usuarios con cuenta.
+                  </p>
+                  <Link
+                    href="/sumate"
+                    className="mt-4 inline-block bg-bordo px-5 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
+                  >
+                    Crear cuenta gratis
+                  </Link>
+                  <p className="mt-3 text-xs text-taupe/70">
+                    ¿Ya tenés?{" "}
+                    <Link href="/login" className="text-salmon hover:text-hueso">
+                      Iniciá sesión
+                    </Link>
+                  </p>
+                </>
+              )}
+            </div>
+
+            {logueado && (
+              <ConsultaLote
+                loteId={f.id}
+                refCode={ref}
+                corte={corteVal}
+                kg={f.kilos_totales}
+                provincia={f.ubicacion_provincia}
+                fichaUrl={fichaUrl}
+              />
+            )}
             <div className="mt-3">
               <CompartirWhatsapp texto={compartirTexto} url={fichaUrl} full label="Compartir por WhatsApp" />
             </div>

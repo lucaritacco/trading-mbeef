@@ -3,8 +3,20 @@ import { LOTE_ESTADO, labelDe } from "@/lib/opciones";
 import { formatARS } from "@/lib/panel";
 import type { LoteFila } from "@/lib/ficha";
 
-// Tarjeta de lote para catálogos (mercado público y vidriera del vendedor).
-export default function LoteCard({ l, foto }: { l: LoteFila; foto?: string }) {
+// Tarjeta de lote para catálogos (home y /mercado). El precio NO viaja en los
+// datos públicos: llega solo si hay sesión (mapa de precios_lotes). Sin sesión
+// se muestra el gancho para iniciar sesión, y la tarjeta sigue siendo indexable.
+export default function LoteCard({
+  l,
+  foto,
+  precio,
+  logueado = false,
+}: {
+  l: LoteFila;
+  foto?: string;
+  precio?: number;
+  logueado?: boolean;
+}) {
   return (
     <Link
       href={`/lote/${l.id}`}
@@ -38,14 +50,20 @@ export default function LoteCard({ l, foto }: { l: LoteFila; foto?: string }) {
             .filter(Boolean)
             .join(" · ") || "—"}
         </p>
-        {l.precio_pretendido_kg && (
-          <p className="mt-2 font-serif text-lg text-hueso">
-            {formatARS(l.precio_pretendido_kg)}
-            <span className="text-sm text-taupe"> /kg</span>
-          </p>
+
+        {logueado ? (
+          precio != null && (
+            <p className="mt-2 font-serif text-lg text-hueso">
+              {formatARS(precio)}
+              <span className="text-sm text-taupe"> /kg</span>
+            </p>
+          )
+        ) : (
+          <p className="mt-2 text-sm text-taupe/70">Precio visible con tu cuenta</p>
         )}
+
         <span className="mt-auto pt-4 text-xs uppercase tracking-[0.18em] text-salmon">
-          Ver y consultar →
+          Ver lote →
         </span>
       </div>
     </Link>
