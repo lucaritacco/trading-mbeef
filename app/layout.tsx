@@ -36,6 +36,10 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: "DeCarnes",
+  // Verificación de propiedad en Google Search Console.
+  verification: {
+    google: "7Swty7K4H-q4uXjOAs4CefThkVxF4pKEiwy2qhau5MU",
+  },
   keywords: [
     "lotes de carne",
     "carne vacuna mayorista",
