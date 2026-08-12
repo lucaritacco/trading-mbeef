@@ -1,11 +1,33 @@
 # Indexar decarnesonline.com en Google
 
-Estado al 11/08/2026: el sitio **no aparece en Google todavía**. No hay nada roto —
-simplemente nunca se le avisó a Google que existe, y un dominio nuevo sin enlaces
-externos puede tardar semanas en ser descubierto solo.
+## Estado al 11/08/2026 (verificado en Search Console)
+
+| Página | Estado |
+|---|---|
+| `/` (home) | **Indexada** ✅ |
+| `/mercado` | Descubierta, sin indexar → indexación solicitada |
+| `/enterate` | Descubierta, sin indexar → indexación solicitada |
+| Fichas de lote | En el sitemap, esperando rastreo |
+
+> **Corrección:** una primera revisión con `site:decarnesonline.com` sugirió que
+> el sitio no estaba indexado. Era un falso negativo de esa herramienta de
+> búsqueda. Search Console confirma que la home ya estaba en Google.
+
+**Ya hecho** (sesión del 11/08):
+
+- ✅ Propiedad de tipo Dominio creada y **verificada** en Search Console
+  (cuenta `lucarita2006@gmail.com`, método TXT en DNS)
+- ✅ `NEXT_PUBLIC_SITE_URL` corregida a `https://www.decarnesonline.com` + redeploy
+- ✅ Sitemap enviado — estado **Correcto**, 13 páginas descubiertas
+- ✅ Indexación solicitada para `/mercado` y `/enterate`
+
+**Pendiente:** pushear los cambios de código (canonicals + JSON-LD), y los pasos
+de Google Business Profile y enlaces entrantes (Parte 2, pasos 4 y 5).
+
+---
 
 Este documento tiene dos partes: **lo que ya arreglé en el código** y **lo que
-tenés que hacer vos** (con los pasos exactos).
+falta hacer** (con los pasos exactos).
 
 ---
 
@@ -63,64 +85,51 @@ todas las entradas llevan `lastModified`.
 
 ## Parte 2 — Lo que tenés que hacer vos
 
-### Paso 0 · Corregir la variable en Vercel (antes de deployar)
+### ~~Paso 0 · Corregir la variable en Vercel~~ ✅ HECHO
 
-1. Vercel → proyecto `trading-mbeef` → **Settings → Environment Variables**
-2. Buscá `NEXT_PUBLIC_SITE_URL`
-3. Cambiá el valor a `https://www.decarnesonline.com` en **Production**
-4. Redeploy
+`NEXT_PUBLIC_SITE_URL` = `https://www.decarnesonline.com` (Production and
+Preview) + redeploy. Confirmado: el sitemap ya sirve URLs con www.
 
-Alternativa: si preferís que el dominio principal sea **sin** www, andá a
-**Settings → Domains** y marcá `decarnesonline.com` como primario (que
-`www` redirija hacia él). En ese caso la variable queda como está y hay que
-cambiar el `FALLBACK` en `lib/seo.ts`. Cualquiera de las dos sirve — lo que no
-puede pasar es que no coincidan.
+### ~~Paso 1 · Verificar el dominio en Search Console~~ ✅ HECHO
 
-### Paso 1 · Verificar el dominio en Google Search Console
+Propiedad de tipo **Dominio** (`decarnesonline.com`), verificada por TXT.
 
-1. Entrá a [search.google.com/search-console](https://search.google.com/search-console)
-   con la cuenta de Google de MBEEF (no una personal — después es un dolor migrarla)
-2. **Agregar propiedad** → elegí **Dominio** (la columna de la izquierda), no
-   "Prefijo de URL". La propiedad de dominio cubre www, sin-www, http y https de
-   una sola vez, que es justo lo que necesitás acá
-3. Escribí `decarnesonline.com` (sin `https://`, sin `www`)
-4. Google te da un registro **TXT** tipo `google-site-verification=abc123...`
-5. Agregalo en el panel de tu proveedor de DNS:
-   - **Tipo:** TXT
-   - **Nombre/Host:** `@` (o dejalo vacío, según el proveedor)
-   - **Valor:** el string completo que te dio Google
-6. Guardá y volvé a Search Console → **Verificar**. Suele tomar entre 5 minutos
-   y 1 hora. Si falla, esperá y reintentá — no borres el registro.
+**Dónde está el DNS, para la próxima:** el registrador es **eNom**, pero los
+nameservers apuntan a Vercel (`ns1.vercel-dns.com` / `ns2.vercel-dns.com`), así
+que los registros DNS se editan en **Vercel → Domains → decarnesonline.com →
+DNS Records**, no en eNom. En eNom los Host Records están deshabilitados
+justamente por eso. No cambies los nameservers ahí: tirarías el sitio abajo.
 
-> ¿No tenés acceso al DNS? Verificá con **Prefijo de URL** en su lugar y usá el
-> método de archivo HTML o la meta tag (esa te la agrego yo al código en 2 minutos).
-> Perdés la cobertura de todas las variantes, pero funciona.
+El TXT quedó cargado con el comentario "Verificacion Google Search Console".
+**No lo borres** — si desaparece, Search Console pierde la verificación.
 
-### Paso 2 · Enviar el sitemap
+### ~~Paso 2 · Enviar el sitemap~~ ✅ HECHO
 
-Search Console → **Sitemaps** (menú izquierdo) → escribí `sitemap.xml` → **Enviar**.
+`https://www.decarnesonline.com/sitemap.xml` → estado **Correcto**, 13 páginas
+descubiertas (4 fijas + 9 lotes).
 
-Debería pasar a estado "Correcto" y mostrar la cantidad de URLs detectadas
-(hoy: 4 páginas fijas + 1 por cada lote publicado).
+### ~~Paso 3 · Pedir indexación de las páginas clave~~ ✅ HECHO
 
-### Paso 3 · Pedir indexación manual de las páginas clave
+`/mercado` y `/enterate` quedaron en la cola de rastreo prioritario. La home ya
+estaba indexada, así que no consumió cuota.
 
-Esto es lo que acelera todo. En la barra de arriba de Search Console
-("Inspeccionar cualquier URL"), pegá cada una de estas y hacé clic en
-**Solicitar indexación**:
+Google limita a unas 10-12 solicitudes por día. Las fichas de lote las va a
+encontrar sola vía el sitemap y el `ItemList` de `/mercado`.
 
-```
-https://www.decarnesonline.com/
-https://www.decarnesonline.com/mercado
-https://www.decarnesonline.com/enterate
+**Tiempos realistas:** las páginas solicitadas suelen entrar en 2-7 días. Que
+aparezcan ≠ que rankeen.
+
+### Paso 3 bis · Pushear el código
+
+Los cambios de canonicals y JSON-LD siguen locales. Antes de subirlos:
+
+```bash
+npm run build      # verificar que compila
+git add -A && git commit -m "SEO: canonicals, JSON-LD y dominio canonico unificado"
+git push
 ```
 
-Hacé una por vez y esperá a que termine el chequeo (~30 seg cada una). Google
-limita a unas 10-12 solicitudes por día, así que priorizá esas tres. Las fichas
-de lote las va a encontrar sola vía el sitemap y el `ItemList` de `/mercado`.
-
-**Tiempos realistas:** la home suele aparecer en 2-7 días. El resto del sitio,
-2-4 semanas. Que aparezca ≠ que rankee.
+Vercel deploya solo al detectar el push.
 
 ### Paso 4 · Google Business Profile (esto rinde más que el SEO puro)
 

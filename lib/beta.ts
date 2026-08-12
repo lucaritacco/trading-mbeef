@@ -35,7 +35,11 @@ export function rolLabel(rol: string | null): string {
 
 /** Crea una solicitud de alta (estado 'pendiente'). anon solo puede insertar. */
 export async function crearSolicitud(data: SolicitudData): Promise<void> {
+  // id generado en el cliente: anon no puede leer la tabla, así que no podemos
+  // recuperarlo con .select(); lo definimos acá para avisar al admin por email.
+  const id = crypto.randomUUID();
   const { error } = await supabase.from("solicitudes_beta").insert({
+    id,
     nombre_contacto: data.nombre_contacto.trim(),
     empresa: data.empresa.trim(),
     cuit: data.cuit.trim(),
@@ -49,4 +53,11 @@ export async function crearSolicitud(data: SolicitudData): Promise<void> {
     estado: "pendiente",
   });
   if (error) throw new Error(error.message);
+
+  // Aviso al admin de que entró una nueva solicitud (sin bloquear el alta).
+  void fetch("/api/eventos/solicitud", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ solicitudId: id }),
+  }).catch(() => {});
 }
