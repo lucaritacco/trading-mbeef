@@ -4,66 +4,53 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 
-// Header del marketplace: toggle Comprar/Vender, buscador (manda a /mercado) y
-// acceso a la cuenta. `logueado` lo resuelve el layout en el servidor.
+const SECCIONES = [
+  { href: "/", label: "Comprar carne" },
+  { href: "/#como-funciona", label: "Cómo funciona" },
+  { href: "/vendedores", label: "Para frigoríficos" },
+];
+
+// Header del marketplace. El buscador ya no vive acá: en la home es la acción
+// principal y va grande en el hero; en el resto del sitio el usuario ya está
+// dentro del catálogo, donde tiene los filtros.
 export default function Header({ logueado = false }: { logueado?: boolean }) {
   const pathname = usePathname() ?? "/";
-  const enVender = pathname.startsWith("/vendedores");
 
-  const tab = (activo: boolean) =>
-    `px-4 py-2 text-sm transition-colors ${
-      activo ? "bg-primario text-superficie" : "text-texto-sec hover:text-superficie"
-    }`;
+  const esActivo = (href: string) => {
+    if (href.startsWith("/#")) return false; // ancla: nunca marca activo
+    return href === "/" ? pathname === "/" : pathname.startsWith(href);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-borde bg-superficie/95 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-5 sm:px-8">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-8 px-5 sm:px-8">
         <Link href="/" className="shrink-0">
-          <span className="font-serif text-2xl font-semibold tracking-[0.08em] text-texto">
+          <span className="font-serif text-2xl font-semibold tracking-[0.12em] text-texto">
             DECARNES
           </span>
         </Link>
 
-        {/* Toggle Comprar / Vender */}
-        <nav className="hidden shrink-0 items-center border border-borde sm:flex">
-          <Link href="/" className={tab(!enVender)}>
-            Comprar carne
-          </Link>
-          <Link href="/vendedores" className={tab(enVender)}>
-            Vender carne
-          </Link>
+        <nav className="hidden items-center gap-7 text-sm md:flex">
+          {SECCIONES.map((s) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              className={
+                esActivo(s.href)
+                  ? "font-medium text-primario"
+                  : "text-texto-sec transition-colors hover:text-texto"
+              }
+            >
+              {s.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Buscador: va al catálogo completo con el término aplicado */}
-        <form action="/mercado" method="get" className="ml-auto hidden min-w-0 flex-1 md:block">
-          <div className="relative mx-auto max-w-sm">
-            <input
-              name="q"
-              type="search"
-              placeholder="Buscar cortes, lotes…"
-              aria-label="Buscar lotes"
-              className="w-full border border-borde bg-fondo py-2 pl-9 pr-3 text-sm text-texto placeholder:text-texto-sec outline-none transition-colors focus:border-primario"
-            />
-            <svg
-              viewBox="0 0 24 24"
-              className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-texto-sec"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="M20 20l-3.5-3.5" />
-            </svg>
-          </div>
-        </form>
-
-        <div className="ml-auto flex shrink-0 items-center gap-3 md:ml-0">
+        <div className="ml-auto flex shrink-0 items-center gap-4">
           {logueado ? (
             <Link
               href="/cuenta"
-              className="hidden bg-primario px-4 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover sm:inline-block"
+              className="hidden bg-primario px-5 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover sm:inline-block"
             >
               Mi cuenta
             </Link>
@@ -76,8 +63,8 @@ export default function Header({ logueado = false }: { logueado?: boolean }) {
                 Ingresar
               </Link>
               <Link
-                href="/sumate"
-                className="hidden bg-primario px-4 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover sm:inline-block"
+                href="/registro"
+                className="hidden bg-primario px-5 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover sm:inline-block"
               >
                 Crear cuenta
               </Link>

@@ -3,9 +3,11 @@ import { LOTE_ESTADO, labelDe } from "@/lib/opciones";
 import { formatARS } from "@/lib/panel";
 import type { LoteFila } from "@/lib/ficha";
 
-// Tarjeta de lote para catálogos (home y /mercado). El precio NO viaja en los
-// datos públicos: llega solo si hay sesión (mapa de precios_lotes). Sin sesión
-// se muestra el gancho para iniciar sesión, y la tarjeta sigue siendo indexable.
+// Tarjeta de lote para catálogos (home y /mercado).
+// · El precio NO viaja en los datos públicos: llega solo con sesión.
+// · El sello "verificado" es dato real (usuarios.verificado), lo activa el staff
+//   tras revisar al frigorífico, y es lo mismo que lo habilita a publicar. Es un
+//   booleano: no identifica al proveedor.
 export default function LoteCard({
   l,
   foto,
@@ -20,9 +22,9 @@ export default function LoteCard({
   return (
     <Link
       href={`/lote/${l.id}`}
-      className="group flex flex-col border border-borde transition-colors hover:border-primario"
+      className="group flex flex-col border border-borde bg-superficie transition-colors hover:border-primario"
     >
-      <div className="aspect-[4/3] overflow-hidden bg-fondo">
+      <div className="relative aspect-[4/3] overflow-hidden bg-fondo">
         {foto ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
@@ -35,36 +37,43 @@ export default function LoteCard({
             Sin foto
           </span>
         )}
+
+        {l.verificado && (
+          <span className="absolute left-3 top-3 flex items-center gap-1.5 bg-superficie/95 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-texto shadow-sm backdrop-blur-sm">
+            <svg viewBox="0 0 24 24" className="h-3 w-3 text-exito" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M4 12.5l5 5L20 6.5" />
+            </svg>
+            Frigorífico verificado
+          </span>
+        )}
       </div>
+
       <div className="flex flex-1 flex-col p-5">
-        <h2 className="font-serif text-xl font-medium text-texto group-hover:text-primario">
-          {l.titulo ?? "—"}
-        </h2>
-        <p className="mt-1 text-sm text-texto-sec">
-          {[l.corte, l.especie_categoria, labelDe(LOTE_ESTADO, l.lote_estado)]
-            .filter(Boolean)
-            .join(" · ")}
+        <h3 className="font-serif text-xl font-medium leading-snug text-texto transition-colors group-hover:text-primario">
+          {l.titulo ?? l.corte ?? "—"}
+        </h3>
+        <p className="mt-1.5 text-sm text-texto-sec">
+          {[l.especie_categoria, labelDe(LOTE_ESTADO, l.lote_estado)].filter(Boolean).join(" · ")}
         </p>
-        <p className="mt-3 text-sm text-texto-sec">
+        <p className="mt-1 text-sm text-texto-sec">
           {[l.kilos_totales ? `${l.kilos_totales} kg` : null, l.ubicacion_provincia]
             .filter(Boolean)
             .join(" · ") || "—"}
         </p>
 
-        {logueado ? (
-          precio != null && (
-            <p className="mt-2 font-serif text-lg text-texto">
+        <div className="mt-auto flex items-baseline justify-between gap-3 border-t border-borde pt-4">
+          {logueado && precio != null ? (
+            <span className="font-serif text-lg text-texto">
               {formatARS(precio)}
               <span className="text-sm text-texto-sec"> /kg</span>
-            </p>
-          )
-        ) : (
-          <p className="mt-2 text-sm text-texto-sec">Precio visible con tu cuenta</p>
-        )}
-
-        <span className="mt-auto pt-4 text-xs uppercase tracking-[0.18em] text-primario">
-          Ver lote →
-        </span>
+            </span>
+          ) : (
+            <span className="text-xs font-medium text-primario">Precio con tu cuenta</span>
+          )}
+          <span className="text-xs font-medium text-texto-sec transition-colors group-hover:text-texto">
+            Ver lote →
+          </span>
+        </div>
       </div>
     </Link>
   );

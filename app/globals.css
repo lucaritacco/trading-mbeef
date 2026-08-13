@@ -6,17 +6,26 @@
   /* y compara lotes desde el celular, con luz de día.                   */
   /* El rojo NO es color de marca: queda reservado para errores.         */
   /* ------------------------------------------------------------------ */
-  --fondo: #fafaf7;
+  /* Crema tibia: da contraste real contra el blanco de las tarjetas, para que
+     la alternancia de bandas se lea sin necesidad de bordes. */
+  --fondo: #faf7f2;
   --superficie: #ffffff;
   --texto: #1c1b18;
   --texto-sec: #6e6b63;
   --borde: #e6e3dc;
+
+  /* Tinta: barra superior y botón oscuro (el CTA del comprador). Es una acción
+     neutra, distinta del primario, para que no compitan dos rojos. */
+  --tinta: #14130f;
+  --tinta-hover: #2a2823;
 
   /* Primario: botones, links, header. Rojo sangre, profundo y sobrio: es marca,
      no alarma. Va oscuro a propósito, para no leer como parrilla retail y para
      separarse del rojo de error (que es más claro y anaranjado). */
   --primario: #8c1522;
   --primario-hover: #a81b2b;
+  /* Rosa pálido: fondo de los círculos numerados y de las áreas de apoyo. */
+  --primario-suave: color-mix(in oklab, var(--primario) 9%, var(--superficie));
 
   /* Estado positivo: verificado, disponible, confirmado. */
   --exito: #2e7d5b;
@@ -41,6 +50,9 @@
   --color-borde: var(--borde);
   --color-primario: var(--primario);
   --color-primario-hover: var(--primario-hover);
+  --color-primario-suave: var(--primario-suave);
+  --color-tinta: var(--tinta);
+  --color-tinta-hover: var(--tinta-hover);
   --color-exito: var(--exito);
   --color-acento: var(--acento);
   --color-error: var(--error);
