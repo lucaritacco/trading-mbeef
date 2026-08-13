@@ -1,30 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  /* Paleta corporativa MBEEF (manual de marca, pág. 21) */
-  --carbon: #1d1d1b;
-  --bordo: #b30e2a;
-  --rojo: #d73534;
-  --salmon: #e07e63;
-  --taupe: #c3aea7;
-  --verde: #3c5a34;
-  --hueso: #f0efe9;
+  /* ------------------------------------------------------------------ */
+  /* Paleta DeCarnes (mercado mayorista). Fondo claro: el comprador lee  */
+  /* y compara lotes desde el celular, con luz de día.                   */
+  /* El rojo NO es color de marca: queda reservado para errores.         */
+  /* ------------------------------------------------------------------ */
+  --fondo: #fafaf7;
+  --superficie: #ffffff;
+  --texto: #1c1b18;
+  --texto-sec: #6e6b63;
+  --borde: #e6e3dc;
 
-  /* Derivados para legibilidad sobre fondo oscuro */
-  --rojo-claro: color-mix(in oklab, var(--rojo) 78%, white);
-  --verde-claro: color-mix(in oklab, var(--verde) 55%, white);
+  /* Primario: botones, links, header. Verde profundo, no rojo. */
+  --primario: #1e4d3b;
+  --primario-hover: #2a6b52;
+
+  /* Estado positivo: verificado, disponible, confirmado. */
+  --exito: #2e7d5b;
+
+  /* Acento: solo barra de publicar, badge de beta y tarjetas de invitación.
+     Máximo una vez por pantalla. OJO: solo como FONDO y con texto carbón
+     encima (blanco sobre ámbar da 2.45:1 y no pasa AA). */
+  --acento: #d89a2e;
+
+  /* Error: validaciones y acciones destructivas. Nunca en marca. */
+  --error: #b23b32;
+  --error-suave: color-mix(in oklab, var(--error) 8%, var(--superficie));
 }
 
 @theme inline {
-  --color-carbon: var(--carbon);
-  --color-bordo: var(--bordo);
-  --color-rojo: var(--rojo);
-  --color-salmon: var(--salmon);
-  --color-taupe: var(--taupe);
-  --color-verde: var(--verde);
-  --color-hueso: var(--hueso);
-  --color-rojo-claro: var(--rojo-claro);
-  --color-verde-claro: var(--verde-claro);
+  /* Paleta nueva */
+  --color-fondo: var(--fondo);
+  --color-superficie: var(--superficie);
+  --color-texto: var(--texto);
+  --color-texto-sec: var(--texto-sec);
+  --color-borde: var(--borde);
+  --color-primario: var(--primario);
+  --color-primario-hover: var(--primario-hover);
+  --color-exito: var(--exito);
+  --color-acento: var(--acento);
+  --color-error: var(--error);
+  --color-error-suave: var(--error-suave);
+
   --font-sans: var(--font-archivo), system-ui, sans-serif;
   --font-serif: var(--font-garamond), Georgia, serif;
 }
@@ -34,19 +52,19 @@ html {
 }
 
 body {
-  background: var(--carbon);
-  color: var(--hueso);
+  background: var(--fondo);
+  color: var(--texto);
   font-family: var(--font-sans);
   overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--bordo);
-  color: var(--hueso);
+  background: var(--primario);
+  color: var(--superficie);
 }
 
 :focus-visible {
-  outline: 2px solid var(--rojo);
+  outline: 2px solid var(--primario);
   outline-offset: 3px;
 }
 
@@ -54,14 +72,14 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--carbon);
+  background: var(--fondo);
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--taupe) 35%, var(--carbon));
+  background: color-mix(in oklab, var(--texto-sec) 35%, var(--fondo));
   border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--bordo);
+  background: var(--primario);
 }
 
 /* Cinta de cotizaciones del hero (mesa de trading) */

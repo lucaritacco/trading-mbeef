@@ -24,12 +24,12 @@ function Campo({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-sm text-taupe">
+      <label htmlFor={name} className="mb-2 block text-sm text-texto-sec">
         {label}
-        {required && <span className="text-bordo"> *</span>}
+        {required && <span className="text-primario"> *</span>}
       </label>
       <input id={name} name={name} defaultValue={defaultValue ?? ""} required={required} className={inputBase} />
-      {hint && <p className="mt-1.5 text-xs text-taupe/60">{hint}</p>}
+      {hint && <p className="mt-1.5 text-xs text-texto-sec">{hint}</p>}
     </div>
   );
 }
@@ -47,11 +47,11 @@ function Selector({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-sm text-taupe">{label}</label>
+      <label htmlFor={name} className="mb-2 block text-sm text-texto-sec">{label}</label>
       <select id={name} name={name} defaultValue={defaultValue ?? ""} className={inputBase}>
-        <option value="" className="bg-carbon">Elegí una opción</option>
+        <option value="" className="bg-superficie">Elegí una opción</option>
         {options.map((o) => (
-          <option key={o.value} value={o.value} className="bg-carbon">{o.label}</option>
+          <option key={o.value} value={o.value} className="bg-superficie">{o.label}</option>
         ))}
       </select>
     </div>
@@ -76,15 +76,15 @@ export default async function EmpresaPage({
 
   return (
     <div className="max-w-3xl">
-      <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Mi cuenta</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">Datos de mi empresa</h1>
-      <p className="mt-4 max-w-xl leading-relaxed text-taupe">
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Mi cuenta</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Datos de mi empresa</h1>
+      <p className="mt-4 max-w-xl leading-relaxed text-texto-sec">
         Estos datos se usan en tus publicaciones y para que los compradores te
         contacten. No te pedimos documentos todavía.
       </p>
 
       {error && (
-        <p className="mt-6 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{error}</p>
+        <p className="mt-6 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{error}</p>
       )}
 
       <form action={guardarEmpresa} className="mt-10 space-y-7">
@@ -109,7 +109,7 @@ export default async function EmpresaPage({
           <Campo label="Localidad" name="localidad" defaultValue={u?.localidad} />
         </div>
 
-        <button type="submit" className="bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo">
+        <button type="submit" className="bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover">
           Guardar datos
         </button>
       </form>

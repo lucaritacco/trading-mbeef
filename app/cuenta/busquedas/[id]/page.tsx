@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 };
 
 const ESTADO_BADGE: Record<string, string> = {
-  enviada: "border-hueso/25 text-taupe",
-  aceptada: "border-verde-claro/50 text-verde-claro",
-  rechazada: "border-rojo/40 text-rojo-claro",
+  enviada: "border-borde text-texto-sec",
+  aceptada: "border-exito/40 text-exito",
+  rechazada: "border-error/40 text-error",
 };
 
 export default async function BusquedaDetallePage({
@@ -38,31 +38,31 @@ export default async function BusquedaDetallePage({
 
   return (
     <div className="max-w-4xl">
-      <Link href="/cuenta/busquedas" className="text-sm text-taupe transition-colors hover:text-hueso">
+      <Link href="/cuenta/busquedas" className="text-sm text-texto-sec transition-colors hover:text-texto">
         ← Búsquedas
       </Link>
 
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">
             Búsqueda {b.es_mia ? "· tuya" : ""}
           </p>
-          <h1 className="mt-2 font-serif text-3xl font-medium text-hueso sm:text-4xl">
+          <h1 className="mt-2 font-serif text-3xl font-medium text-texto sm:text-4xl">
             {b.tipo_corte ?? "Búsqueda"}
           </h1>
-          <p className="mt-2 text-taupe">
+          <p className="mt-2 text-texto-sec">
             {[b.especie_categoria, b.cantidad_kg ? `${b.cantidad_kg} kg` : null, b.provincia]
               .filter(Boolean)
               .join(" · ")}
           </p>
         </div>
-        <span className={`border px-3 py-1 text-xs ${abierta ? "border-verde-claro/50 text-verde-claro" : "border-hueso/25 text-taupe"}`}>
+        <span className={`border px-3 py-1 text-xs ${abierta ? "border-exito/40 text-exito" : "border-borde text-texto-sec"}`}>
           {abierta ? "Abierta" : "Cerrada"}
         </span>
       </div>
 
       {/* Datos de la búsqueda */}
-      <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-hueso/10 pt-8 sm:grid-cols-3">
+      <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-borde pt-8 sm:grid-cols-3">
         <Dato label="Comprador" value={b.comprador_empresa} />
         <Dato label="Cantidad" value={b.cantidad_kg ? `${b.cantidad_kg} kg` : null} />
         <Dato label="Zona" value={b.provincia} />
@@ -71,20 +71,20 @@ export default async function BusquedaDetallePage({
         <Dato label="Publicada" value={formatFecha(b.created_at)} />
       </dl>
       {b.notas && (
-        <p className="mt-6 border-t border-hueso/10 pt-6 leading-relaxed text-taupe">{b.notas}</p>
+        <p className="mt-6 border-t border-borde pt-6 leading-relaxed text-texto-sec">{b.notas}</p>
       )}
 
       {/* Vista COMPRADOR (dueño): comparar ofertas */}
       {b.es_mia ? (
-        <div className="mt-10 border-t border-hueso/10 pt-8">
+        <div className="mt-10 border-t border-borde pt-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="font-serif text-2xl font-medium text-hueso">
+            <h2 className="font-serif text-2xl font-medium text-texto">
               Ofertas recibidas ({ofertas.length})
             </h2>
             {abierta && (
               <form action={cerrarBusqueda}>
                 <input type="hidden" name="id" value={b.id} />
-                <button className="border border-hueso/25 px-4 py-2 text-sm text-taupe transition-colors hover:border-rojo hover:text-rojo-claro">
+                <button className="border border-borde px-4 py-2 text-sm text-texto-sec transition-colors hover:border-error hover:text-primario">
                   Cerrar búsqueda
                 </button>
               </form>
@@ -96,39 +96,39 @@ export default async function BusquedaDetallePage({
         </div>
       ) : (
         /* Vista VENDEDOR: enviar oferta + ver las propias */
-        <div className="mt-10 grid gap-8 border-t border-hueso/10 pt-8 lg:grid-cols-2">
+        <div className="mt-10 grid gap-8 border-t border-borde pt-8 lg:grid-cols-2">
           <div>
             {abierta ? (
               <EnviarOfertaForm busquedaId={b.id} />
             ) : (
-              <p className="border border-hueso/15 bg-carbon/40 p-6 text-sm text-taupe">
+              <p className="border border-borde bg-fondo p-6 text-sm text-texto-sec">
                 Esta búsqueda está cerrada: ya no recibe ofertas.
               </p>
             )}
           </div>
           <div>
-            <h2 className="font-serif text-xl font-medium text-hueso">Tus ofertas a esta búsqueda</h2>
+            <h2 className="font-serif text-xl font-medium text-texto">Tus ofertas a esta búsqueda</h2>
             {ofertas.length === 0 ? (
-              <p className="mt-3 text-sm text-taupe">Todavía no enviaste ninguna oferta.</p>
+              <p className="mt-3 text-sm text-texto-sec">Todavía no enviaste ninguna oferta.</p>
             ) : (
               <ul className="mt-4 space-y-3">
                 {ofertas.map((o) => (
-                  <li key={o.id} className="border border-hueso/15 p-4">
+                  <li key={o.id} className="border border-borde p-4">
                     <div className="flex items-center justify-between">
-                      <span className="font-serif text-lg text-hueso">
+                      <span className="font-serif text-lg text-texto">
                         {o.precio_por_kg != null ? `${formatARS(o.precio_por_kg)}/kg` : "—"}
                       </span>
-                      <span className={`border px-2 py-0.5 text-xs ${ESTADO_BADGE[o.estado] ?? "text-taupe"}`}>
+                      <span className={`border px-2 py-0.5 text-xs ${ESTADO_BADGE[o.estado] ?? "text-texto-sec"}`}>
                         {o.estado}
                       </span>
                     </div>
-                    <p className="mt-1 text-sm text-taupe">
+                    <p className="mt-1 text-sm text-texto-sec">
                       {[o.cantidad_ofrecida_kg ? `${o.cantidad_ofrecida_kg} kg` : null, o.plazo_entrega]
                         .filter(Boolean)
                         .join(" · ")}
                     </p>
                     {o.estado === "aceptada" && (
-                      <p className="mt-2 text-xs text-verde-claro">
+                      <p className="mt-2 text-xs text-exito">
                         ¡Te la aceptaron! El comprador te va a contactar por WhatsApp.
                       </p>
                     )}
@@ -147,8 +147,8 @@ function Dato({ label, value }: { label: string; value: React.ReactNode }) {
   if (value === null || value === undefined || value === "") return null;
   return (
     <div>
-      <dt className="text-[11px] uppercase tracking-[0.16em] text-taupe">{label}</dt>
-      <dd className="mt-1 text-sm text-hueso">{value}</dd>
+      <dt className="text-[11px] uppercase tracking-[0.16em] text-texto-sec">{label}</dt>
+      <dd className="mt-1 text-sm text-texto">{value}</dd>
     </div>
   );
 }

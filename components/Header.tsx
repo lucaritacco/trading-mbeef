@@ -12,20 +12,20 @@ export default function Header({ logueado = false }: { logueado?: boolean }) {
 
   const tab = (activo: boolean) =>
     `px-4 py-2 text-sm transition-colors ${
-      activo ? "bg-bordo text-hueso" : "text-taupe hover:text-hueso"
+      activo ? "bg-primario text-superficie" : "text-texto-sec hover:text-superficie"
     }`;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-hueso/10 bg-carbon/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-borde bg-superficie/95 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-5 sm:px-8">
         <Link href="/" className="shrink-0">
-          <span className="font-serif text-2xl font-semibold tracking-[0.08em] text-hueso">
+          <span className="font-serif text-2xl font-semibold tracking-[0.08em] text-texto">
             DECARNES
           </span>
         </Link>
 
         {/* Toggle Comprar / Vender */}
-        <nav className="hidden shrink-0 items-center border border-hueso/15 sm:flex">
+        <nav className="hidden shrink-0 items-center border border-borde sm:flex">
           <Link href="/" className={tab(!enVender)}>
             Comprar carne
           </Link>
@@ -42,11 +42,11 @@ export default function Header({ logueado = false }: { logueado?: boolean }) {
               type="search"
               placeholder="Buscar cortes, lotes…"
               aria-label="Buscar lotes"
-              className="w-full border border-hueso/20 bg-carbon/60 py-2 pl-9 pr-3 text-sm text-hueso placeholder:text-taupe/50 outline-none transition-colors focus:border-bordo"
+              className="w-full border border-borde bg-fondo py-2 pl-9 pr-3 text-sm text-texto placeholder:text-texto-sec outline-none transition-colors focus:border-primario"
             />
             <svg
               viewBox="0 0 24 24"
-              className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-taupe"
+              className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-texto-sec"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.8"
@@ -63,7 +63,7 @@ export default function Header({ logueado = false }: { logueado?: boolean }) {
           {logueado ? (
             <Link
               href="/cuenta"
-              className="hidden bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo sm:inline-block"
+              className="hidden bg-primario px-4 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover sm:inline-block"
             >
               Mi cuenta
             </Link>
@@ -71,13 +71,13 @@ export default function Header({ logueado = false }: { logueado?: boolean }) {
             <>
               <Link
                 href="/login"
-                className="hidden text-sm text-taupe transition-colors hover:text-hueso sm:inline"
+                className="hidden text-sm text-texto-sec transition-colors hover:text-texto sm:inline"
               >
                 Ingresar
               </Link>
               <Link
                 href="/sumate"
-                className="hidden bg-bordo px-4 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo sm:inline-block"
+                className="hidden bg-primario px-4 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover sm:inline-block"
               >
                 Crear cuenta
               </Link>

@@ -73,12 +73,12 @@ export async function enviarBatch(mensajes: Mensaje[]): Promise<number> {
 // -------------------------------------------------------------------------
 
 const C = {
-  carbon: "#1d1d1b",
-  panel: "#26251f",
-  bordo: "#b30e2a",
-  hueso: "#f0efe9",
-  taupe: "#c3aea7",
-  borde: "#3a3934",
+  texto: "#1C1B18",
+  superficie: "#FFFFFF",
+  primario: "#1E4D3B",
+  fondo: "#FAFAF7",
+  textoSec: "#6E6B63",
+  borde: "#E6E3DC",
 };
 
 export type FilaDato = { etiqueta: string; valor: string };
@@ -99,35 +99,35 @@ export function plantilla(opts: {
     .map(
       (f) => `
       <tr>
-        <td style="padding:6px 0;color:${C.taupe};font-size:12px;text-transform:uppercase;letter-spacing:1px;width:42%;vertical-align:top;">${escapar(f.etiqueta)}</td>
-        <td style="padding:6px 0;color:${C.hueso};font-size:15px;vertical-align:top;">${escapar(f.valor)}</td>
+        <td style="padding:6px 0;color:${C.textoSec};font-size:12px;text-transform:uppercase;letter-spacing:1px;width:42%;vertical-align:top;">${escapar(f.etiqueta)}</td>
+        <td style="padding:6px 0;color:${C.texto};font-size:15px;vertical-align:top;">${escapar(f.valor)}</td>
       </tr>`,
     )
     .join("");
 
   const cta =
     ctaLabel && ctaHref
-      ? `<a href="${ctaHref}" style="display:inline-block;margin-top:24px;background:${C.bordo};color:${C.hueso};text-decoration:none;padding:14px 28px;font-size:15px;font-weight:600;">${escapar(ctaLabel)}</a>`
+      ? `<a href="${ctaHref}" style="display:inline-block;margin-top:24px;background:${C.primario};color:#ffffff;text-decoration:none;padding:14px 28px;font-size:15px;font-weight:600;">${escapar(ctaLabel)}</a>`
       : "";
 
   return `<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;background:${C.carbon};padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+<body style="margin:0;background:${C.fondo};padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;">
     <tr><td style="padding:0 0 20px;">
-      <span style="color:${C.hueso};font-size:20px;font-weight:700;letter-spacing:2px;">DECARNES</span>
-      <span style="color:${C.taupe};font-size:11px;letter-spacing:3px;text-transform:uppercase;"> &nbsp;·&nbsp; MBEEF</span>
+      <span style="color:${C.texto};font-size:20px;font-weight:700;letter-spacing:2px;">DECARNES</span>
+      <span style="color:${C.textoSec};font-size:11px;letter-spacing:3px;text-transform:uppercase;"> &nbsp;·&nbsp; MBEEF</span>
     </td></tr>
-    <tr><td style="background:${C.panel};border:1px solid ${C.borde};padding:32px;">
-      <h1 style="margin:0 0 12px;color:${C.hueso};font-size:22px;font-weight:600;">${escapar(titulo)}</h1>
-      ${intro ? `<p style="margin:0 0 20px;color:${C.taupe};font-size:15px;line-height:1.6;">${escapar(intro)}</p>` : ""}
+    <tr><td style="background:${C.superficie};border:1px solid ${C.borde};padding:32px;">
+      <h1 style="margin:0 0 12px;color:${C.texto};font-size:22px;font-weight:600;">${escapar(titulo)}</h1>
+      ${intro ? `<p style="margin:0 0 20px;color:${C.textoSec};font-size:15px;line-height:1.6;">${escapar(intro)}</p>` : ""}
       ${filasHtml ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid ${C.borde};margin-top:8px;padding-top:8px;">${filasHtml}</table>` : ""}
       ${cta}
-      ${nota ? `<p style="margin:24px 0 0;color:${C.taupe};font-size:12px;line-height:1.6;opacity:.8;">${escapar(nota)}</p>` : ""}
+      ${nota ? `<p style="margin:24px 0 0;color:${C.textoSec};font-size:12px;line-height:1.6;">${escapar(nota)}</p>` : ""}
     </td></tr>
-    <tr><td style="padding:20px 0;color:${C.taupe};font-size:11px;opacity:.7;">
+    <tr><td style="padding:20px 0;color:${C.textoSec};font-size:11px;">
       DeCarnes · la mesa de compras de MBEEF · Thompson 1226, Bahía Blanca, Argentina
-      ${bajaHref ? `<br><a href="${bajaHref}" style="color:${C.taupe};text-decoration:underline;">No quiero recibir más avisos de lotes nuevos</a>` : ""}
+      ${bajaHref ? `<br><a href="${bajaHref}" style="color:${C.textoSec};text-decoration:underline;">No quiero recibir más avisos de lotes nuevos</a>` : ""}
     </td></tr>
   </table>
 </body></html>`;

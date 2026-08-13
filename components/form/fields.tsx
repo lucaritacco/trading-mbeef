@@ -22,15 +22,15 @@ export function FieldShell({
 }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="mb-2 block text-sm text-taupe">
+      <label htmlFor={htmlFor} className="mb-2 block text-sm text-texto-sec">
         {label}
-        {required && <span className="text-bordo"> *</span>}
+        {required && <span className="text-primario"> *</span>}
       </label>
       {children}
       {error ? (
-        <p className="mt-1.5 text-xs text-rojo-claro">{error}</p>
+        <p className="mt-1.5 text-xs text-error">{error}</p>
       ) : hint ? (
-        <p className="mt-1.5 text-xs text-taupe/60">{hint}</p>
+        <p className="mt-1.5 text-xs text-texto-sec">{hint}</p>
       ) : null}
     </div>
   );
@@ -142,15 +142,15 @@ export function SelectField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={`${inputBase} appearance-none bg-[length:0.65rem] bg-[right_1rem_center] bg-no-repeat pr-10 [background-image:url('data:image/svg+xml;utf8,<svg_xmlns=%22http://www.w3.org/2000/svg%22_viewBox=%220_0_12_8%22_fill=%22none%22_stroke=%22%23c3aea7%22_stroke-width=%221.5%22><path_d=%22M1_1l5_5_5-5%22/></svg>')] ${
-          value ? "text-hueso" : "text-taupe/40"
+          value ? "text-texto" : "text-texto-sec"
         }`}
         aria-invalid={!!error}
       >
-        <option value="" disabled className="bg-carbon text-taupe">
+        <option value="" disabled className="bg-superficie text-texto-sec">
           {placeholder}
         </option>
         {options.map((o) => (
-          <option key={o.value} value={o.value} className="bg-carbon text-hueso">
+          <option key={o.value} value={o.value} className="bg-superficie text-texto">
             {o.label}
           </option>
         ))}
@@ -189,8 +189,8 @@ export function RadioCards({
               aria-pressed={active}
               className={`border px-4 py-2.5 text-sm transition-colors ${
                 active
-                  ? "border-bordo bg-bordo/15 text-hueso"
-                  : "border-hueso/20 text-taupe hover:border-hueso/45 hover:text-hueso"
+                  ? "border-primario bg-primario/10 text-superficie"
+                  : "border-borde text-texto-sec hover:border-borde hover:text-texto"
               }`}
             >
               {o.label}
@@ -238,8 +238,8 @@ export function CheckboxChips({
               aria-pressed={active}
               className={`border px-3.5 py-2 text-sm transition-colors ${
                 active
-                  ? "border-bordo bg-bordo/15 text-hueso"
-                  : "border-hueso/20 text-taupe hover:border-hueso/45 hover:text-hueso"
+                  ? "border-primario bg-primario/10 text-superficie"
+                  : "border-borde text-texto-sec hover:border-borde hover:text-texto"
               }`}
             >
               {o}
@@ -269,11 +269,11 @@ export function Checkbox({
       <label htmlFor={id} className="flex cursor-pointer items-start gap-3">
         <span
           className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center border transition-colors ${
-            checked ? "border-bordo bg-bordo" : "border-hueso/30 bg-transparent"
+            checked ? "border-primario bg-primario" : "border-borde bg-transparent"
           }`}
         >
           {checked && (
-            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-hueso" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-texto" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 12.5l5 5L20 6.5" />
             </svg>
           )}
@@ -285,9 +285,9 @@ export function Checkbox({
           onChange={(e) => onChange(e.target.checked)}
           className="sr-only"
         />
-        <span className="text-sm leading-relaxed text-taupe">{children}</span>
+        <span className="text-sm leading-relaxed text-texto-sec">{children}</span>
       </label>
-      {error && <p className="mt-1.5 text-xs text-rojo-claro">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-error">{error}</p>}
     </div>
   );
 }

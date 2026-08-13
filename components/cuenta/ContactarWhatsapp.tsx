@@ -40,11 +40,11 @@ export default function ContactarWhatsapp({ loteId }: { loteId: string }) {
         type="button"
         onClick={contactar}
         disabled={cargando}
-        className="w-full border border-verde-claro/40 px-4 py-2.5 text-sm text-verde-claro transition-colors hover:bg-verde/20 disabled:opacity-60"
+        className="w-full border border-exito/40 px-4 py-2.5 text-sm text-exito transition-colors hover:bg-exito/10 disabled:opacity-60"
       >
         {cargando ? "Abriendo…" : "Consultar por WhatsApp"}
       </button>
-      {aviso && <p className="mt-1.5 text-xs text-salmon">{aviso}</p>}
+      {aviso && <p className="mt-1.5 text-xs text-primario">{aviso}</p>}
     </div>
   );
 }

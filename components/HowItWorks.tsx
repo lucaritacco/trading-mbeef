@@ -20,10 +20,10 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section id="como-funciona" className="bg-carbon py-24 sm:py-32">
+    <section id="como-funciona" className="bg-superficie py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
-          <h2 className="font-serif text-4xl font-medium text-hueso sm:text-5xl">
+          <h2 className="font-serif text-4xl font-medium text-texto sm:text-5xl">
             Cómo funciona
           </h2>
         </Reveal>
@@ -31,13 +31,13 @@ export default function HowItWorks() {
         <Stagger className="mt-16 grid gap-12 md:grid-cols-3 md:gap-10" step={0.16}>
           {STEPS.map((step) => (
             <StaggerItem key={step.n}>
-              <span className="inline-flex h-14 w-14 items-center justify-center border border-salmon/60 bg-carbon font-serif text-2xl text-salmon">
+              <span className="inline-flex h-14 w-14 items-center justify-center border border-primario/40 bg-superficie font-serif text-2xl text-primario">
                 {step.n}
               </span>
-              <h3 className="mt-6 font-serif text-2xl font-medium leading-snug text-hueso">
+              <h3 className="mt-6 font-serif text-2xl font-medium leading-snug text-texto">
                 {step.title}
               </h3>
-              <p className="mt-3 max-w-[38ch] leading-relaxed text-taupe">
+              <p className="mt-3 max-w-[38ch] leading-relaxed text-texto-sec">
                 {step.body}
               </p>
             </StaggerItem>

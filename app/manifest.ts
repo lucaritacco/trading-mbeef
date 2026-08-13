@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "El mercado de la carne, en un solo lugar. Powered by MBEEF.",
     start_url: "/",
     display: "standalone",
-    background_color: "#1d1d1b",
-    theme_color: "#b30e2a",
+    background_color: "#FAFAF7",
+    theme_color: "#1E4D3B",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { src: "/icon-512.png", sizes: "512x512", type: "image/png" },

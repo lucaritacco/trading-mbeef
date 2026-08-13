@@ -13,7 +13,7 @@ export default function SumatePage() {
   return (
     <>
       <Header />
-      <main className="min-h-svh">
+      <main className="min-h-svh bg-superficie text-texto">
         <SumateForm />
       </main>
     </>

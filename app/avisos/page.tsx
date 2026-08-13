@@ -66,38 +66,38 @@ export default async function AvisosPage({
   const ent = token ? await resolver(token) : null;
 
   return (
-    <div className="min-h-svh">
-      <header className="border-b border-hueso/10">
+    <div className="min-h-svh bg-superficie text-texto">
+      <header className="border-b border-borde">
         <div className="mx-auto flex h-16 max-w-2xl items-center justify-between px-5 sm:px-8">
-          <Link href="/" className="font-serif text-xl font-semibold tracking-[0.07em] text-hueso">
+          <Link href="/" className="font-serif text-xl font-semibold tracking-[0.07em] text-texto">
             DECARNES
           </Link>
-          <span className="text-[10px] uppercase tracking-[0.28em] text-taupe">
+          <span className="text-[10px] uppercase tracking-[0.28em] text-texto-sec">
             Carne argentina · MBEEF
           </span>
         </div>
       </header>
 
       <main className="mx-auto max-w-2xl px-5 py-16 sm:px-8">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Avisos por email</p>
-        <h1 className="mt-3 font-serif text-3xl font-medium text-hueso sm:text-4xl">
+        <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Avisos por email</p>
+        <h1 className="mt-3 font-serif text-3xl font-medium text-texto sm:text-4xl">
           Preferencia de avisos
         </h1>
 
         {!ent ? (
-          <p className="mt-6 leading-relaxed text-taupe">
+          <p className="mt-6 leading-relaxed text-texto-sec">
             El enlace no es válido o expiró. Si querés volver a recibir los lotes nuevos,
             suscribite en{" "}
-            <Link href="/compradores" className="text-salmon hover:text-hueso">/compradores</Link>.
+            <Link href="/compradores" className="text-primario hover:text-texto">/compradores</Link>.
           </p>
         ) : (
-          <div className="mt-8 border border-hueso/15 bg-carbon/40 p-7">
+          <div className="mt-8 border border-borde bg-fondo p-7">
             {ok && (
-              <p className="mb-5 border border-verde-claro/40 bg-verde/15 px-4 py-3 text-sm text-verde-claro">
+              <p className="mb-5 border border-exito/40 bg-exito/10 px-4 py-3 text-sm text-exito">
                 Preferencia actualizada.
               </p>
             )}
-            <p className="text-hueso">
+            <p className="text-texto">
               {ent.nombre ? <span className="font-medium">{ent.nombre}</span> : "Tu email"}
               {ent.recibe ? (
                 <> está recibiendo avisos de <strong>lotes nuevos</strong>.</>
@@ -111,11 +111,11 @@ export default async function AvisosPage({
               <input type="hidden" name="tipo" value={ent.tipo} />
               <input type="hidden" name="recibir" value={ent.recibe ? "false" : "true"} />
               {ent.recibe ? (
-                <button className="bg-bordo px-6 py-3 text-sm font-medium text-hueso transition-colors hover:bg-rojo">
+                <button className="bg-primario px-6 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover">
                   Darme de baja de estos avisos
                 </button>
               ) : (
-                <button className="border border-verde-claro/50 px-6 py-3 text-sm font-medium text-verde-claro transition-colors hover:bg-verde/20">
+                <button className="border border-exito/40 px-6 py-3 text-sm font-medium text-exito transition-colors hover:bg-exito/10">
                   Volver a recibir avisos
                 </button>
               )}

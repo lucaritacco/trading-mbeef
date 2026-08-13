@@ -109,13 +109,13 @@ export default function PublicarLoteForm({
 
   return (
     <div className="max-w-3xl">
-      <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Mercado</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Mercado</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">
         {esEdicion ? "Editar lote" : "Publicar un lote"}
       </h1>
 
       {errorEnvio && (
-        <p className="mt-6 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{errorEnvio}</p>
+        <p className="mt-6 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{errorEnvio}</p>
       )}
 
       <div className="mt-10 space-y-7">
@@ -129,28 +129,28 @@ export default function PublicarLoteForm({
         {/* Fotos ya subidas (solo en edición): elegir portada y eliminar */}
         {esEdicion && existentes.length > 0 && (
           <div>
-            <p className="text-sm text-hueso">Fotos actuales</p>
-            <p className="mt-1 text-xs text-taupe/70">
-              La <span className="text-salmon">portada</span> es la primera y es la que se ve
+            <p className="text-sm text-texto">Fotos actuales</p>
+            <p className="mt-1 text-xs text-texto-sec">
+              La <span className="text-primario">portada</span> es la primera y es la que se ve
               al compartir. Tocá una foto para hacerla portada, o eliminala.
             </p>
             <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {existentes.map((f, i) => (
                 <div
                   key={f.path}
-                  className={`group relative aspect-square overflow-hidden border ${i === 0 ? "border-bordo" : "border-hueso/15"}`}
+                  className={`group relative aspect-square overflow-hidden border ${i === 0 ? "border-primario" : "border-borde"}`}
                 >
                   {f.url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={f.url} alt={`Foto ${i + 1}`} className="h-full w-full object-cover" />
                   ) : (
-                    <span className="flex h-full items-center justify-center text-xs text-taupe/50">
+                    <span className="flex h-full items-center justify-center text-xs text-texto-sec">
                       Sin vista previa
                     </span>
                   )}
 
                   {i === 0 && (
-                    <span className="absolute left-1.5 top-1.5 bg-bordo px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-hueso">
+                    <span className="absolute left-1.5 top-1.5 bg-primario px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-superficie">
                       Portada
                     </span>
                   )}
@@ -159,7 +159,7 @@ export default function PublicarLoteForm({
                     type="button"
                     onClick={() => eliminarExistente(f.path)}
                     aria-label="Eliminar foto"
-                    className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center bg-carbon/80 text-hueso transition-colors hover:bg-rojo"
+                    className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center bg-fondo text-superficie transition-colors hover:bg-primario-hover"
                   >
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                       <path d="M6 6l12 12M18 6L6 18" />
@@ -170,7 +170,7 @@ export default function PublicarLoteForm({
                     <button
                       type="button"
                       onClick={() => hacerPortada(f.path)}
-                      className="absolute inset-x-0 bottom-0 bg-carbon/80 py-1.5 text-[11px] text-hueso transition-colors hover:bg-bordo"
+                      className="absolute inset-x-0 bottom-0 bg-fondo py-1.5 text-[11px] text-superficie transition-colors hover:bg-primario"
                     >
                       Hacer portada
                     </button>
@@ -190,18 +190,18 @@ export default function PublicarLoteForm({
           max={10}
         />
         {esEdicion && (
-          <p className="text-xs text-taupe/70">
+          <p className="text-xs text-texto-sec">
             Las fotos nuevas se suman al final. Para que una nueva sea la portada,
             guardá y volvé a editar.
           </p>
         )}
 
         {/* ESPECIFICACIONES (colapsables) */}
-        <div className="border-t border-hueso/10 pt-6">
+        <div className="border-t border-borde pt-6">
           <button
             type="button"
             onClick={() => setVerSpecs((v) => !v)}
-            className="flex items-center gap-2 text-sm uppercase tracking-[0.15em] text-salmon transition-colors hover:text-hueso"
+            className="flex items-center gap-2 text-sm uppercase tracking-[0.15em] text-primario transition-colors hover:text-texto"
           >
             {verSpecs ? "Ocultar" : "Mostrar"} especificaciones
             <svg viewBox="0 0 24 24" className={`h-4 w-4 transition-transform ${verSpecs ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -216,7 +216,7 @@ export default function PublicarLoteForm({
               <TextField id="especie_categoria" label="Especie y categoría" placeholder="Ej.: novillo, vaquillona, vaca" value={data.especie_categoria} onChange={set("especie_categoria")} />
               <div>
                 <TextField id="precio_pretendido_kg" label="Precio por kg (ARS)" type="number" inputMode="decimal" value={data.precio_pretendido_kg} onChange={set("precio_pretendido_kg")} />
-                <p className="mt-1.5 text-xs text-salmon">Orientativo.</p>
+                <p className="mt-1.5 text-xs text-primario">Orientativo.</p>
               </div>
             </div>
             <RadioCards label="Estado" value={data.lote_estado} onChange={set("lote_estado")} options={LOTE_ESTADO} />
@@ -241,8 +241,8 @@ export default function PublicarLoteForm({
           </div>
         )}
 
-        <div className="flex items-center justify-end gap-4 border-t border-hueso/10 pt-6">
-          <button type="button" onClick={enviar} disabled={enviando} className="bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+        <div className="flex items-center justify-end gap-4 border-t border-borde pt-6">
+          <button type="button" onClick={enviar} disabled={enviando} className="bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
             {enviando ? "Publicando…" : esEdicion ? "Guardar cambios" : "Publicar lote"}
           </button>
         </div>

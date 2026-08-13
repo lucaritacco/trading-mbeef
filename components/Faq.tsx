@@ -8,7 +8,7 @@ export default function Faq() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="bg-hueso py-24 text-carbon sm:py-32">
+    <section id="faq" className="bg-fondo py-24 text-texto sm:py-32">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 md:grid-cols-[1fr_1.6fr] md:gap-16">
         <Reveal>
           <h2 className="font-serif text-4xl font-medium sm:text-5xl">
@@ -17,11 +17,11 @@ export default function Faq() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="border-t border-carbon/15">
+          <div className="border-t border-borde">
             {PREGUNTAS.map((item, i) => {
               const isOpen = open === i;
               return (
-                <div key={item.q} className="border-b border-carbon/15">
+                <div key={item.q} className="border-b border-borde">
                   <button
                     type="button"
                     onClick={() => setOpen(isOpen ? null : i)}
@@ -34,7 +34,7 @@ export default function Faq() {
                     </span>
                     <svg
                       viewBox="0 0 24 24"
-                      className={`h-5 w-5 shrink-0 text-bordo transition-transform duration-300 ${
+                      className={`h-5 w-5 shrink-0 text-primario transition-transform duration-300 ${
                         isOpen ? "rotate-45" : ""
                       }`}
                       fill="none"
@@ -54,7 +54,7 @@ export default function Faq() {
                     aria-hidden={!isOpen}
                   >
                     <div>
-                      <p className="max-w-[60ch] pb-6 leading-relaxed text-carbon/70">
+                      <p className="max-w-[60ch] pb-6 leading-relaxed text-texto-sec">
                         {item.a}
                       </p>
                     </div>

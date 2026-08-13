@@ -20,25 +20,25 @@ export default function PanelNav({ email }: { email?: string }) {
     href === "/panel" ? pathname === "/panel" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hueso/10 bg-carbon/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-borde bg-fondo backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
-        <Link href="/panel" className="font-serif text-xl font-semibold tracking-[0.06em] text-hueso">
+        <Link href="/panel" className="font-serif text-xl font-semibold tracking-[0.06em] text-texto">
           DECARNES
-          <span className="ml-2 align-middle text-[10px] uppercase tracking-[0.25em] text-taupe">Mesa</span>
+          <span className="ml-2 align-middle text-[10px] uppercase tracking-[0.25em] text-texto-sec">Mesa</span>
         </Link>
 
         {/* Escritorio */}
-        <nav className="hidden items-center gap-5 text-sm text-taupe sm:flex">
+        <nav className="hidden items-center gap-5 text-sm text-texto-sec sm:flex">
           {LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className={`transition-colors hover:text-hueso ${activo(l.href) ? "text-hueso" : ""}`}>
+            <Link key={l.href} href={l.href} className={`transition-colors hover:text-texto ${activo(l.href) ? "text-texto" : ""}`}>
               {l.label}
             </Link>
           ))}
         </nav>
         <div className="hidden items-center gap-4 sm:flex">
-          {email && <span className="hidden text-xs text-taupe md:inline">{email}</span>}
+          {email && <span className="hidden text-xs text-texto-sec md:inline">{email}</span>}
           <form action={cerrarSesion}>
-            <button className="text-sm text-taupe transition-colors hover:text-hueso">Salir</button>
+            <button className="text-sm text-texto-sec transition-colors hover:text-texto">Salir</button>
           </form>
         </div>
 
@@ -48,7 +48,7 @@ export default function PanelNav({ email }: { email?: string }) {
           onClick={() => setAbierto((v) => !v)}
           aria-label="Menú"
           aria-expanded={abierto}
-          className="flex h-10 w-10 items-center justify-center text-hueso sm:hidden"
+          className="flex h-10 w-10 items-center justify-center text-texto sm:hidden"
         >
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
             {abierto ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
@@ -58,23 +58,23 @@ export default function PanelNav({ email }: { email?: string }) {
 
       {/* Celular: panel desplegable */}
       {abierto && (
-        <div className="border-t border-hueso/10 px-5 py-3 sm:hidden">
+        <div className="border-t border-borde px-5 py-3 sm:hidden">
           <nav className="flex flex-col">
             {LINKS.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setAbierto(false)}
-                className={`border-b border-hueso/5 py-3 text-sm transition-colors hover:text-hueso ${activo(l.href) ? "text-hueso" : "text-taupe"}`}
+                className={`border-b border-borde py-3 text-sm transition-colors hover:text-texto ${activo(l.href) ? "text-texto" : "text-texto-sec"}`}
               >
                 {l.label}
               </Link>
             ))}
           </nav>
           <div className="mt-3 flex items-center justify-between">
-            {email && <span className="text-xs text-taupe">{email}</span>}
+            {email && <span className="text-xs text-texto-sec">{email}</span>}
             <form action={cerrarSesion}>
-              <button className="text-sm text-taupe transition-colors hover:text-hueso">Salir</button>
+              <button className="text-sm text-texto-sec transition-colors hover:text-texto">Salir</button>
             </form>
           </div>
         </div>

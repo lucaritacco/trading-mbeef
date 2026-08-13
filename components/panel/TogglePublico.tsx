@@ -29,7 +29,7 @@ export default function TogglePublico({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border border-hueso/15 bg-carbon/40 px-4 py-3">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border border-borde bg-fondo px-4 py-3">
       <button
         type="button"
         onClick={alternar}
@@ -39,13 +39,13 @@ export default function TogglePublico({
         className="flex items-center gap-3 disabled:opacity-60"
       >
         <span
-          className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${on ? "bg-verde" : "bg-hueso/15"}`}
+          className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${on ? "bg-exito" : "bg-fondo/15"}`}
         >
           <span
-            className={`absolute top-0.5 h-5 w-5 rounded-full bg-hueso transition-all ${on ? "left-[1.4rem]" : "left-0.5"}`}
+            className={`absolute top-0.5 h-5 w-5 rounded-full bg-fondo transition-all ${on ? "left-[1.4rem]" : "left-0.5"}`}
           />
         </span>
-        <span className="text-sm text-hueso">
+        <span className="text-sm text-texto">
           {on ? "Ficha pública activa" : "Publicar ficha"}
         </span>
       </button>
@@ -54,12 +54,12 @@ export default function TogglePublico({
         <Link
           href={`/lote/${id}`}
           target="_blank"
-          className="text-xs uppercase tracking-[0.18em] text-salmon transition-colors hover:text-hueso"
+          className="text-xs uppercase tracking-[0.18em] text-primario transition-colors hover:text-texto"
         >
           Ver / compartir ficha →
         </Link>
       )}
-      {error && <span className="text-xs text-rojo-claro">{error}</span>}
+      {error && <span className="text-xs text-error">{error}</span>}
     </div>
   );
 }

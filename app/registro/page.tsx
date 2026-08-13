@@ -38,14 +38,14 @@ export default async function RegistroPage({
         kicker="Acceso por invitación"
         title="Invitación no válida"
         footer={
-          <span className="text-taupe/70">
+          <span className="text-texto-sec">
             El acceso a la beta es por invitación. Si ya hablaste con el equipo,
             pediles el enlace. ¿Ya tenés cuenta?{" "}
-            <Link href="/login" className="text-salmon hover:text-hueso">Ingresá</Link>.
+            <Link href="/login" className="text-primario hover:text-texto">Ingresá</Link>.
           </span>
         }
       >
-        <p className="text-sm leading-relaxed text-taupe">
+        <p className="text-sm leading-relaxed text-texto-sec">
           Este enlace de invitación no es válido, ya fue usado o todavía no está
           aprobado. Si creés que es un error, escribinos.
         </p>

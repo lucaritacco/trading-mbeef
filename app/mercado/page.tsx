@@ -87,14 +87,14 @@ export default async function MercadoPublicoPage({
         ])}
       />
       <Header logueado={logueado} />
-      <main className="min-h-svh">
+      <main className="min-h-svh bg-superficie text-texto">
         <div className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">El mercado de la carne</p>
-          <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">Lotes publicados</h1>
-          <p className="mt-3 max-w-xl leading-relaxed text-taupe">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">El mercado de la carne</p>
+          <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Lotes publicados</h1>
+          <p className="mt-3 max-w-xl leading-relaxed text-texto-sec">
             Lotes de frigoríficos seleccionados. Consultá por el que te interese.
             ¿Tenés stock para vender?{" "}
-            <a href={site.whatsappVenderHref} target="_blank" rel="noopener noreferrer" className="text-salmon hover:text-hueso">
+            <a href={site.whatsappVenderHref} target="_blank" rel="noopener noreferrer" className="text-primario hover:text-texto">
               Escribinos y lo publicamos
             </a>.
           </p>
@@ -103,28 +103,28 @@ export default async function MercadoPublicoPage({
           <form className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" method="get">
             <input name="q" defaultValue={sp.q ?? ""} placeholder="Buscar…" className={inputBase} />
             <select name="corte" defaultValue={sp.corte ?? ""} className={inputBase}>
-              <option value="" className="bg-carbon">Corte (todos)</option>
-              {CORTES.map((c) => <option key={c} value={c} className="bg-carbon">{c}</option>)}
+              <option value="" className="bg-superficie">Corte (todos)</option>
+              {CORTES.map((c) => <option key={c} value={c} className="bg-superficie">{c}</option>)}
             </select>
             <select name="provincia" defaultValue={sp.provincia ?? ""} className={inputBase}>
-              <option value="" className="bg-carbon">Provincia (todas)</option>
-              {PROVINCIAS.map((p) => <option key={p} value={p} className="bg-carbon">{p}</option>)}
+              <option value="" className="bg-superficie">Provincia (todas)</option>
+              {PROVINCIAS.map((p) => <option key={p} value={p} className="bg-superficie">{p}</option>)}
             </select>
             <select name="estado" defaultValue={sp.estado ?? ""} className={inputBase}>
-              <option value="" className="bg-carbon">Estado (todos)</option>
-              {LOTE_ESTADO.map((e) => <option key={e.value} value={e.value} className="bg-carbon">{e.label}</option>)}
+              <option value="" className="bg-superficie">Estado (todos)</option>
+              {LOTE_ESTADO.map((e) => <option key={e.value} value={e.value} className="bg-superficie">{e.label}</option>)}
             </select>
-            <button type="submit" className="bg-bordo px-5 py-3 text-sm font-medium text-hueso transition-colors hover:bg-rojo">
+            <button type="submit" className="bg-primario px-5 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover">
               Filtrar
             </button>
           </form>
 
           {error && (
-            <p className="mt-8 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{error.message}</p>
+            <p className="mt-8 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{error.message}</p>
           )}
 
           {lotes.length === 0 ? (
-            <p className="mt-12 text-sm text-taupe">
+            <p className="mt-12 text-sm text-texto-sec">
               Todavía no hay lotes publicados que coincidan. Volvé pronto.
             </p>
           ) : (

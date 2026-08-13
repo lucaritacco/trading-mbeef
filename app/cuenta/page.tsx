@@ -31,31 +31,31 @@ export default async function CuentaPage({
   return (
     <div>
       {ok === "empresa" && (
-        <p className="mb-6 border border-verde-claro/40 bg-verde/15 px-4 py-3 text-sm text-verde-claro">
+        <p className="mb-6 border border-exito/40 bg-exito/10 px-4 py-3 text-sm text-exito">
           Datos de empresa guardados.
         </p>
       )}
       {ok === "avisos" && (
-        <p className="mb-6 border border-verde-claro/40 bg-verde/15 px-4 py-3 text-sm text-verde-claro">
+        <p className="mb-6 border border-exito/40 bg-exito/10 px-4 py-3 text-sm text-exito">
           Preferencia de avisos actualizada.
         </p>
       )}
 
-      <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Mi cuenta</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Mi cuenta</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">
         Hola{nombre ? `, ${nombre}` : ""}.
       </h1>
 
       {!perfilOk && (
-        <div className="mt-8 border border-salmon/40 bg-salmon/10 p-6">
-          <p className="font-medium text-hueso">Completá los datos de tu empresa</p>
-          <p className="mt-1 text-sm text-taupe">
+        <div className="mt-8 border border-primario/40 bg-primario/10 p-6">
+          <p className="font-medium text-texto">Completá los datos de tu empresa</p>
+          <p className="mt-1 text-sm text-texto-sec">
             Necesitamos tu WhatsApp y datos de empresa para que los compradores
             puedan contactarte por tus lotes.
           </p>
           <Link
             href="/cuenta/empresa"
-            className="mt-4 inline-block bg-bordo px-5 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
+            className="mt-4 inline-block bg-primario px-5 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
           >
             Completar mi empresa
           </Link>
@@ -69,10 +69,10 @@ export default async function CuentaPage({
       </div>
 
       {/* Preferencia de avisos por email */}
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border border-hueso/15 p-6">
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border border-borde p-6">
         <div>
-          <p className="font-medium text-hueso">Avisos de lotes nuevos</p>
-          <p className="mt-1 text-sm text-taupe">
+          <p className="font-medium text-texto">Avisos de lotes nuevos</p>
+          <p className="mt-1 text-sm text-texto-sec">
             {recibeAvisos
               ? "Te llega un email cuando se publica un lote nuevo en el mercado."
               : "No estás recibiendo avisos de lotes nuevos."}
@@ -83,8 +83,8 @@ export default async function CuentaPage({
           <button
             className={
               recibeAvisos
-                ? "whitespace-nowrap border border-hueso/25 px-5 py-2.5 text-sm text-taupe transition-colors hover:border-rojo hover:text-rojo-claro"
-                : "whitespace-nowrap border border-verde-claro/50 px-5 py-2.5 text-sm text-verde-claro transition-colors hover:bg-verde/20"
+                ? "whitespace-nowrap border border-borde px-5 py-2.5 text-sm text-texto-sec transition-colors hover:border-error hover:text-primario"
+                : "whitespace-nowrap border border-exito/40 px-5 py-2.5 text-sm text-exito transition-colors hover:bg-exito/10"
             }
           >
             {recibeAvisos ? "Desactivar avisos" : "Activar avisos"}
@@ -99,12 +99,12 @@ function Acceso({ href, titulo, texto }: { href: string; titulo: string; texto: 
   return (
     <Link
       href={href}
-      className="group border border-hueso/15 p-6 transition-colors hover:border-bordo"
+      className="group border border-borde p-6 transition-colors hover:border-primario"
     >
-      <p className="font-serif text-xl font-medium text-hueso transition-colors group-hover:text-rojo-claro">
+      <p className="font-serif text-xl font-medium text-texto transition-colors group-hover:text-primario">
         {titulo}
       </p>
-      <p className="mt-2 text-sm leading-relaxed text-taupe">{texto}</p>
+      <p className="mt-2 text-sm leading-relaxed text-texto-sec">{texto}</p>
     </Link>
   );
 }

@@ -93,12 +93,12 @@ function Dato({
   const cargado = value !== null && value !== undefined && value !== "";
   return (
     <div>
-      <dt className="text-[11px] uppercase tracking-[0.16em] text-taupe">{label}</dt>
+      <dt className="text-[11px] uppercase tracking-[0.16em] text-texto-sec">{label}</dt>
       <dd className="mt-1 text-sm">
         {cargado ? (
-          <span className="text-hueso">{value}</span>
+          <span className="text-texto">{value}</span>
         ) : (
-          <span className="italic text-taupe/45">{consulta}</span>
+          <span className="italic text-texto-sec">{consulta}</span>
         )}
       </dd>
     </div>
@@ -183,7 +183,7 @@ export default async function FichaPublicaPage({
   };
 
   return (
-    <div className="min-h-svh">
+    <div className="min-h-svh bg-superficie text-texto">
       <script
         {...jsonLdProps([
           jsonLdBreadcrumbs([
@@ -194,38 +194,38 @@ export default async function FichaPublicaPage({
           productoJsonLd,
         ])}
       />
-      <header className="border-b border-hueso/10">
+      <header className="border-b border-borde">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-8">
-          <Link href="/" className="font-serif text-xl font-semibold tracking-[0.07em] text-hueso">
+          <Link href="/" className="font-serif text-xl font-semibold tracking-[0.07em] text-texto">
             DECARNES
           </Link>
-          <span className="text-[10px] uppercase tracking-[0.28em] text-taupe">
+          <span className="text-[10px] uppercase tracking-[0.28em] text-texto-sec">
             Carne argentina · MBEEF
           </span>
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-5 py-12 sm:px-8">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Lote {ref}</p>
-        <h1 className="mt-3 font-serif text-3xl font-medium leading-tight text-hueso sm:text-4xl">
+        <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Lote {ref}</p>
+        <h1 className="mt-3 font-serif text-3xl font-medium leading-tight text-texto sm:text-4xl">
           {nombreLote(f)}
         </h1>
-        <p className="mt-2 text-taupe">
+        <p className="mt-2 text-texto-sec">
           {[corteVal, especie, f.kilos_totales ? `${f.kilos_totales} kg` : null, ubicacion]
             .filter(Boolean)
             .join(" · ")}
         </p>
 
         {/* Origen anónimo: todos los lotes se presentan bajo el paraguas de MBEEF */}
-        <span className="mt-4 inline-flex items-center gap-2 border border-hueso/20 px-3.5 py-2 text-sm text-taupe">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-bordo/20 text-xs font-semibold text-salmon">
+        <span className="mt-4 inline-flex items-center gap-2 border border-borde px-3.5 py-2 text-sm text-texto-sec">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primario/10 text-xs font-semibold text-primario">
             M
           </span>
           Frigorífico seleccionado por MBEEF
         </span>
 
         {f.descripcion && (
-          <p className="mt-4 max-w-2xl leading-relaxed text-taupe">{f.descripcion}</p>
+          <p className="mt-4 max-w-2xl leading-relaxed text-texto-sec">{f.descripcion}</p>
         )}
 
         {/* Fotos */}
@@ -237,7 +237,7 @@ export default async function FichaPublicaPage({
                 href={u}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block aspect-square overflow-hidden border border-hueso/15"
+                className="block aspect-square overflow-hidden border border-borde"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={u} alt={`Foto ${i + 1} del lote`} className="h-full w-full object-cover" />
@@ -246,10 +246,10 @@ export default async function FichaPublicaPage({
           </div>
         )}
 
-        <div className="mt-10 grid gap-10 border-t border-hueso/10 pt-8 lg:grid-cols-[1.6fr_1fr]">
+        <div className="mt-10 grid gap-10 border-t border-borde pt-8 lg:grid-cols-[1.6fr_1fr]">
           {/* Grilla de datos técnicos */}
           <div>
-            <h2 className="text-[11px] uppercase tracking-[0.28em] text-taupe">Datos del lote</h2>
+            <h2 className="text-[11px] uppercase tracking-[0.28em] text-texto-sec">Datos del lote</h2>
             <dl className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
               {datos.map((d) => (
                 <Dato key={d.label} label={d.label} value={d.value} consulta={d.consulta} />
@@ -257,7 +257,7 @@ export default async function FichaPublicaPage({
             </dl>
 
             {f.observaciones_calidad && (
-              <p className="mt-8 border-t border-hueso/10 pt-6 leading-relaxed text-taupe">
+              <p className="mt-8 border-t border-borde pt-6 leading-relaxed text-texto-sec">
                 {f.observaciones_calidad}
               </p>
             )}
@@ -266,32 +266,32 @@ export default async function FichaPublicaPage({
           {/* Columna de precio + consulta */}
           <aside className="lg:sticky lg:top-8 lg:self-start">
             {/* Precio: solo con cuenta (no se expone a la competencia ni a Google) */}
-            <div className="mb-3 border border-hueso/15 bg-carbon/40 p-6">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-taupe">Precio por kg</p>
+            <div className="mb-3 border border-borde bg-fondo p-6">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-texto-sec">Precio por kg</p>
               {logueado ? (
                 precio != null ? (
-                  <p className="mt-1 font-serif text-3xl text-hueso">
+                  <p className="mt-1 font-serif text-3xl text-texto">
                     {formatARS(precio)}
-                    <span className="text-base text-taupe"> /kg</span>
+                    <span className="text-base text-texto-sec"> /kg</span>
                   </p>
                 ) : (
-                  <p className="mt-1 text-sm italic text-taupe/60">Consultá el precio</p>
+                  <p className="mt-1 text-sm italic text-texto-sec">Consultá el precio</p>
                 )
               ) : (
                 <>
-                  <p className="mt-1 font-serif text-2xl text-taupe/50">— — —</p>
-                  <p className="mt-2 text-sm text-taupe">
+                  <p className="mt-1 font-serif text-2xl text-texto-sec">— — —</p>
+                  <p className="mt-2 text-sm text-texto-sec">
                     El precio y la consulta son para usuarios con cuenta.
                   </p>
                   <Link
                     href="/sumate"
-                    className="mt-4 inline-block bg-bordo px-5 py-2.5 text-sm font-medium text-hueso transition-colors hover:bg-rojo"
+                    className="mt-4 inline-block bg-primario px-5 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
                   >
                     Crear cuenta gratis
                   </Link>
-                  <p className="mt-3 text-xs text-taupe/70">
+                  <p className="mt-3 text-xs text-texto-sec">
                     ¿Ya tenés?{" "}
-                    <Link href="/login" className="text-salmon hover:text-hueso">
+                    <Link href="/login" className="text-primario hover:text-texto">
                       Iniciá sesión
                     </Link>
                   </p>
@@ -315,7 +315,7 @@ export default async function FichaPublicaPage({
           </aside>
         </div>
 
-        <p className="mt-12 text-center text-xs text-taupe/60">
+        <p className="mt-12 text-center text-xs text-texto-sec">
           Publicación de DeCarnes, la mesa de compras de MBEEF.
         </p>
       </main>

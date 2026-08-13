@@ -68,24 +68,24 @@ export default function RegistroUsuario({ token }: { token: string }) {
   return (
     <form onSubmit={submit} className="space-y-5">
       <div>
-        <label htmlFor="email" className="mb-2 block text-sm text-taupe">Email</label>
+        <label htmlFor="email" className="mb-2 block text-sm text-texto-sec">Email</label>
         <input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputBase} />
       </div>
       <div>
-        <label htmlFor="password" className="mb-2 block text-sm text-taupe">Contraseña</label>
+        <label htmlFor="password" className="mb-2 block text-sm text-texto-sec">Contraseña</label>
         <input id="password" type="password" autoComplete="new-password" required value={password} onChange={(e) => setPassword(e.target.value)} className={inputBase} />
       </div>
       <div>
-        <label htmlFor="password2" className="mb-2 block text-sm text-taupe">Repetí la contraseña</label>
+        <label htmlFor="password2" className="mb-2 block text-sm text-texto-sec">Repetí la contraseña</label>
         <input id="password2" type="password" autoComplete="new-password" required value={password2} onChange={(e) => setPassword2(e.target.value)} className={inputBase} />
       </div>
-      {error && <p className="text-sm text-rojo-claro">{error}</p>}
-      <button type="submit" disabled={cargando} className="w-full bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+      {error && <p className="text-sm text-error">{error}</p>}
+      <button type="submit" disabled={cargando} className="w-full bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
         {cargando ? "Creando cuenta…" : "Crear cuenta"}
       </button>
-      <p className="text-sm text-taupe">
+      <p className="text-sm text-texto-sec">
         ¿Ya tenés cuenta?{" "}
-        <Link href="/login" className="text-salmon hover:text-hueso">Iniciá sesión</Link>
+        <Link href="/login" className="text-primario hover:text-texto">Iniciá sesión</Link>
       </p>
     </form>
   );

@@ -36,7 +36,7 @@ export default function EnterateForm() {
   return (
     <div className="w-full max-w-md">
       {error && (
-        <p className="mb-5 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{error}</p>
+        <p className="mb-5 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{error}</p>
       )}
       <div className="space-y-5">
         <TextField id="nombre" label="Nombre" required value={nombre} onChange={setNombre} error={errores.nombre} />
@@ -45,17 +45,17 @@ export default function EnterateForm() {
           type="button"
           onClick={enviar}
           disabled={enviando}
-          className="w-full bg-bordo px-7 py-4 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60"
+          className="w-full bg-primario px-7 py-4 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60"
         >
           {enviando ? "Un momento…" : "Ver lotes y recibir los nuevos"}
         </button>
       </div>
       <p className="mt-4 text-center text-sm">
-        <Link href="/mercado" className="text-taupe underline-offset-4 transition-colors hover:text-hueso hover:underline">
+        <Link href="/mercado" className="text-texto-sec underline-offset-4 transition-colors hover:text-texto hover:underline">
           Prefiero solo ver el catálogo →
         </Link>
       </p>
-      <p className="mt-6 text-center text-xs text-taupe/60">
+      <p className="mt-6 text-center text-xs text-texto-sec">
         Sin costo. Te avisamos por email cada vez que se publica un lote nuevo. Podés
         darte de baja cuando quieras.
       </p>

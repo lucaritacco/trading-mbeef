@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 };
 
 const ESTADO_BADGE: Record<string, string> = {
-  enviada: "border-hueso/25 text-taupe",
-  aceptada: "border-verde-claro/50 text-verde-claro",
-  rechazada: "border-rojo/40 text-rojo-claro",
+  enviada: "border-borde text-texto-sec",
+  aceptada: "border-exito/40 text-exito",
+  rechazada: "border-error/40 text-error",
 };
 
 export default async function MisOfertasPage() {
@@ -22,19 +22,19 @@ export default async function MisOfertasPage() {
 
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Búsquedas</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">Mis ofertas enviadas</h1>
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Búsquedas</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Mis ofertas enviadas</h1>
 
       {ofertas.length === 0 ? (
-        <p className="mt-12 text-sm text-taupe">
+        <p className="mt-12 text-sm text-texto-sec">
           Todavía no enviaste ofertas.{" "}
-          <Link href="/cuenta/busquedas" className="text-salmon hover:text-hueso">Mirá las búsquedas abiertas.</Link>
+          <Link href="/cuenta/busquedas" className="text-primario hover:text-texto">Mirá las búsquedas abiertas.</Link>
         </p>
       ) : (
-        <div className="mt-8 overflow-x-auto border border-hueso/10">
+        <div className="mt-8 overflow-x-auto border border-borde">
           <table className="w-full min-w-[720px] text-sm">
             <thead>
-              <tr className="border-b border-hueso/10 text-left text-[11px] uppercase tracking-[0.16em] text-taupe">
+              <tr className="border-b border-borde text-left text-[11px] uppercase tracking-[0.16em] text-texto-sec">
                 <th className="px-4 py-3 font-normal">Fecha</th>
                 <th className="px-4 py-3 font-normal">Búsqueda</th>
                 <th className="px-4 py-3 font-normal">Mi precio/kg</th>
@@ -46,24 +46,24 @@ export default async function MisOfertasPage() {
             </thead>
             <tbody>
               {ofertas.map((o) => (
-                <tr key={o.id} className="border-b border-hueso/5">
-                  <td className="px-4 py-3 text-taupe">{formatFecha(o.created_at)}</td>
-                  <td className="px-4 py-3 text-hueso">
+                <tr key={o.id} className="border-b border-borde">
+                  <td className="px-4 py-3 text-texto-sec">{formatFecha(o.created_at)}</td>
+                  <td className="px-4 py-3 text-texto">
                     {o.busqueda_corte ?? "—"}
-                    {o.busqueda_cantidad ? <span className="text-taupe"> · {o.busqueda_cantidad} kg</span> : null}
+                    {o.busqueda_cantidad ? <span className="text-texto-sec"> · {o.busqueda_cantidad} kg</span> : null}
                   </td>
-                  <td className="px-4 py-3 font-serif text-base text-hueso">
+                  <td className="px-4 py-3 font-serif text-base text-texto">
                     {o.precio_por_kg != null ? formatARS(o.precio_por_kg) : "—"}
                   </td>
-                  <td className="px-4 py-3 text-taupe">{o.cantidad_ofrecida_kg != null ? `${o.cantidad_ofrecida_kg} kg` : "—"}</td>
-                  <td className="px-4 py-3 text-taupe">{o.plazo_entrega ?? "—"}</td>
+                  <td className="px-4 py-3 text-texto-sec">{o.cantidad_ofrecida_kg != null ? `${o.cantidad_ofrecida_kg} kg` : "—"}</td>
+                  <td className="px-4 py-3 text-texto-sec">{o.plazo_entrega ?? "—"}</td>
                   <td className="px-4 py-3">
-                    <span className={`border px-2 py-1 text-xs ${ESTADO_BADGE[o.estado] ?? "text-taupe"}`}>
+                    <span className={`border px-2 py-1 text-xs ${ESTADO_BADGE[o.estado] ?? "text-texto-sec"}`}>
                       {o.estado}
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <Link href={`/cuenta/busquedas/${o.busqueda_id}`} className="text-salmon transition-colors hover:text-hueso">
+                    <Link href={`/cuenta/busquedas/${o.busqueda_id}`} className="text-primario transition-colors hover:text-texto">
                       Ver →
                     </Link>
                   </td>

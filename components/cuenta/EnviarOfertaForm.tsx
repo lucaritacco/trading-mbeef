@@ -47,17 +47,17 @@ export default function EnviarOfertaForm({ busquedaId }: { busquedaId: string })
   }
 
   return (
-    <div className="border border-hueso/15 bg-carbon/40 p-6">
-      <p className="font-serif text-xl font-medium text-hueso">Enviar una oferta</p>
-      <p className="mt-1 text-sm text-taupe">Cotizá esta búsqueda. El comprador compara y decide.</p>
+    <div className="border border-borde bg-fondo p-6">
+      <p className="font-serif text-xl font-medium text-texto">Enviar una oferta</p>
+      <p className="mt-1 text-sm text-texto-sec">Cotizá esta búsqueda. El comprador compara y decide.</p>
 
       {listo && (
-        <p className="mt-4 border border-verde-claro/40 bg-verde/15 px-4 py-2.5 text-sm text-verde-claro">
+        <p className="mt-4 border border-exito/40 bg-exito/10 px-4 py-2.5 text-sm text-exito">
           Oferta enviada. Podés enviar otra si querés ajustar la propuesta.
         </p>
       )}
       {error && (
-        <p className="mt-4 border border-rojo/40 bg-rojo/10 px-4 py-2.5 text-sm text-rojo-claro">{error}</p>
+        <p className="mt-4 border border-error/40 bg-error-suave px-4 py-2.5 text-sm text-error">{error}</p>
       )}
 
       <div className="mt-5 space-y-5">
@@ -67,7 +67,7 @@ export default function EnviarOfertaForm({ busquedaId }: { busquedaId: string })
         </div>
         <TextField id="plazo" label="Plazo de entrega" placeholder="Ej.: 48 hs, esta semana" value={plazo} onChange={setPlazo} />
         <TextArea id="notas" label="Notas" placeholder="Calidad, packaging, condiciones… (opcional)" value={notas} onChange={setNotas} />
-        <button type="button" onClick={enviar} disabled={enviando} className="w-full bg-bordo px-6 py-3 text-sm font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+        <button type="button" onClick={enviar} disabled={enviando} className="w-full bg-primario px-6 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
           {enviando ? "Enviando…" : "Enviar oferta"}
         </button>
       </div>

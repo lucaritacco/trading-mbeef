@@ -64,18 +64,18 @@ export default function SumateForm() {
   if (listo) {
     return (
       <div className="mx-auto w-full max-w-2xl px-5 pb-24 pt-36 sm:px-8">
-        <div className="flex h-14 w-14 items-center justify-center border border-verde-claro/50">
-          <svg viewBox="0 0 24 24" className="h-7 w-7 text-verde-claro" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="flex h-14 w-14 items-center justify-center border border-exito/40">
+          <svg viewBox="0 0 24 24" className="h-7 w-7 text-exito" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 12.5l5 5L20 6.5" />
           </svg>
         </div>
-        <h1 className="mt-6 font-serif text-4xl font-medium text-hueso sm:text-5xl">
+        <h1 className="mt-6 font-serif text-4xl font-medium text-texto sm:text-5xl">
           ¡Listo! Recibimos tu solicitud.
         </h1>
-        <p className="mt-4 max-w-xl leading-relaxed text-taupe">
+        <p className="mt-4 max-w-xl leading-relaxed text-texto-sec">
           Te vamos a contactar para darte acceso al mercado.
         </p>
-        <Link href="/" className="mt-8 inline-block border border-hueso/30 px-7 py-4 text-base text-hueso transition-colors hover:border-hueso/70">
+        <Link href="/" className="mt-8 inline-block border border-borde px-7 py-4 text-base text-texto transition-colors hover:border-borde">
           Volver al inicio
         </Link>
       </div>
@@ -84,16 +84,16 @@ export default function SumateForm() {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-5 pb-24 pt-32 sm:px-8">
-      <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Acceso a la beta</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Acceso a la beta</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">
         Sumate al mercado de la carne
       </h1>
-      <p className="mt-4 max-w-xl leading-relaxed text-taupe">
+      <p className="mt-4 max-w-xl leading-relaxed text-texto-sec">
         Dejanos tus datos y te contactamos para darte acceso. Powered by MBEEF.
       </p>
 
       {errorEnvio && (
-        <p className="mt-6 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">
+        <p className="mt-6 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">
           {errorEnvio}
         </p>
       )}
@@ -124,10 +124,10 @@ export default function SumateForm() {
         <TextArea id="notas" label="Comentario" placeholder="Lo que quieras contarnos (opcional)" value={data.notas} onChange={set("notas")} />
 
         <div className="flex items-center justify-between pt-2">
-          <Link href="/" className="text-sm text-taupe transition-colors hover:text-hueso">
+          <Link href="/" className="text-sm text-texto-sec transition-colors hover:text-texto">
             Cancelar
           </Link>
-          <button type="button" onClick={enviar} disabled={enviando} className="bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+          <button type="button" onClick={enviar} disabled={enviando} className="bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
             {enviando ? "Enviando…" : "Enviar solicitud"}
           </button>
         </div>

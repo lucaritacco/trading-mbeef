@@ -18,9 +18,9 @@ function Campo({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-sm text-taupe">
+      <label htmlFor={name} className="mb-2 block text-sm text-texto-sec">
         {label}
-        {required && <span className="text-bordo"> *</span>}
+        {required && <span className="text-primario"> *</span>}
       </label>
       <input
         id={name}
@@ -50,7 +50,7 @@ export default function CompradorFields({ c }: { c?: Comprador }) {
       <Campo name="plazo_habitual" label="Plazo habitual" defaultValue={c?.plazo_habitual} placeholder="Ej.: 30 días" />
       <Campo name="linea_credito" label="Línea de crédito (ARS)" type="number" defaultValue={c?.linea_credito} />
       <div className="sm:col-span-2">
-        <label htmlFor="notas" className="mb-2 block text-sm text-taupe">Notas</label>
+        <label htmlFor="notas" className="mb-2 block text-sm text-texto-sec">Notas</label>
         <textarea id="notas" name="notas" rows={3} defaultValue={c?.notas ?? undefined} className={`${inputBase} resize-y`} />
       </div>
     </div>

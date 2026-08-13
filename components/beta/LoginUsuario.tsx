@@ -30,15 +30,15 @@ export default function LoginUsuario() {
   return (
     <form onSubmit={submit} className="space-y-5">
       <div>
-        <label htmlFor="email" className="mb-2 block text-sm text-taupe">Email</label>
+        <label htmlFor="email" className="mb-2 block text-sm text-texto-sec">Email</label>
         <input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputBase} />
       </div>
       <div>
-        <label htmlFor="password" className="mb-2 block text-sm text-taupe">Contraseña</label>
+        <label htmlFor="password" className="mb-2 block text-sm text-texto-sec">Contraseña</label>
         <input id="password" type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} className={inputBase} />
       </div>
-      {error && <p className="text-sm text-rojo-claro">{error}</p>}
-      <button type="submit" disabled={cargando} className="w-full bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+      {error && <p className="text-sm text-error">{error}</p>}
+      <button type="submit" disabled={cargando} className="w-full bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
         {cargando ? "Entrando…" : "Entrar"}
       </button>
     </form>

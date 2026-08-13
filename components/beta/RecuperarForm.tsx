@@ -24,7 +24,7 @@ export default function RecuperarForm() {
 
   if (enviado) {
     return (
-      <p className="text-sm leading-relaxed text-taupe">
+      <p className="text-sm leading-relaxed text-texto-sec">
         Si ese email tiene una cuenta, te enviamos un enlace para restablecer la
         contraseña. Revisá tu casilla.
       </p>
@@ -34,10 +34,10 @@ export default function RecuperarForm() {
   return (
     <form onSubmit={submit} className="space-y-5">
       <div>
-        <label htmlFor="email" className="mb-2 block text-sm text-taupe">Email</label>
+        <label htmlFor="email" className="mb-2 block text-sm text-texto-sec">Email</label>
         <input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputBase} />
       </div>
-      <button type="submit" disabled={cargando} className="w-full bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+      <button type="submit" disabled={cargando} className="w-full bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
         {cargando ? "Enviando…" : "Enviar enlace"}
       </button>
     </form>

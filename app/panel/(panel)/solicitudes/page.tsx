@@ -30,9 +30,9 @@ const ESTADOS = [
 ];
 
 const ESTADO_COLOR: Record<string, string> = {
-  pendiente: "border-salmon/50 text-salmon",
-  aprobada: "border-verde-claro/50 text-verde-claro",
-  rechazada: "border-hueso/20 text-taupe",
+  pendiente: "border-primario/40 text-primario",
+  aprobada: "border-exito/40 text-exito",
+  rechazada: "border-borde text-texto-sec",
 };
 
 /** Devuelve un enlace de contacto (WhatsApp si parece número, mailto si es email). */
@@ -74,9 +74,9 @@ export default async function SolicitudesPage({
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl font-medium text-hueso">Solicitudes de beta</h1>
-          <p className="mt-1 text-sm text-taupe">
-            <span className="text-hueso">{pendientes ?? 0}</span> pendiente
+          <h1 className="font-serif text-3xl font-medium text-texto">Solicitudes de beta</h1>
+          <p className="mt-1 text-sm text-texto-sec">
+            <span className="text-texto">{pendientes ?? 0}</span> pendiente
             {pendientes === 1 ? "" : "s"} de aprobación
           </p>
         </div>
@@ -91,16 +91,16 @@ export default async function SolicitudesPage({
       </div>
 
       {error && (
-        <p className="mt-8 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{error.message}</p>
+        <p className="mt-8 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{error.message}</p>
       )}
 
       {solicitudes.length === 0 ? (
-        <p className="mt-12 text-sm text-taupe">No hay solicitudes para mostrar.</p>
+        <p className="mt-12 text-sm text-texto-sec">No hay solicitudes para mostrar.</p>
       ) : (
-        <div className="mt-6 overflow-x-auto border border-hueso/10">
+        <div className="mt-6 overflow-x-auto border border-borde">
           <table className="w-full min-w-[900px] text-sm">
             <thead>
-              <tr className="border-b border-hueso/10 text-left text-[11px] uppercase tracking-[0.16em] text-taupe">
+              <tr className="border-b border-borde text-left text-[11px] uppercase tracking-[0.16em] text-texto-sec">
                 <th className="px-4 py-3 font-normal">Fecha</th>
                 <th className="px-4 py-3 font-normal">Empresa</th>
                 <th className="px-4 py-3 font-normal">Nombre</th>
@@ -118,32 +118,32 @@ export default async function SolicitudesPage({
                 const waDigits = (s.whatsapp ?? "").replace(/\D/g, "");
                 const waHref = waDigits.length >= 8 ? `https://wa.me/${waDigits}` : null;
                 return (
-                  <tr key={s.id} className="border-b border-hueso/5 align-top">
-                    <td className="px-4 py-3 text-taupe">{formatFecha(s.created_at)}</td>
-                    <td className="px-4 py-3 text-hueso">{s.empresa ?? "—"}</td>
-                    <td className="px-4 py-3 text-taupe">{s.nombre_contacto ?? "—"}</td>
-                    <td className="px-4 py-3 text-taupe">{s.cuit ?? "—"}</td>
-                    <td className="px-4 py-3 text-taupe">{rolLabel(s.rol)}</td>
-                    <td className="px-4 py-3 text-taupe">{s.habilitacion_nro ?? "—"}</td>
+                  <tr key={s.id} className="border-b border-borde align-top">
+                    <td className="px-4 py-3 text-texto-sec">{formatFecha(s.created_at)}</td>
+                    <td className="px-4 py-3 text-texto">{s.empresa ?? "—"}</td>
+                    <td className="px-4 py-3 text-texto-sec">{s.nombre_contacto ?? "—"}</td>
+                    <td className="px-4 py-3 text-texto-sec">{s.cuit ?? "—"}</td>
+                    <td className="px-4 py-3 text-texto-sec">{rolLabel(s.rol)}</td>
+                    <td className="px-4 py-3 text-texto-sec">{s.habilitacion_nro ?? "—"}</td>
                     <td className="px-4 py-3">
                       {c ? (
-                        <a href={c.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-rojo-claro hover:text-hueso">
+                        <a href={c.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-error hover:text-texto">
                           {c.tipo === "wa" ? "WhatsApp" : "Email"}
-                          <span className="text-taupe">· {s.contacto}</span>
+                          <span className="text-texto-sec">· {s.contacto}</span>
                         </a>
                       ) : (
-                        <span className="text-taupe">{s.contacto ?? "—"}</span>
+                        <span className="text-texto-sec">{s.contacto ?? "—"}</span>
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`whitespace-nowrap border px-2 py-1 text-xs ${ESTADO_COLOR[s.estado ?? "pendiente"] ?? "text-taupe"}`}>
+                      <span className={`whitespace-nowrap border px-2 py-1 text-xs ${ESTADO_COLOR[s.estado ?? "pendiente"] ?? "text-texto-sec"}`}>
                         {ESTADOS.find((e) => e.value === s.estado)?.label ?? s.estado}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap items-center gap-2">
                         {waHref && (
-                          <a href={waHref} target="_blank" rel="noopener noreferrer" className="border border-verde-claro/40 px-3 py-1.5 text-xs text-verde-claro transition-colors hover:bg-verde/20">
+                          <a href={waHref} target="_blank" rel="noopener noreferrer" className="border border-exito/40 px-3 py-1.5 text-xs text-exito transition-colors hover:bg-exito/10">
                             Avisar por WhatsApp
                           </a>
                         )}
@@ -151,7 +151,7 @@ export default async function SolicitudesPage({
                           <form action={setEstadoSolicitud}>
                             <input type="hidden" name="id" value={s.id} />
                             <input type="hidden" name="estado" value="aprobada" />
-                            <button className="border border-hueso/25 px-3 py-1.5 text-xs text-hueso transition-colors hover:border-verde-claro hover:text-verde-claro">
+                            <button className="border border-borde px-3 py-1.5 text-xs text-texto transition-colors hover:border-exito hover:text-exito">
                               Aprobar
                             </button>
                           </form>
@@ -160,7 +160,7 @@ export default async function SolicitudesPage({
                           <form action={setEstadoSolicitud}>
                             <input type="hidden" name="id" value={s.id} />
                             <input type="hidden" name="estado" value="rechazada" />
-                            <button className="border border-hueso/25 px-3 py-1.5 text-xs text-taupe transition-colors hover:border-rojo hover:text-rojo-claro">
+                            <button className="border border-borde px-3 py-1.5 text-xs text-texto-sec transition-colors hover:border-error hover:text-primario">
                               Rechazar
                             </button>
                           </form>
@@ -169,20 +169,20 @@ export default async function SolicitudesPage({
                       {s.estado === "aprobada" && s.invitacion_token && (
                         <p className="mt-2 max-w-[44ch] text-xs">
                           {s.invitacion_usada ? (
-                            <span className="text-taupe/60">Invitación ya usada (cuenta creada).</span>
+                            <span className="text-texto-sec">Invitación ya usada (cuenta creada).</span>
                           ) : (
                             <>
-                              <span className="block text-[10px] uppercase tracking-[0.18em] text-taupe/60">
+                              <span className="block text-[10px] uppercase tracking-[0.18em] text-texto-sec">
                                 Enlace de invitación (mandar por WhatsApp):
                               </span>
-                              <span className="block break-all text-salmon">
+                              <span className="block break-all text-primario">
                                 {SITE_URL}/registro?token={s.invitacion_token}
                               </span>
                             </>
                           )}
                         </p>
                       )}
-                      {s.notas && <p className="mt-2 max-w-[40ch] text-xs text-taupe/70">{s.notas}</p>}
+                      {s.notas && <p className="mt-2 max-w-[40ch] text-xs text-texto-sec">{s.notas}</p>}
                     </td>
                   </tr>
                 );
@@ -200,7 +200,7 @@ function Chip({ activo, href, label }: { activo: boolean; href: string; label: s
     <Link
       href={href}
       className={`border px-3.5 py-1.5 text-xs transition-colors ${
-        activo ? "border-bordo bg-bordo/15 text-hueso" : "border-hueso/20 text-taupe hover:border-hueso/45 hover:text-hueso"
+        activo ? "border-primario bg-primario/10 text-superficie" : "border-borde text-texto-sec hover:border-borde hover:text-superficie"
       }`}
     >
       {label}

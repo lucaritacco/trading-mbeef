@@ -55,65 +55,65 @@ export default async function MercadoPage({
 
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Mercado</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">Catálogo de lotes</h1>
-      <p className="mt-2 text-sm text-taupe">{lotes.length} lote{lotes.length === 1 ? "" : "s"} publicado{lotes.length === 1 ? "" : "s"}.</p>
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Mercado</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Catálogo de lotes</h1>
+      <p className="mt-2 text-sm text-texto-sec">{lotes.length} lote{lotes.length === 1 ? "" : "s"} publicado{lotes.length === 1 ? "" : "s"}.</p>
 
       {/* Filtros (GET) */}
       <form className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" method="get">
         <input name="q" defaultValue={sp.q ?? ""} placeholder="Buscar…" className={inputBase} />
         <select name="corte" defaultValue={sp.corte ?? ""} className={inputBase}>
-          <option value="" className="bg-carbon">Corte (todos)</option>
-          {CORTES.map((c) => <option key={c} value={c} className="bg-carbon">{c}</option>)}
+          <option value="" className="bg-superficie">Corte (todos)</option>
+          {CORTES.map((c) => <option key={c} value={c} className="bg-superficie">{c}</option>)}
         </select>
         <select name="provincia" defaultValue={sp.provincia ?? ""} className={inputBase}>
-          <option value="" className="bg-carbon">Provincia (todas)</option>
-          {PROVINCIAS.map((p) => <option key={p} value={p} className="bg-carbon">{p}</option>)}
+          <option value="" className="bg-superficie">Provincia (todas)</option>
+          {PROVINCIAS.map((p) => <option key={p} value={p} className="bg-superficie">{p}</option>)}
         </select>
         <select name="estado" defaultValue={sp.estado ?? ""} className={inputBase}>
-          <option value="" className="bg-carbon">Estado (todos)</option>
-          {LOTE_ESTADO.map((e) => <option key={e.value} value={e.value} className="bg-carbon">{e.label}</option>)}
+          <option value="" className="bg-superficie">Estado (todos)</option>
+          {LOTE_ESTADO.map((e) => <option key={e.value} value={e.value} className="bg-superficie">{e.label}</option>)}
         </select>
-        <button type="submit" className="bg-bordo px-5 py-3 text-sm font-medium text-hueso transition-colors hover:bg-rojo">
+        <button type="submit" className="bg-primario px-5 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover">
           Filtrar
         </button>
       </form>
 
       {error && (
-        <p className="mt-8 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{error.message}</p>
+        <p className="mt-8 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{error.message}</p>
       )}
 
       {lotes.length === 0 ? (
-        <p className="mt-12 text-sm text-taupe">No hay lotes que coincidan.</p>
+        <p className="mt-12 text-sm text-texto-sec">No hay lotes que coincidan.</p>
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {lotes.map((l) => {
             const foto = fotos.get(l.id);
             return (
-              <div key={l.id} className="flex flex-col border border-hueso/15">
-                <Link href={`/lote/${l.id}`} target="_blank" className="block aspect-[4/3] overflow-hidden bg-carbon/40">
+              <div key={l.id} className="flex flex-col border border-borde">
+                <Link href={`/lote/${l.id}`} target="_blank" className="block aspect-[4/3] overflow-hidden bg-fondo">
                   {foto ? (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img src={foto} alt={l.titulo ?? "Lote"} className="h-full w-full object-cover" />
                   ) : (
-                    <span className="flex h-full items-center justify-center text-xs text-taupe/50">Sin foto</span>
+                    <span className="flex h-full items-center justify-center text-xs text-texto-sec">Sin foto</span>
                   )}
                 </Link>
                 <div className="flex flex-1 flex-col p-5">
-                  <h2 className="font-serif text-xl font-medium text-hueso">{l.titulo ?? "—"}</h2>
-                  <p className="mt-1 text-sm text-taupe">
+                  <h2 className="font-serif text-xl font-medium text-texto">{l.titulo ?? "—"}</h2>
+                  <p className="mt-1 text-sm text-texto-sec">
                     {[l.corte, l.especie_categoria, labelDe(LOTE_ESTADO, l.lote_estado)].filter(Boolean).join(" · ")}
                   </p>
-                  <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-taupe">
+                  <dl className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-texto-sec">
                     {l.kilos_totales && <span>{l.kilos_totales} kg</span>}
                     <span>{[l.ubicacion_localidad, l.ubicacion_provincia].filter(Boolean).join(", ") || "—"}</span>
                   </dl>
                   {l.precio_pretendido_kg && (
-                    <p className="mt-2 font-serif text-lg text-hueso">
-                      {formatARS(l.precio_pretendido_kg)}<span className="text-sm text-taupe"> /kg</span>
+                    <p className="mt-2 font-serif text-lg text-texto">
+                      {formatARS(l.precio_pretendido_kg)}<span className="text-sm text-texto-sec"> /kg</span>
                     </p>
                   )}
-                  <p className="mt-2 text-xs text-taupe/70">{l.empresa ?? ""}</p>
+                  <p className="mt-2 text-xs text-texto-sec">{l.empresa ?? ""}</p>
                   <div className="mt-auto pt-4">
                     <ContactarWhatsapp loteId={l.id} />
                   </div>

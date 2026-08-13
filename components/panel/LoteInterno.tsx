@@ -13,10 +13,10 @@ import {
 import { inputBase } from "@/lib/ui";
 
 const COLOR_BADGE: Record<string, string> = {
-  rojo: "border-rojo/50 bg-rojo/10 text-rojo-claro",
-  amarillo: "border-salmon/50 bg-salmon/10 text-salmon",
-  verde: "border-verde-claro/50 bg-verde/20 text-verde-claro",
-  gris: "border-hueso/20 bg-transparent text-taupe",
+  rojo: "border-error/40 bg-error-suave text-error",
+  amarillo: "border-primario/40 bg-primario/10 text-primario",
+  verde: "border-exito/40 bg-exito/10 text-exito",
+  gris: "border-borde bg-transparent text-texto-sec",
 };
 
 function numOrNull(v: string): number | null {
@@ -73,7 +73,7 @@ export default function LoteInterno({
     <div className="space-y-6">
       {/* Pipeline */}
       <div>
-        <label className="mb-2 block text-sm text-taupe">Estado del pipeline</label>
+        <label className="mb-2 block text-sm text-texto-sec">Estado del pipeline</label>
         <div className="flex flex-wrap gap-2">
           {PIPELINE.map((p) => (
             <button
@@ -81,7 +81,7 @@ export default function LoteInterno({
               type="button"
               onClick={() => setEstado(p.value)}
               className={`border px-3 py-1.5 text-xs transition-colors ${
-                estado === p.value ? "border-bordo bg-bordo/15 text-hueso" : "border-hueso/20 text-taupe hover:border-hueso/45 hover:text-hueso"
+                estado === p.value ? "border-primario bg-primario/10 text-superficie" : "border-borde text-texto-sec hover:border-borde hover:text-superficie"
               }`}
             >
               {p.label}
@@ -93,7 +93,7 @@ export default function LoteInterno({
       {/* Margen + semáforo */}
       <div className="grid gap-5 sm:grid-cols-[1fr_1.4fr] sm:items-end">
         <div>
-          <label htmlFor="margen" className="mb-2 block text-sm text-taupe">Margen bruto estimado (%)</label>
+          <label htmlFor="margen" className="mb-2 block text-sm text-texto-sec">Margen bruto estimado (%)</label>
           <input id="margen" type="number" inputMode="decimal" value={margen} onChange={(e) => setMargen(e.target.value)} className={inputBase} placeholder="Ej.: 12" />
         </div>
         <div className={`border px-4 py-3 text-sm ${COLOR_BADGE[sem.color]}`}>
@@ -105,47 +105,47 @@ export default function LoteInterno({
       {/* Oferta */}
       <div className="grid gap-5 sm:grid-cols-3">
         <div>
-          <label htmlFor="oferta_monto" className="mb-2 block text-sm text-taupe">Oferta · monto (ARS)</label>
+          <label htmlFor="oferta_monto" className="mb-2 block text-sm text-texto-sec">Oferta · monto (ARS)</label>
           <input id="oferta_monto" type="number" inputMode="decimal" value={ofertaMonto} onChange={(e) => setOfertaMonto(e.target.value)} className={inputBase} />
         </div>
         <div>
-          <label htmlFor="oferta_plazo" className="mb-2 block text-sm text-taupe">Plazo (días)</label>
+          <label htmlFor="oferta_plazo" className="mb-2 block text-sm text-texto-sec">Plazo (días)</label>
           <input id="oferta_plazo" type="number" inputMode="numeric" value={ofertaPlazo} onChange={(e) => setOfertaPlazo(e.target.value)} className={inputBase} placeholder="0 = contado" />
         </div>
         <div>
-          <label htmlFor="oferta_modo" className="mb-2 block text-sm text-taupe">Modo</label>
+          <label htmlFor="oferta_modo" className="mb-2 block text-sm text-texto-sec">Modo</label>
           <select id="oferta_modo" value={ofertaModo} onChange={(e) => setOfertaModo(e.target.value)} className={inputBase}>
-            <option value="" className="bg-carbon">—</option>
-            <option value="firme" className="bg-carbon">Compra en firme</option>
-            <option value="comision" className="bg-carbon">Colocación a comisión</option>
+            <option value="" className="bg-superficie">—</option>
+            <option value="firme" className="bg-superficie">Compra en firme</option>
+            <option value="comision" className="bg-superficie">Colocación a comisión</option>
           </select>
         </div>
       </div>
 
       {/* Contado equivalente */}
-      <div className="flex items-center justify-between border border-hueso/10 bg-carbon/40 px-4 py-3">
-        <span className="text-sm text-taupe">
-          Contado equivalente <span className="text-taupe/60">(tasa {config.tasa_anual}% anual)</span>
+      <div className="flex items-center justify-between border border-borde bg-fondo px-4 py-3">
+        <span className="text-sm text-texto-sec">
+          Contado equivalente <span className="text-texto-sec">(tasa {config.tasa_anual}% anual)</span>
         </span>
-        <span className="font-serif text-xl text-hueso">{formatARS(contado)}</span>
+        <span className="font-serif text-xl text-texto">{formatARS(contado)}</span>
       </div>
 
       {/* Resultado + notas */}
       <div>
-        <label htmlFor="resultado" className="mb-2 block text-sm text-taupe">Resultado</label>
+        <label htmlFor="resultado" className="mb-2 block text-sm text-texto-sec">Resultado</label>
         <input id="resultado" value={resultado} onChange={(e) => setResultado(e.target.value)} className={inputBase} placeholder="Ej.: aceptó / rechazó / contraoferta…" />
       </div>
       <div>
-        <label htmlFor="notas" className="mb-2 block text-sm text-taupe">Notas internas</label>
+        <label htmlFor="notas" className="mb-2 block text-sm text-texto-sec">Notas internas</label>
         <textarea id="notas" rows={3} value={notas} onChange={(e) => setNotas(e.target.value)} className={`${inputBase} resize-y`} />
       </div>
 
       <div className="flex items-center gap-4">
-        <button type="button" onClick={guardar} disabled={guardando} className="bg-bordo px-6 py-3 text-sm font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+        <button type="button" onClick={guardar} disabled={guardando} className="bg-primario px-6 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
           {guardando ? "Guardando…" : "Guardar cambios"}
         </button>
-        {estadoGuardado === "ok" && <span className="text-sm text-verde-claro">Guardado.</span>}
-        {estadoGuardado === "error" && <span className="text-sm text-rojo-claro">{errorMsg}</span>}
+        {estadoGuardado === "ok" && <span className="text-sm text-exito">Guardado.</span>}
+        {estadoGuardado === "error" && <span className="text-sm text-error">{errorMsg}</span>}
       </div>
     </div>
   );

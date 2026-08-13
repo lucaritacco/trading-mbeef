@@ -45,25 +45,25 @@ export default async function VendedoresPage() {
       <Header logueado={logueado} />
       <main>
         {/* Gancho principal: beta + fundadores (escasez, sin contador ni cupo duro) */}
-        <section className="border-b border-hueso/10 bg-carbon">
+        <section className="border-b border-borde bg-superficie">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-salmon">
+            <p className="text-[11px] uppercase tracking-[0.3em] text-primario">
               Beta abierta · cupos limitados
             </p>
-            <h1 className="mt-4 max-w-3xl font-serif text-[clamp(2rem,5vw,3.6rem)] font-medium leading-[1.08] text-hueso">
+            <h1 className="mt-4 max-w-3xl font-serif text-[clamp(2rem,5vw,3.6rem)] font-medium leading-[1.08] text-texto">
               Sumate como frigorífico fundador.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-taupe">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-texto-sec">
               Estamos abriendo DeCarnes con un grupo reducido de frigoríficos. Los que
               entran ahora publican primero, toman la delantera frente a los compradores
               y acceden a{" "}
-              <span className="text-hueso">tarifas preferenciales</span> cuando lancemos
+              <span className="text-texto">tarifas preferenciales</span> cuando lancemos
               oficialmente.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 href={logueado ? "/cuenta/publicar" : "/sumate"}
-                className="bg-bordo px-8 py-4 text-base font-medium text-hueso transition-colors hover:bg-rojo"
+                className="bg-primario px-8 py-4 text-base font-medium text-superficie transition-colors hover:bg-primario-hover"
               >
                 {logueado ? "Publicar lote" : "Quiero mi lugar"}
               </Link>
@@ -71,7 +71,7 @@ export default async function VendedoresPage() {
                 href={site.whatsappVenderHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-base text-taupe underline-offset-4 transition-colors hover:text-hueso hover:underline"
+                className="text-base text-texto-sec underline-offset-4 transition-colors hover:text-texto hover:underline"
               >
                 Hablar con un operador
               </a>
@@ -80,19 +80,19 @@ export default async function VendedoresPage() {
         </section>
 
         {/* Cómo funciona (self-service: el mensaje principal) */}
-        <section className="bg-carbon py-16 sm:py-20">
+        <section className="bg-superficie py-16 sm:py-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <h2 className="font-serif text-3xl font-medium text-hueso sm:text-4xl">
+            <h2 className="font-serif text-3xl font-medium text-texto sm:text-4xl">
               Publicá lo que tenés hoy
             </h2>
             <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
               {PASOS.map((p) => (
                 <div key={p.n}>
-                  <span className="inline-flex h-12 w-12 items-center justify-center border border-salmon/60 font-serif text-xl text-salmon">
+                  <span className="inline-flex h-12 w-12 items-center justify-center border border-primario/40 font-serif text-xl text-primario">
                     {p.n}
                   </span>
-                  <h3 className="mt-5 font-serif text-xl font-medium text-hueso">{p.title}</h3>
-                  <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-taupe">{p.body}</p>
+                  <h3 className="mt-5 font-serif text-xl font-medium text-texto">{p.title}</h3>
+                  <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-texto-sec">{p.body}</p>
                 </div>
               ))}
             </div>
@@ -102,14 +102,14 @@ export default async function VendedoresPage() {
         <Advantages />
 
         {/* El servicio "te lo colocamos", como alternativa (no como mensaje central) */}
-        <section className="border-y border-hueso/10 bg-carbon py-14">
+        <section className="border-y border-borde bg-superficie py-14">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="flex flex-col gap-5 border border-hueso/12 bg-hueso/[0.03] p-7 sm:p-9 md:flex-row md:items-center md:justify-between md:gap-10">
+            <div className="flex flex-col gap-5 border border-borde bg-fondo/[0.03] p-7 sm:p-9 md:flex-row md:items-center md:justify-between md:gap-10">
               <div>
-                <h2 className="font-serif text-2xl font-medium text-hueso">
+                <h2 className="font-serif text-2xl font-medium text-texto">
                   ¿Preferís que lo coloquemos nosotros?
                 </h2>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-taupe">
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-texto-sec">
                   Si no querés publicar vos, nos pasás tu stock y lo ofrecemos
                   activamente en nuestra red de compradores. Coordinamos la logística de
                   cada operación. El comprador te paga directo a vos.
@@ -119,7 +119,7 @@ export default async function VendedoresPage() {
                 href={site.whatsappVenderHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shrink-0 self-start border border-hueso/30 px-6 py-3.5 text-sm text-hueso transition-colors hover:border-hueso/70 md:self-auto"
+                className="shrink-0 self-start border border-borde px-6 py-3.5 text-sm text-texto transition-colors hover:border-borde md:self-auto"
               >
                 Escribinos
               </a>

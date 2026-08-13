@@ -26,13 +26,13 @@ const CATEGORIAS = [
 
 export default function CategoriasCorte() {
   return (
-    <section className="border-y border-hueso/10 bg-carbon">
+    <section className="border-y border-borde bg-superficie">
       <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
         <div className="flex items-baseline justify-between gap-4">
-          <h2 className="text-[11px] uppercase tracking-[0.28em] text-taupe">
+          <h2 className="text-[11px] uppercase tracking-[0.28em] text-texto-sec">
             Buscá por corte
           </h2>
-          <Link href="/mercado" className="text-sm text-salmon transition-colors hover:text-hueso">
+          <Link href="/mercado" className="text-sm text-primario transition-colors hover:text-texto">
             Ver todos →
           </Link>
         </div>
@@ -42,10 +42,10 @@ export default function CategoriasCorte() {
             <Link
               key={label}
               href={`/mercado?corte=${encodeURIComponent(corte)}`}
-              className="group flex flex-col items-center gap-2 border border-hueso/12 px-2 py-4 text-center transition-colors hover:border-bordo hover:bg-hueso/[0.03]"
+              className="group flex flex-col items-center gap-2 border border-borde px-2 py-4 text-center transition-colors hover:border-primario hover:bg-fondo/[0.03]"
             >
-              <Icon className="h-7 w-7 text-taupe transition-colors group-hover:text-salmon" />
-              <span className="text-[11px] leading-tight text-taupe transition-colors group-hover:text-hueso sm:text-xs">
+              <Icon className="h-7 w-7 text-texto-sec transition-colors group-hover:text-primario" />
+              <span className="text-[11px] leading-tight text-texto-sec transition-colors group-hover:text-texto sm:text-xs">
                 {label}
               </span>
             </Link>

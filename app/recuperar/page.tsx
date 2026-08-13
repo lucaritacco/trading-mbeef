@@ -14,7 +14,7 @@ export default function RecuperarPage() {
       kicker="Tu cuenta"
       title="Recuperar contraseña"
       footer={
-        <Link href="/login" className="text-salmon hover:text-hueso">
+        <Link href="/login" className="text-primario hover:text-texto">
           Volver a ingresar
         </Link>
       }

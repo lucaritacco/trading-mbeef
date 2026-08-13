@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 // de MBEEF va perdiendo protagonismo a medida que el marketplace se sostiene solo).
 export default function RespaldoMbeef({ compacto = false }: { compacto?: boolean }) {
   return (
-    <section className={compacto ? "bg-carbon py-14 sm:py-16" : "bg-carbon py-24 sm:py-32"}>
+    <section className={compacto ? "bg-superficie py-14 sm:py-16" : "bg-superficie py-24 sm:py-32"}>
       <div
         className={`mx-auto grid max-w-6xl items-center gap-12 px-5 sm:px-8 md:grid-cols-2 md:gap-16 ${
           compacto ? "max-w-4xl" : ""
@@ -26,13 +26,13 @@ export default function RespaldoMbeef({ compacto = false }: { compacto?: boolean
 
         <Reveal delay={0.15}>
           <p
-            className={`font-serif font-medium leading-snug text-hueso ${
+            className={`font-serif font-medium leading-snug text-texto ${
               compacto ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl"
             }`}
           >
             DeCarnes es el mercado de carne impulsado por MBEEF, abierto a todos.
           </p>
-          <p className={`mt-6 leading-relaxed text-taupe ${compacto ? "text-sm" : ""}`}>
+          <p className={`mt-6 leading-relaxed text-texto-sec ${compacto ? "text-sm" : ""}`}>
             MBEEF es una empresa argentina dedicada a la compra y venta
             mayorista de carne, con raíces en el rubro desde 1994. Conocemos el
             mercado porque lo operamos todos los días: compramos, colocamos y
@@ -43,7 +43,7 @@ export default function RespaldoMbeef({ compacto = false }: { compacto?: boolean
             href={site.nosotrosUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-[0.22em] text-salmon transition-colors hover:text-hueso"
+            className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-[0.22em] text-primario transition-colors hover:text-texto"
           >
             Conocé quiénes somos
             <svg

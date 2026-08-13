@@ -21,7 +21,7 @@ const ITEMS = [
 
 export default function Advantages() {
   return (
-    <section id="ventajas" className="bg-hueso py-24 text-carbon sm:py-32">
+    <section id="ventajas" className="bg-fondo py-24 text-texto sm:py-32">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <h2 className="font-serif text-4xl font-medium sm:text-5xl">
@@ -30,20 +30,20 @@ export default function Advantages() {
         </Reveal>
 
         <Stagger
-          className="mt-14 grid border border-carbon/15 sm:grid-cols-2"
+          className="mt-14 grid border border-borde sm:grid-cols-2"
           step={0.1}
         >
           {ITEMS.map((item, i) => (
             <StaggerItem
               key={item.title}
               className={`group p-8 transition-colors duration-300 hover:bg-white sm:p-10 ${
-                i % 2 === 1 ? "sm:border-l sm:border-carbon/15" : ""
-              } ${i >= 2 ? "border-t border-carbon/15" : i >= 1 ? "border-t border-carbon/15 sm:border-t-0" : ""}`}
+                i % 2 === 1 ? "sm:border-l sm:border-borde" : ""
+              } ${i >= 2 ? "border-t border-borde" : i >= 1 ? "border-t border-borde sm:border-t-0" : ""}`}
             >
-              <h3 className="font-serif text-2xl font-medium transition-colors duration-300 group-hover:text-bordo sm:text-3xl">
+              <h3 className="font-serif text-2xl font-medium transition-colors duration-300 group-hover:text-primario sm:text-3xl">
                 {item.title}
               </h3>
-              <p className="mt-4 max-w-[52ch] leading-relaxed text-carbon/70">
+              <p className="mt-4 max-w-[52ch] leading-relaxed text-texto-sec">
                 {item.body}
               </p>
             </StaggerItem>

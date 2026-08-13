@@ -67,14 +67,14 @@ export default function PhotoUploader({
     >
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
         {urls.map((u, i) => (
-          <div key={i} className="group relative aspect-square overflow-hidden border border-hueso/15">
+          <div key={i} className="group relative aspect-square overflow-hidden border border-borde">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={u} alt={`Foto ${i + 1}`} className="h-full w-full object-cover" />
             <button
               type="button"
               onClick={() => quitar(i)}
               aria-label={`Quitar foto ${i + 1}`}
-              className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center bg-carbon/80 text-hueso opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100"
+              className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center bg-fondo text-texto opacity-0 transition-opacity group-hover:opacity-100 focus:opacity-100"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M6 6l12 12M18 6L6 18" />
@@ -87,7 +87,7 @@ export default function PhotoUploader({
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="flex aspect-square flex-col items-center justify-center gap-1.5 border border-dashed border-hueso/25 text-taupe transition-colors hover:border-bordo hover:text-hueso"
+            className="flex aspect-square flex-col items-center justify-center gap-1.5 border border-dashed border-borde text-texto-sec transition-colors hover:border-primario hover:text-texto"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M12 5v14M5 12h14" />
@@ -106,7 +106,7 @@ export default function PhotoUploader({
         className="sr-only"
       />
 
-      {aviso && <p className="mt-2 text-xs text-rojo-claro">{aviso}</p>}
+      {aviso && <p className="mt-2 text-xs text-error">{aviso}</p>}
     </FieldShell>
   );
 }

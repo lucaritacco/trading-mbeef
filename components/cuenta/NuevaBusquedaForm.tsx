@@ -49,12 +49,12 @@ export default function NuevaBusquedaForm() {
 
   return (
     <div className="max-w-2xl">
-      <p className="text-[11px] uppercase tracking-[0.3em] text-taupe">Búsquedas</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-hueso sm:text-5xl">Publicar una búsqueda</h1>
-      <p className="mt-2 text-sm text-taupe">Contá qué estás buscando y recibí ofertas de los vendedores.</p>
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Búsquedas</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Publicar una búsqueda</h1>
+      <p className="mt-2 text-sm text-texto-sec">Contá qué estás buscando y recibí ofertas de los vendedores.</p>
 
       {errorEnvio && (
-        <p className="mt-6 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{errorEnvio}</p>
+        <p className="mt-6 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{errorEnvio}</p>
       )}
 
       <div className="mt-10 space-y-7">
@@ -70,14 +70,14 @@ export default function NuevaBusquedaForm() {
           <SelectField id="provincia" label="Zona / provincia" value={data.provincia} onChange={set("provincia")} options={provinciaOpciones} />
           <div>
             <TextField id="precio_referencia" label="Precio de referencia por kg (ARS)" type="number" inputMode="decimal" value={data.precio_referencia} onChange={set("precio_referencia")} />
-            <p className="mt-1.5 text-xs text-salmon">Opcional.</p>
+            <p className="mt-1.5 text-xs text-primario">Opcional.</p>
           </div>
         </div>
         <RadioCards label="Plazo que necesitás" value={data.plazo_necesario} onChange={set("plazo_necesario")} options={PLAZOS} />
         <TextArea id="notas" label="Notas" placeholder="Detalles: calidad, packaging, condiciones… (opcional)" value={data.notas} onChange={set("notas")} />
 
-        <div className="flex items-center justify-end gap-4 border-t border-hueso/10 pt-6">
-          <button type="button" onClick={enviar} disabled={enviando} className="bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60">
+        <div className="flex items-center justify-end gap-4 border-t border-borde pt-6">
+          <button type="button" onClick={enviar} disabled={enviando} className="bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
             {enviando ? "Publicando…" : "Publicar búsqueda"}
           </button>
         </div>

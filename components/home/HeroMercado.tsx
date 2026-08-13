@@ -16,12 +16,12 @@ export default function HeroMercado({ metrica }: { metrica: MetricaMercado | nul
     HABILITADA && metrica !== null && metrica.lotes_activos >= MIN_LOTES;
 
   return (
-    <section className="border-b border-hueso/10 bg-carbon">
+    <section className="border-b border-borde bg-superficie">
       <div className="mx-auto max-w-6xl px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-16">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-salmon">
+        <p className="text-[11px] uppercase tracking-[0.3em] text-primario">
           Beta abierta · cupos limitados
         </p>
-        <h1 className="mt-4 max-w-3xl font-serif text-[clamp(1.9rem,4.6vw,3.4rem)] font-medium leading-[1.1] text-hueso">
+        <h1 className="mt-4 max-w-3xl font-serif text-[clamp(1.9rem,4.6vw,3.4rem)] font-medium leading-[1.1] text-texto">
           La bolsa de carne argentina: lotes de frigoríficos, en un solo lugar.
         </h1>
 
@@ -29,12 +29,12 @@ export default function HeroMercado({ metrica }: { metrica: MetricaMercado | nul
         {mostrarMetrica && (
           <dl className="mt-7 flex flex-wrap gap-x-10 gap-y-4">
             <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-taupe">Lotes activos</dt>
-              <dd className="mt-1 font-serif text-3xl text-hueso">{metrica.lotes_activos}</dd>
+              <dt className="text-[11px] uppercase tracking-[0.18em] text-texto-sec">Lotes activos</dt>
+              <dd className="mt-1 font-serif text-3xl text-texto">{metrica.lotes_activos}</dd>
             </div>
             <div>
-              <dt className="text-[11px] uppercase tracking-[0.18em] text-taupe">Kilos ofertados</dt>
-              <dd className="mt-1 font-serif text-3xl text-hueso">{kg.format(metrica.kilos_totales)} kg</dd>
+              <dt className="text-[11px] uppercase tracking-[0.18em] text-texto-sec">Kilos ofertados</dt>
+              <dd className="mt-1 font-serif text-3xl text-texto">{kg.format(metrica.kilos_totales)} kg</dd>
             </div>
           </dl>
         )}
@@ -42,13 +42,13 @@ export default function HeroMercado({ metrica }: { metrica: MetricaMercado | nul
         <div className="mt-8 flex flex-wrap items-center gap-4">
           <Link
             href="/mercado"
-            className="bg-bordo px-7 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo"
+            className="bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover"
           >
             Ver todos los lotes
           </Link>
           <Link
             href="/vendedores"
-            className="text-base text-taupe underline-offset-4 transition-colors hover:text-hueso hover:underline"
+            className="text-base text-texto-sec underline-offset-4 transition-colors hover:text-primario hover:underline"
           >
             Quiero vender mi stock
           </Link>

@@ -12,10 +12,10 @@ import {
 } from "@/lib/panel";
 
 const COLOR_PUNTO: Record<string, string> = {
-  rojo: "bg-rojo",
-  amarillo: "bg-salmon",
-  verde: "bg-verde-claro",
-  gris: "bg-taupe/40",
+  rojo: "bg-error",
+  amarillo: "bg-primario",
+  verde: "bg-exito",
+  gris: "bg-borde",
 };
 
 export default async function PanelLotes({
@@ -42,8 +42,8 @@ export default async function PanelLotes({
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl font-medium text-hueso">Lotes entrantes</h1>
-          <p className="mt-1 text-sm text-taupe">{lotes.length} lote{lotes.length === 1 ? "" : "s"}{estado ? ` · ${pipelineLabel(estado)}` : ""}</p>
+          <h1 className="font-serif text-3xl font-medium text-texto">Lotes entrantes</h1>
+          <p className="mt-1 text-sm text-texto-sec">{lotes.length} lote{lotes.length === 1 ? "" : "s"}{estado ? ` · ${pipelineLabel(estado)}` : ""}</p>
         </div>
       </div>
 
@@ -56,16 +56,16 @@ export default async function PanelLotes({
       </div>
 
       {error && (
-        <p className="mt-8 border border-rojo/40 bg-rojo/10 px-4 py-3 text-sm text-rojo-claro">{error.message}</p>
+        <p className="mt-8 border border-error/40 bg-error-suave px-4 py-3 text-sm text-error">{error.message}</p>
       )}
 
       {lotes.length === 0 ? (
-        <p className="mt-12 text-sm text-taupe">No hay lotes para mostrar.</p>
+        <p className="mt-12 text-sm text-texto-sec">No hay lotes para mostrar.</p>
       ) : (
-        <div className="mt-6 overflow-x-auto border border-hueso/10">
+        <div className="mt-6 overflow-x-auto border border-borde">
           <table className="w-full min-w-[820px] text-sm">
             <thead>
-              <tr className="border-b border-hueso/10 text-left text-[11px] uppercase tracking-[0.16em] text-taupe">
+              <tr className="border-b border-borde text-left text-[11px] uppercase tracking-[0.16em] text-texto-sec">
                 <th className="px-4 py-3 font-normal">Ingreso</th>
                 <th className="px-4 py-3 font-normal">Contacto</th>
                 <th className="px-4 py-3 font-normal">Producto</th>
@@ -81,32 +81,32 @@ export default async function PanelLotes({
               {lotes.map((l) => {
                 const s = semaforo(l.margen_bruto_pct, config);
                 return (
-                  <tr key={l.id} className="group border-b border-hueso/5 transition-colors hover:bg-hueso/[0.03]">
-                    <td className="px-4 py-3 text-taupe">
-                      <Link href={`/panel/lote/${l.id}`} className="block text-hueso group-hover:text-rojo-claro">
+                  <tr key={l.id} className="group border-b border-borde transition-colors hover:bg-fondo/[0.03]">
+                    <td className="px-4 py-3 text-texto-sec">
+                      <Link href={`/panel/lote/${l.id}`} className="block text-texto group-hover:text-primario">
                         {formatFecha(l.created_at)}
                       </Link>
                     </td>
                     <td className="px-4 py-3">
                       <Link href={`/panel/lote/${l.id}`} className="block">
-                        <span className="text-hueso">{l.contacto_nombre ?? "—"}</span>
-                        <span className="block text-xs text-taupe">{l.cuit ?? ""}</span>
+                        <span className="text-texto">{l.contacto_nombre ?? "—"}</span>
+                        <span className="block text-xs text-texto-sec">{l.cuit ?? ""}</span>
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-taupe">{l.especie_categoria ?? l.tipo_producto ?? "—"}</td>
-                    <td className="px-4 py-3 text-taupe">{l.kilos_totales ?? "—"}</td>
-                    <td className="px-4 py-3 text-taupe">{[l.ubicacion_localidad, l.ubicacion_provincia].filter(Boolean).join(", ") || "—"}</td>
-                    <td className="px-4 py-3 text-taupe">{formatARS(l.precio_pretendido_kg)}</td>
+                    <td className="px-4 py-3 text-texto-sec">{l.especie_categoria ?? l.tipo_producto ?? "—"}</td>
+                    <td className="px-4 py-3 text-texto-sec">{l.kilos_totales ?? "—"}</td>
+                    <td className="px-4 py-3 text-texto-sec">{[l.ubicacion_localidad, l.ubicacion_provincia].filter(Boolean).join(", ") || "—"}</td>
+                    <td className="px-4 py-3 text-texto-sec">{formatARS(l.precio_pretendido_kg)}</td>
                     <td className="px-4 py-3">
-                      <span className="whitespace-nowrap border border-hueso/20 px-2 py-1 text-xs text-hueso">{pipelineLabel(l.estado)}</span>
+                      <span className="whitespace-nowrap border border-borde px-2 py-1 text-xs text-texto">{pipelineLabel(l.estado)}</span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs ${l.legajo_estado === "completo" ? "text-verde-claro" : "text-taupe"}`}>
+                      <span className={`text-xs ${l.legajo_estado === "completo" ? "text-exito" : "text-texto-sec"}`}>
                         {l.legajo_estado === "completo" ? "Completo" : "Pendiente"}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="flex items-center gap-2 text-xs text-taupe">
+                      <span className="flex items-center gap-2 text-xs text-texto-sec">
                         <span className={`h-2 w-2 rounded-full ${COLOR_PUNTO[s.color]}`} />
                         {s.label}
                       </span>
@@ -127,7 +127,7 @@ function FiltroChip({ activo, href, label }: { activo: boolean; href: string; la
     <Link
       href={href}
       className={`border px-3.5 py-1.5 text-xs transition-colors ${
-        activo ? "border-bordo bg-bordo/15 text-hueso" : "border-hueso/20 text-taupe hover:border-hueso/45 hover:text-hueso"
+        activo ? "border-primario bg-primario/10 text-superficie" : "border-borde text-texto-sec hover:border-borde hover:text-superficie"
       }`}
     >
       {label}

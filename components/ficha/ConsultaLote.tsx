@@ -69,19 +69,19 @@ export default function ConsultaLote({
   }
 
   const secClass =
-    "block w-full border border-hueso/20 px-5 py-3 text-left text-sm text-hueso transition-colors hover:border-bordo hover:bg-hueso/[0.03] disabled:opacity-60";
+    "block w-full border border-borde px-5 py-3 text-left text-sm text-texto transition-colors hover:border-primario hover:bg-fondo/[0.03] disabled:opacity-60";
 
   return (
-    <div className="border border-hueso/15 bg-carbon/40 p-6">
-      <p className="font-serif text-xl font-medium text-hueso">Consultá este lote</p>
-      <p className="mt-1 text-sm text-taupe">
+    <div className="border border-borde bg-fondo p-6">
+      <p className="font-serif text-xl font-medium text-texto">Consultá este lote</p>
+      <p className="mt-1 text-sm text-texto-sec">
         Se abre WhatsApp con el mensaje listo para enviar.
       </p>
       <button
         type="button"
         onClick={() => consultar("gen", GENERICA)}
         disabled={cargando !== null}
-        className="mt-5 flex w-full items-center justify-center gap-2 bg-bordo px-6 py-3.5 text-base font-medium text-hueso transition-colors hover:bg-rojo disabled:opacity-60"
+        className="mt-5 flex w-full items-center justify-center gap-2 bg-primario px-6 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60"
       >
         <WhatsappIcon />
         {cargando === "gen" ? "Abriendo…" : "Consultar por WhatsApp"}

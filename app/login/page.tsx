@@ -15,12 +15,12 @@ export default function LoginPage() {
       title="Ingresá al mercado"
       footer={
         <>
-          <Link href="/recuperar" className="text-salmon hover:text-hueso">
+          <Link href="/recuperar" className="text-primario hover:text-texto">
             Olvidé mi contraseña
           </Link>
-          <span className="mt-2 block text-taupe/70">
+          <span className="mt-2 block text-texto-sec">
             ¿Sos del equipo de MBEEF? Entrá por{" "}
-            <Link href="/panel/login" className="text-salmon hover:text-hueso">el panel</Link>.
+            <Link href="/panel/login" className="text-primario hover:text-texto">el panel</Link>.
           </span>
         </>
       }

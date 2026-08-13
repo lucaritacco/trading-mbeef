@@ -12,15 +12,15 @@ function FileRow({
   onClear: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 border border-hueso/20 bg-carbon/40 px-4 py-3">
-      <span className="flex min-w-0 items-center gap-2 text-sm text-hueso">
-        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-salmon" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <div className="flex items-center justify-between gap-3 border border-borde bg-fondo px-4 py-3">
+      <span className="flex min-w-0 items-center gap-2 text-sm text-texto">
+        <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-primario" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M14 3v4a1 1 0 0 0 1 1h4M5 3h9l5 5v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" strokeLinejoin="round" />
         </svg>
         <span className="truncate">{file.name}</span>
-        <span className="shrink-0 text-xs text-taupe/60">{formatearBytes(file.size)}</span>
+        <span className="shrink-0 text-xs text-texto-sec">{formatearBytes(file.size)}</span>
       </span>
-      <button type="button" onClick={onClear} className="shrink-0 text-xs text-taupe transition-colors hover:text-rojo-claro">
+      <button type="button" onClick={onClear} className="shrink-0 text-xs text-texto-sec transition-colors hover:text-primario">
         Quitar
       </button>
     </div>
@@ -68,7 +68,7 @@ export function SingleFileField({
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="flex w-full items-center justify-center gap-2 border border-dashed border-hueso/25 px-4 py-4 text-sm text-taupe transition-colors hover:border-bordo hover:text-hueso"
+          className="flex w-full items-center justify-center gap-2 border border-dashed border-borde px-4 py-4 text-sm text-texto-sec transition-colors hover:border-primario hover:text-texto"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 16V4m0 0L7 9m5-5 5 5M4 20h16" />
@@ -119,7 +119,7 @@ export function MultiFileField({
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="flex w-full items-center justify-center gap-2 border border-dashed border-hueso/25 px-4 py-3 text-sm text-taupe transition-colors hover:border-bordo hover:text-hueso"
+            className="flex w-full items-center justify-center gap-2 border border-dashed border-borde px-4 py-3 text-sm text-texto-sec transition-colors hover:border-primario hover:text-texto"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M12 5v14M5 12h14" />
