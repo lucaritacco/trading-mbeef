@@ -2,7 +2,7 @@ import Link from "next/link";
 import LoteCard from "@/components/LoteCard";
 import type { LoteFila } from "@/lib/ficha";
 
-const MINIMO = 6;
+const MINIMO = 3;
 
 // Chips: solo estados que existen de verdad en el modelo (enfriado / congelado).
 // Cada uno lleva al catálogo con el filtro ya aplicado.
@@ -11,6 +11,10 @@ const CHIPS = [
   { label: "Enfriado", href: "/mercado?estado=enfriado" },
   { label: "Congelado", href: "/mercado?estado=congelado" },
 ];
+
+// El catálogo completo pide cuenta: sin sesión, todo lo que lleve a /mercado
+// manda a crear la cuenta.
+const destino = (href: string, logueado: boolean) => (logueado ? href : "/registro");
 
 // Hueco de la grilla cuando todavía hay pocos lotes. Solo el primero lleva el
 // ámbar: la regla es un ámbar por pantalla.
@@ -64,10 +68,13 @@ export default function LotesDisponibles({
           <div>
             <p className="text-[11px] uppercase tracking-[0.24em] text-primario">Mercado DeCarnes</p>
             <h2 className="mt-3 font-serif text-[clamp(1.8rem,4vw,2.9rem)] font-medium leading-tight text-texto">
-              Lotes disponibles ahora.
+              Últimos lotes publicados.
             </h2>
           </div>
-          <Link href="/mercado" className="text-sm font-medium text-primario underline-offset-4 transition-colors hover:underline">
+          <Link
+            href={logueado ? "/mercado" : "/registro"}
+            className="text-sm font-medium text-primario underline-offset-4 transition-colors hover:underline"
+          >
             Ver todos los lotes →
           </Link>
         </div>
@@ -77,7 +84,7 @@ export default function LotesDisponibles({
             {CHIPS.map((c, i) => (
               <Link
                 key={c.label}
-                href={c.href}
+                href={destino(c.href, logueado)}
                 className={
                   i === 0
                     ? "rounded-full bg-tinta px-4 py-1.5 text-xs font-medium text-superficie"

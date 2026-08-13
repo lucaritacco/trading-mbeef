@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const RECIENTES = 6;
+const RECIENTES = 3;
 const EN_HERO = 3;
 
 export default async function Home() {
@@ -49,7 +49,7 @@ export default async function Home() {
   const listaJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Lotes disponibles en DeCarnes",
+    name: "Últimos lotes publicados en DeCarnes",
     numberOfItems: lotes.length,
     itemListElement: lotes.map((l, i) => ({
       "@type": "ListItem",

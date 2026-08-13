@@ -40,7 +40,7 @@ export default function HeroBuscador({
 
           {/* Buscador compuesto: producto + provincia */}
           <form
-            action="/mercado"
+            action={logueado ? "/mercado" : "/registro"}
             method="get"
             className="mt-8 flex flex-col border border-borde bg-superficie sm:flex-row sm:items-stretch"
           >
