@@ -141,7 +141,7 @@ export function SelectField({
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`${inputBase} appearance-none bg-[length:0.65rem] bg-[right_1rem_center] bg-no-repeat pr-10 [background-image:url('data:image/svg+xml;utf8,<svg_xmlns=%22http://www.w3.org/2000/svg%22_viewBox=%220_0_12_8%22_fill=%22none%22_stroke=%22%23c3aea7%22_stroke-width=%221.5%22><path_d=%22M1_1l5_5_5-5%22/></svg>')] ${
+        className={`${inputBase} appearance-none bg-[length:0.65rem] bg-[right_1rem_center] bg-no-repeat pr-10 [background-image:url('data:image/svg+xml;utf8,<svg_xmlns=%22http://www.w3.org/2000/svg%22_viewBox=%220_0_12_8%22_fill=%22none%22_stroke=%22%236E6B63%22_stroke-width=%221.5%22><path_d=%22M1_1l5_5_5-5%22/></svg>')] ${
           value ? "text-texto" : "text-texto-sec"
         }`}
         aria-invalid={!!error}
