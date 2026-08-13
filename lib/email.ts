@@ -75,7 +75,7 @@ export async function enviarBatch(mensajes: Mensaje[]): Promise<number> {
 const C = {
   texto: "#1C1B18",
   superficie: "#FFFFFF",
-  primario: "#1E4D3B",
+  primario: "#8C1522",
   fondo: "#FAFAF7",
   textoSec: "#6E6B63",
   borde: "#E6E3DC",

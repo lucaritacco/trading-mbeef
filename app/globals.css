@@ -12,9 +12,11 @@
   --texto-sec: #6e6b63;
   --borde: #e6e3dc;
 
-  /* Primario: botones, links, header. Verde profundo, no rojo. */
-  --primario: #1e4d3b;
-  --primario-hover: #2a6b52;
+  /* Primario: botones, links, header. Rojo sangre, profundo y sobrio: es marca,
+     no alarma. Va oscuro a propósito, para no leer como parrilla retail y para
+     separarse del rojo de error (que es más claro y anaranjado). */
+  --primario: #8c1522;
+  --primario-hover: #a81b2b;
 
   /* Estado positivo: verificado, disponible, confirmado. */
   --exito: #2e7d5b;
@@ -24,8 +26,9 @@
      encima (blanco sobre ámbar da 2.45:1 y no pasa AA). */
   --acento: #d89a2e;
 
-  /* Error: validaciones y acciones destructivas. Nunca en marca. */
-  --error: #b23b32;
+  /* Error: validaciones y acciones destructivas. Nunca en marca. Más claro y
+     anaranjado que el primario, para que no se confundan de un vistazo. */
+  --error: #c0392f;
   --error-suave: color-mix(in oklab, var(--error) 8%, var(--superficie));
 }
 
