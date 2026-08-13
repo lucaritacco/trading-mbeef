@@ -178,3 +178,26 @@ export async function setVerificado(formData: FormData): Promise<void> {
   revalidatePath("/panel/frigorificos");
   redirect("/panel/frigorificos?ok=1");
 }
+
+// ---------- Solicitudes de compra (moderación) ----------
+
+/**
+ * Publica, rechaza o cierra una solicitud de compra. Nacen 'pendiente': ningún
+ * vendedor las ve hasta que pasen a 'abierta'. Solo staff (policy "busquedas
+ * staff update").
+ */
+export async function setEstadoBusqueda(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  const estado = formData.get("estado");
+  if (
+    typeof id !== "string" ||
+    typeof estado !== "string" ||
+    !["pendiente", "abierta", "rechazada", "cerrada"].includes(estado)
+  ) {
+    return;
+  }
+  const supabase = await createSupabaseServer();
+  await supabase.from("busquedas").update({ estado }).eq("id", id);
+  revalidatePath("/panel/solicitudes-compra");
+  redirect("/panel/solicitudes-compra?ok=1");
+}

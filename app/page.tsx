@@ -6,6 +6,7 @@ import HeroMarketplace from "@/components/home/HeroMarketplace";
 import Pilares from "@/components/home/Pilares";
 import DosCaminos from "@/components/home/DosCaminos";
 import LotesDisponibles from "@/components/home/LotesDisponibles";
+import SolicitudesAbiertas, { type SolicitudPublica } from "@/components/home/SolicitudesAbiertas";
 import ComoFuncionaDual from "@/components/home/ComoFuncionaDual";
 import FranjaMbeef from "@/components/home/FranjaMbeef";
 import { supabase } from "@/lib/supabase";
@@ -28,8 +29,14 @@ export default async function Home() {
   } = await supabaseServer.auth.getUser();
   const logueado = Boolean(user);
 
-  // Catálogo público (anónimo, sin precio), ya ordenado por fecha desc.
-  const { data } = await supabase.rpc("catalogo_publico", {});
+  // Catálogo público (anónimo, sin precio), ya ordenado por fecha desc, y la
+  // vitrina de demanda (solicitudes aprobadas, también anónimas).
+  const [{ data }, { data: sols }, { data: totalSols }] = await Promise.all([
+    supabase.rpc("catalogo_publico", {}),
+    supabase.rpc("solicitudes_publicas", { p_limite: 5 }),
+    supabase.rpc("solicitudes_abiertas_count"),
+  ]);
+  const solicitudes = (sols ?? []) as SolicitudPublica[];
   const lotes = ((data ?? []) as LoteFila[]).slice(0, RECIENTES);
 
   const fotos = new Map<string, string>();
@@ -68,6 +75,11 @@ export default async function Home() {
         <Pilares />
         <DosCaminos />
         <LotesDisponibles lotes={lotes} fotos={fotos} precios={precios} logueado={logueado} />
+        <SolicitudesAbiertas
+          solicitudes={solicitudes}
+          total={Number(totalSols ?? solicitudes.length)}
+          logueado={logueado}
+        />
         <ComoFuncionaDual />
         <FranjaMbeef />
       </main>
