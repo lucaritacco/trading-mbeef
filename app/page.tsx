@@ -3,8 +3,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BarraVendedor from "@/components/home/BarraVendedor";
 import HeroMercado from "@/components/home/HeroMercado";
-import CategoriasCorte from "@/components/home/CategoriasCorte";
 import GrillaDestacados from "@/components/home/GrillaDestacados";
+import HowItWorks from "@/components/HowItWorks";
 import QueEsDeCarnes from "@/components/home/QueEsDeCarnes";
 import { supabase } from "@/lib/supabase";
 import { createSupabaseServer } from "@/lib/supabase/server";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const DESTACADOS = 6;
+const RECIENTES = 6;
 
 export default async function Home() {
   // Sesión: decide la barra de vendedor y si las tarjetas muestran precio.
@@ -30,7 +30,7 @@ export default async function Home() {
     supabase.rpc("catalogo_publico", {}),
     getMetricas(),
   ]);
-  const lotes = ((data ?? []) as LoteFila[]).slice(0, DESTACADOS);
+  const lotes = ((data ?? []) as LoteFila[]).slice(0, RECIENTES);
 
   const fotos = new Map<string, string>();
   await Promise.all(
@@ -49,7 +49,7 @@ export default async function Home() {
   const listaJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Lotes destacados en DeCarnes",
+    name: "Lotes recientes en DeCarnes",
     numberOfItems: lotes.length,
     itemListElement: lotes.map((l, i) => ({
       "@type": "ListItem",
@@ -65,8 +65,8 @@ export default async function Home() {
       <main>
         {logueado && <BarraVendedor />}
         <HeroMercado metrica={metrica} />
-        <CategoriasCorte />
         <GrillaDestacados lotes={lotes} fotos={fotos} precios={precios} logueado={logueado} />
+        <HowItWorks />
         <QueEsDeCarnes />
       </main>
       <Footer />

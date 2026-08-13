@@ -22,8 +22,12 @@ export default function HeroMercado({ metrica }: { metrica: MetricaMercado | nul
           Beta abierta · cupos limitados
         </p>
         <h1 className="mt-4 max-w-3xl font-serif text-[clamp(1.9rem,4.6vw,3.4rem)] font-medium leading-[1.1] text-texto">
-          La bolsa de carne argentina: lotes de frigoríficos, en un solo lugar.
+          El primer marketplace mayorista de carne de Argentina.
         </h1>
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-texto-sec sm:text-lg">
+          Los frigoríficos publican sus lotes. Vos comparás corte, precio y zona en
+          una sola pantalla.
+        </p>
 
         {/* Slot de métrica de volumen (vacío hasta que haya mercado). */}
         {mostrarMetrica && (

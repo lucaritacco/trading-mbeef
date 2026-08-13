@@ -56,7 +56,7 @@ export default function GrillaDestacados({
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="font-serif text-2xl font-medium text-texto sm:text-3xl">
-            Lotes destacados
+            Lotes recientes
           </h2>
           <Link href="/mercado" className="text-sm text-primario transition-colors hover:underline">
             Ver todos →
