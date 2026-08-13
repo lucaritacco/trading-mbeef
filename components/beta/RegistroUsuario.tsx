@@ -6,13 +6,19 @@ import Link from "next/link";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 import { inputBase } from "@/lib/ui";
 
-export default function RegistroUsuario({ token }: { token: string }) {
+// Registro con dos caminos sobre el mismo formulario:
+//  · SIN token  → comprador. Alta libre (email + contraseña) y queda con rol
+//    'compra': ve precios y catálogo, recibe avisos, NO puede publicar.
+//  · CON token  → frigorífico. Canjea la invitación aprobada por el equipo.
+export default function RegistroUsuario({ token }: { token?: string }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
+
+  const esComprador = !token;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -42,13 +48,27 @@ export default function RegistroUsuario({ token }: { token: string }) {
       return;
     }
 
-    // Necesitamos sesión para canjear el token (requiere confirmación de email
+    // Hace falta sesión para crear la fila de `usuarios` (confirmación de email
     // desactivada en Supabase; ver TANDA3.md).
     if (!data.session) {
       setError(
         "No pudimos iniciar tu sesión automáticamente. Avisale al equipo (falta habilitar el alta sin confirmación de email).",
       );
       setCargando(false);
+      return;
+    }
+
+    if (esComprador) {
+      const { data: ok, error: errAlta } = await supabase.rpc("crear_cuenta_comprador", {
+        p_empresa: null,
+      });
+      if (errAlta || ok !== true) {
+        setError("Creamos tu usuario pero no pudimos activar la cuenta. Escribinos.");
+        setCargando(false);
+        return;
+      }
+      router.push("/mercado");
+      router.refresh();
       return;
     }
 
@@ -83,6 +103,12 @@ export default function RegistroUsuario({ token }: { token: string }) {
       <button type="submit" disabled={cargando} className="w-full bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
         {cargando ? "Creando cuenta…" : "Crear cuenta"}
       </button>
+      {esComprador && (
+        <p className="text-xs leading-relaxed text-texto-sec">
+          Al crear tu cuenta vas a ver los precios del catálogo y recibir avisos de
+          lotes nuevos. Podés darte de baja de los avisos cuando quieras.
+        </p>
+      )}
       <p className="text-sm text-texto-sec">
         ¿Ya tenés cuenta?{" "}
         <Link href="/login" className="text-primario hover:text-texto">Iniciá sesión</Link>

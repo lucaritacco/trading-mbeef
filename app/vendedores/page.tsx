@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import TopBar from "@/components/home/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Advantages from "@/components/Advantages";
-import Requirements from "@/components/Requirements";
 import RespaldoMbeef from "@/components/RespaldoMbeef";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { site } from "@/lib/site";
@@ -18,18 +17,37 @@ export const metadata: Metadata = {
 const PASOS = [
   {
     n: "1",
-    title: "Creás tu cuenta",
-    body: "Nos dejás los datos de tu empresa y tu habilitación. Revisamos y te damos acceso.",
+    title: "Registrás tu empresa",
+    body: "Nos dejás los datos de tu frigorífico y tu habilitación sanitaria.",
   },
   {
     n: "2",
-    title: "Publicás tus lotes",
-    body: "Cargás corte, kilos, fotos y condiciones en minutos. Vos decidís qué y cuándo publicar.",
+    title: "Completás la verificación",
+    body: "Hablamos con vos y revisamos la documentación. Es lo que habilita a publicar.",
   },
   {
     n: "3",
-    title: "Recibís las consultas",
-    body: "Los compradores interesados te escriben por WhatsApp. Coordinás la operación directo.",
+    title: "Publicás tu stock",
+    body: "Cargás corte, kilos, fotos y condiciones. Vos decidís qué y cuándo publicar.",
+  },
+];
+
+const BENEFICIOS = [
+  {
+    t: "Publicás vos, cuando querés",
+    d: "No dependés de nadie para cargar o bajar un lote. Tu stock, tu ritmo.",
+  },
+  {
+    t: "Compradores de todo el país",
+    d: "Tu lote llega más allá de tu agenda de siempre, sin sumar viajantes.",
+  },
+  {
+    t: "El sello te distingue",
+    d: "Solo los frigoríficos verificados publican. El comprador lo ve en cada lote.",
+  },
+  {
+    t: "El comprador te paga directo",
+    d: "Cobrás vos. DeCarnes no intermedia el pago.",
   },
 ];
 
@@ -42,25 +60,26 @@ export default async function VendedoresPage() {
 
   return (
     <>
+      <TopBar />
       <Header logueado={logueado} />
       <main>
         {/* Gancho principal: beta + fundadores (escasez, sin contador ni cupo duro) */}
-        <section className="border-b border-borde bg-superficie">
+        <section className="border-b border-borde bg-fondo">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
-            <p className="text-[11px] uppercase tracking-[0.3em] text-primario">
+            <p className="flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-primario">
+              <span className="h-px w-6 bg-primario" aria-hidden="true" />
               Beta abierta · cupos limitados
             </p>
-            <h1 className="mt-4 max-w-3xl font-serif text-[clamp(2rem,5vw,3.6rem)] font-medium leading-[1.08] text-texto">
+            <h1 className="mt-5 max-w-3xl font-serif text-[clamp(2rem,5vw,3.6rem)] font-medium leading-[1.08] text-texto">
               Sumate como frigorífico fundador.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-texto-sec">
               Estamos abriendo DeCarnes con un grupo reducido de frigoríficos. Los que
               entran ahora publican primero, toman la delantera frente a los compradores
-              y acceden a{" "}
-              <span className="text-texto">tarifas preferenciales</span> cuando lancemos
-              oficialmente.
+              y acceden a <span className="text-texto">tarifas preferenciales</span>{" "}
+              cuando lancemos oficialmente.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
+            <div className="mt-9 flex flex-wrap items-center gap-5">
               <Link
                 href={logueado ? "/cuenta/publicar" : "/sumate"}
                 className="bg-primario px-8 py-4 text-base font-medium text-superficie transition-colors hover:bg-primario-hover"
@@ -79,55 +98,48 @@ export default async function VendedoresPage() {
           </div>
         </section>
 
-        {/* Cómo funciona (self-service: el mensaje principal) */}
+        {/* Los tres pasos, con la verificación en el medio: es el requisito real */}
         <section className="bg-superficie py-16 sm:py-20">
           <div className="mx-auto max-w-6xl px-5 sm:px-8">
             <h2 className="font-serif text-3xl font-medium text-texto sm:text-4xl">
-              Publicá lo que tenés hoy
+              De la verificación a tu primer lote
             </h2>
             <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
               {PASOS.map((p) => (
                 <div key={p.n}>
-                  <span className="inline-flex h-12 w-12 items-center justify-center border border-primario/40 font-serif text-xl text-primario">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primario-suave font-serif text-lg text-primario">
                     {p.n}
                   </span>
                   <h3 className="mt-5 font-serif text-xl font-medium text-texto">{p.title}</h3>
-                  <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-texto-sec">{p.body}</p>
+                  <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-texto-sec">
+                    {p.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-10 max-w-2xl border-t border-borde pt-6 text-sm leading-relaxed text-texto-sec">
+              Para publicar necesitás habilitación sanitaria vigente y CUIT activo.
+            </p>
+          </div>
+        </section>
+
+        {/* Beneficios del lado vendedor (no los del comprador) */}
+        <section className="bg-fondo py-16 sm:py-20">
+          <div className="mx-auto max-w-6xl px-5 sm:px-8">
+            <h2 className="font-serif text-3xl font-medium text-texto sm:text-4xl">
+              Por qué publicar en DeCarnes
+            </h2>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2">
+              {BENEFICIOS.map((b) => (
+                <div key={b.t} className="border border-borde bg-superficie p-7">
+                  <h3 className="font-serif text-xl font-medium text-texto">{b.t}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-texto-sec">{b.d}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <Advantages />
-
-        {/* El servicio "te lo colocamos", como alternativa (no como mensaje central) */}
-        <section className="border-y border-borde bg-superficie py-14">
-          <div className="mx-auto max-w-6xl px-5 sm:px-8">
-            <div className="flex flex-col gap-5 border border-borde bg-fondo/[0.03] p-7 sm:p-9 md:flex-row md:items-center md:justify-between md:gap-10">
-              <div>
-                <h2 className="font-serif text-2xl font-medium text-texto">
-                  ¿Preferís que lo coloquemos nosotros?
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-texto-sec">
-                  Si no querés publicar vos, nos pasás tu stock y lo ofrecemos
-                  activamente en nuestra red de compradores. Coordinamos la logística de
-                  cada operación. El comprador te paga directo a vos.
-                </p>
-              </div>
-              <a
-                href={site.whatsappVenderHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 self-start border border-borde px-6 py-3.5 text-sm text-texto transition-colors hover:border-borde md:self-auto"
-              >
-                Escribinos
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <Requirements />
         <RespaldoMbeef compacto />
       </main>
       <Footer />

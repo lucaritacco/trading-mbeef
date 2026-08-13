@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Reveal } from "./motion";
-import { site } from "@/lib/site";
 
 // `compacto` baja el peso visual del bloque (lo usamos en /vendedores: el respaldo
 // de MBEEF va perdiendo protagonismo a medida que el marketplace se sostiene solo).
@@ -21,7 +20,7 @@ export default function RespaldoMbeef({ compacto = false }: { compacto?: boolean
             sizes="(min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-carbon/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-tinta/50 to-transparent" />
         </Reveal>
 
         <Reveal delay={0.15}>
@@ -39,26 +38,6 @@ export default function RespaldoMbeef({ compacto = false }: { compacto?: boolean
             movemos carne entre frigoríficos, distribuidores y puntos de venta
             de todo el país.
           </p>
-          <a
-            href={site.nosotrosUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-[0.22em] text-primario transition-colors hover:text-texto"
-          >
-            Conocé quiénes somos
-            <svg
-              viewBox="0 0 24 24"
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </a>
         </Reveal>
       </div>
     </section>
