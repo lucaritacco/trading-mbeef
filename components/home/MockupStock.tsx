@@ -8,9 +8,12 @@ import type { LoteFila } from "@/lib/ficha";
 export default function MockupStock({
   lotes,
   fotos,
+  destino,
 }: {
   lotes: LoteFila[];
   fotos: Map<string, string>;
+  /** A dónde lleva tocar la card: al catálogo con sesión, a crear cuenta sin ella. */
+  destino: string;
 }) {
   if (lotes.length === 0) return null;
 
@@ -31,7 +34,7 @@ export default function MockupStock({
               const foto = fotos.get(l.id);
               return (
                 <li key={l.id} className="border-b border-borde last:border-b-0">
-                  <Link href={`/lote/${l.id}`} className="flex items-center gap-3.5 px-5 py-3.5 transition-colors hover:bg-fondo">
+                  <Link href={destino} className="flex items-center gap-3.5 px-5 py-3.5 transition-colors hover:bg-fondo">
                     <span className="h-11 w-11 shrink-0 overflow-hidden rounded-sm bg-fondo">
                       {foto && (
                         /* eslint-disable-next-line @next/next/no-img-element */

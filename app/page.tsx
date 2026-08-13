@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import TopBar from "@/components/home/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import HeroBuscador from "@/components/home/HeroBuscador";
+import HeroMarketplace from "@/components/home/HeroMarketplace";
 import Pilares from "@/components/home/Pilares";
 import DosCaminos from "@/components/home/DosCaminos";
 import LotesDisponibles from "@/components/home/LotesDisponibles";
@@ -64,7 +64,7 @@ export default async function Home() {
       <TopBar />
       <Header logueado={logueado} />
       <main>
-        <HeroBuscador lotes={lotes.slice(0, EN_HERO)} fotos={fotos} logueado={logueado} />
+        <HeroMarketplace lotes={lotes.slice(0, EN_HERO)} fotos={fotos} logueado={logueado} />
         <Pilares />
         <DosCaminos />
         <LotesDisponibles lotes={lotes} fotos={fotos} precios={precios} logueado={logueado} />
