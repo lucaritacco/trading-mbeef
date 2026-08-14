@@ -27,8 +27,10 @@ export type FichaPublica = {
   ubicacion_provincia: string | null;
   observaciones_calidad: string | null;
   fotos_paths: string[] | null;
-  /** Sello del frigorífico (usuarios.verificado). Booleano: no lo identifica. */
   verificado: boolean;
+  vendedor_id: string | null;
+  vendedor_nombre: string | null;
+  vendedor_foto: string | null;
 };
 
 // Fila de lote para tarjetas de catálogo (catalogo_publico). Sin datos del dueño,
@@ -42,12 +44,24 @@ export type LoteFila = {
   kilos_totales: number | null;
   ubicacion_provincia: string | null;
   foto_principal: string | null;
-  /** Sello del frigorífico (usuarios.verificado). Booleano: no lo identifica. */
   verificado: boolean;
+  vendedor_id: string | null;
+  vendedor_nombre: string | null;
+  vendedor_foto: string | null;
 };
 
 // Métrica de volumen del mercado (para el hero). Se calcula en vivo.
 export type MetricaMercado = { lotes_activos: number; kilos_totales: number };
+
+/**
+ * URL de la foto de perfil del frigorífico. El bucket `perfiles` es público, así
+ * que la URL es directa: no hace falta firmarla en cada tarjeta del catálogo.
+ */
+export function fotoPerfil(path: string | null): string | null {
+  if (!path) return null;
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  return base ? `${base}/storage/v1/object/public/perfiles/${path}` : null;
+}
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -58,6 +72,31 @@ export const getFicha = cache(async (id: string): Promise<FichaPublica | null> =
   const { data, error } = await supabase.rpc("get_ficha_publica", { p_id: id });
   if (error || !data || data.length === 0) return null;
   return data[0] as FichaPublica;
+});
+
+// Perfil público del frigorífico (identidad comercial, sin datos de contacto).
+export type PerfilVendedor = {
+  id: string;
+  nombre: string | null;
+  foto_path: string | null;
+  descripcion: string | null;
+  provincia: string | null;
+  verificado: boolean;
+  cant_lotes: number | null;
+};
+
+export const getPerfilVendedor = cache(async (id: string): Promise<PerfilVendedor | null> => {
+  if (!UUID_RE.test(id)) return null;
+  const { data, error } = await supabase.rpc("perfil_vendedor", { p_id: id });
+  if (error || !data || data.length === 0) return null;
+  return data[0] as PerfilVendedor;
+});
+
+export const getLotesVendedor = cache(async (id: string): Promise<LoteFila[]> => {
+  if (!UUID_RE.test(id)) return [];
+  const { data, error } = await supabase.rpc("lotes_de_vendedor", { p_id: id });
+  if (error || !data) return [];
+  return data as LoteFila[];
 });
 
 /** Firma una URL temporal para una foto de un lote público (bucket privado). */

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getFicha, firmarFoto, getPrecios, type FichaPublica } from "@/lib/ficha";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import ConsultaLote from "@/components/ficha/ConsultaLote";
+import BadgeVendedor from "@/components/BadgeVendedor";
 import CompartirWhatsapp from "@/components/CompartirWhatsapp";
 import {
   TIPO_PRODUCTO,
@@ -216,13 +217,18 @@ export default async function FichaPublicaPage({
             .join(" · ")}
         </p>
 
-        {/* Origen anónimo: todos los lotes se presentan bajo el paraguas de MBEEF */}
-        <span className="mt-4 inline-flex items-center gap-2 border border-borde px-3.5 py-2 text-sm text-texto-sec">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primario/10 text-xs font-semibold text-primario">
-            M
-          </span>
-          Frigorífico seleccionado por MBEEF
-        </span>
+        {/* Quién publica el lote: identidad comercial + sello de verificado */}
+        {f.vendedor_nombre && (
+          <div className="mt-5 inline-flex items-center gap-3 border border-borde bg-superficie px-4 py-3">
+            <BadgeVendedor
+              id={f.vendedor_id}
+              nombre={f.vendedor_nombre}
+              foto={f.vendedor_foto}
+              verificado={f.verificado}
+              tamano="md"
+            />
+          </div>
+        )}
 
         {f.descripcion && (
           <p className="mt-4 max-w-2xl leading-relaxed text-texto-sec">{f.descripcion}</p>
@@ -284,7 +290,7 @@ export default async function FichaPublicaPage({
                     El precio y la consulta son para usuarios con cuenta.
                   </p>
                   <Link
-                    href="/sumate"
+                    href="/registro"
                     className="mt-4 inline-block bg-primario px-5 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
                   >
                     Crear cuenta gratis
@@ -299,16 +305,15 @@ export default async function FichaPublicaPage({
               )}
             </div>
 
-            {logueado && (
-              <ConsultaLote
-                loteId={f.id}
-                refCode={ref}
-                corte={corteVal}
-                kg={f.kilos_totales}
-                provincia={f.ubicacion_provincia}
-                fichaUrl={fichaUrl}
-              />
-            )}
+            <ConsultaLote
+              logueado={logueado}
+              loteId={f.id}
+              refCode={ref}
+              corte={corteVal}
+              kg={f.kilos_totales}
+              provincia={f.ubicacion_provincia}
+              fichaUrl={fichaUrl}
+            />
             <div className="mt-3">
               <CompartirWhatsapp texto={compartirTexto} url={fichaUrl} full label="Compartir por WhatsApp" />
             </div>

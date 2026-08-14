@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { site } from "@/lib/site";
 
 // Consulta pública de un lote (sin login). Al hacer clic pide al servidor el
@@ -25,6 +26,7 @@ function WhatsappIcon() {
 }
 
 export default function ConsultaLote({
+  logueado,
   loteId,
   refCode,
   corte,
@@ -32,6 +34,7 @@ export default function ConsultaLote({
   provincia,
   fichaUrl,
 }: {
+  logueado: boolean;
   loteId: string;
   refCode: string;
   corte: string | null;
@@ -66,6 +69,29 @@ export default function ConsultaLote({
     if (win) win.location.href = url;
     else window.location.href = url;
     setCargando(null);
+  }
+
+  if (!logueado) {
+    return (
+      <div className="border border-borde bg-fondo p-6">
+        <p className="font-serif text-xl font-medium text-texto">Consultá este lote</p>
+        <p className="mt-1 text-sm text-texto-sec">
+          Creá tu cuenta para consultar al frigorífico y ver el precio. Es gratis.
+        </p>
+        <Link
+          href="/registro"
+          className="mt-5 flex w-full items-center justify-center gap-2 bg-primario px-6 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover"
+        >
+          Crear cuenta para consultar
+        </Link>
+        <p className="mt-3 text-center text-sm text-texto-sec">
+          ¿Ya tenés cuenta?{" "}
+          <Link href="/login" className="text-primario underline-offset-4 hover:underline">
+            Ingresá
+          </Link>
+        </p>
+      </div>
+    );
   }
 
   const secClass =

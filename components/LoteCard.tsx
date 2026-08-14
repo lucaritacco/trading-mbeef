@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LOTE_ESTADO, labelDe } from "@/lib/opciones";
 import { formatARS } from "@/lib/panel";
 import type { LoteFila } from "@/lib/ficha";
+import BadgeVendedor from "@/components/BadgeVendedor";
 
 // Tarjeta de lote para catálogos (home y /mercado).
 // · El precio NO viaja en los datos públicos: llega solo con sesión.
@@ -43,7 +44,7 @@ export default function LoteCard({
             <svg viewBox="0 0 24 24" className="h-3 w-3 text-exito" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M4 12.5l5 5L20 6.5" />
             </svg>
-            Frigorífico verificado
+            Verificado
           </span>
         )}
       </div>
@@ -60,6 +61,18 @@ export default function LoteCard({
             .filter(Boolean)
             .join(" · ") || "—"}
         </p>
+
+        {l.vendedor_nombre && (
+          <div className="mt-3 border-t border-borde pt-3">
+            <BadgeVendedor
+              id={l.vendedor_id}
+              nombre={l.vendedor_nombre}
+              foto={l.vendedor_foto}
+              verificado={l.verificado}
+              conLink={false}
+            />
+          </div>
+        )}
 
         <div className="mt-auto flex items-baseline justify-between gap-3 border-t border-borde pt-4">
           {logueado && precio != null ? (
