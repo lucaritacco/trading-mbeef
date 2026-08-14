@@ -4,7 +4,7 @@ import TopBar from "@/components/home/TopBar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LoteCard from "@/components/LoteCard";
-import { getPerfilVendedor, getLotesVendedor, firmarFoto, fotoPerfil, getPrecios } from "@/lib/ficha";
+import { getPerfilVendedor, getLotesVendedor, firmarFoto, fotoPerfil } from "@/lib/ficha";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { SITE_URL } from "@/lib/seo";
 
@@ -52,16 +52,13 @@ export default async function VendedorPage({
       if (url) fotos.set(l.id, url);
     }),
   );
-  const precios = logueado
-    ? await getPrecios(supabaseServer, lotes.map((l) => l.id))
-    : new Map<string, number>();
 
   const avatar = fotoPerfil(perfil.foto_path);
 
   return (
     <>
       <TopBar />
-      <Header logueado={logueado} />
+      <Header />
       <main className="min-h-svh">
         <section className="border-b border-borde bg-fondo">
           <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:px-8">
@@ -113,8 +110,6 @@ export default async function VendedorPage({
                     key={l.id}
                     l={l}
                     foto={fotos.get(l.id)}
-                    precio={precios.get(l.id)}
-                    logueado={logueado}
                   />
                 ))}
               </div>

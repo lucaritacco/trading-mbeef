@@ -16,8 +16,7 @@ export type FichaPublica = {
   piezas_cajas: number | null;
   moq: number | null;
   modalidad_entrega: string | null;
-  // Nota: el precio ya NO viaja en la ficha pública (queda detrás del login).
-  // Se pide aparte con precios_lotes() para usuarios logueados.
+  precio_pretendido_kg: number | null;
   lote_estado: string | null;
   envasado_tipo: string | null;
   envasado_marca: string | null;
@@ -41,6 +40,7 @@ export type LoteFila = {
   corte: string | null;
   especie_categoria: string | null;
   lote_estado: string | null;
+  precio_pretendido_kg: number | null;
   kilos_totales: number | null;
   ubicacion_provincia: string | null;
   foto_principal: string | null;
@@ -107,29 +107,3 @@ export const firmarFoto = cache(async (path: string): Promise<string | null> => 
   return data?.signedUrl ?? null;
 });
 
-/**
- * Precios de una lista de lotes, SOLO si hay sesión (anon recibe {} siempre:
- * la función precios_lotes está revocada para anon). Devuelve un mapa id→precio;
- * los lotes sin precio cargado simplemente no aparecen en el mapa.
- */
-export async function getPrecios(
-  supabaseCliente: typeof supabase,
-  ids: string[],
-): Promise<Map<string, number>> {
-  const mapa = new Map<string, number>();
-  if (ids.length === 0) return mapa;
-  const { data, error } = await supabaseCliente.rpc("precios_lotes", { p_ids: ids });
-  if (error || !data) return mapa;
-  for (const fila of data as { id: string; precio: number | null }[]) {
-    if (fila.precio != null) mapa.set(fila.id, fila.precio);
-  }
-  return mapa;
-}
-
-/** Métrica de volumen del mercado (lotes activos + kg totales), en vivo. */
-export const getMetricas = cache(async (): Promise<MetricaMercado | null> => {
-  const { data, error } = await supabase.rpc("metricas_mercado");
-  const fila = Array.isArray(data) ? data[0] : null;
-  if (error || !fila) return null;
-  return { lotes_activos: Number(fila.lotes_activos ?? 0), kilos_totales: Number(fila.kilos_totales ?? 0) };
-});

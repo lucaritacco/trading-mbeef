@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getFicha, firmarFoto, getPrecios, type FichaPublica } from "@/lib/ficha";
+import { getFicha, firmarFoto, type FichaPublica } from "@/lib/ficha";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import ConsultaLote from "@/components/ficha/ConsultaLote";
 import BadgeVendedor from "@/components/BadgeVendedor";
@@ -122,9 +122,7 @@ export default async function FichaPublicaPage({
     data: { user },
   } = await supabaseServer.auth.getUser();
   const logueado = Boolean(user);
-  const precio = logueado
-    ? (await getPrecios(supabaseServer, [f.id])).get(f.id) ?? null
-    : null;
+  const precio = f.precio_pretendido_kg;
 
   const fotos = (
     await Promise.all((f.fotos_paths ?? []).map((p) => firmarFoto(p)))
@@ -164,8 +162,8 @@ export default async function FichaPublicaPage({
     { label: "Provincia", value: ubicacion, consulta: "Consultá la provincia" },
   ];
 
-  // Product para Google. NO lleva `offers` con precio: el precio está detrás del
-  // login, así que no debe viajar en el marcado (Google lo leería y lo mostraría).
+  // Product para Google. Ahora el precio es público, así que vuelve `offers`:
+  // es lo que habilita el resultado enriquecido con precio en la búsqueda.
   // Nota: las fotos son URLs firmadas con vencimiento; Google las re-descarga
   // en cada crawl, así que sirven, pero no son estables para cachear.
   const productoJsonLd = {
@@ -183,6 +181,30 @@ export default async function FichaPublicaPage({
       ? { brand: { "@type": "Brand", name: f.vendedor_nombre } }
       : {}),
     sku: ref,
+    ...(precio != null
+      ? {
+          offers: {
+            "@type": "Offer",
+            url: fichaUrl,
+            priceCurrency: "ARS",
+            price: precio,
+            availability: "https://schema.org/InStock",
+            ...(f.kilos_totales
+              ? {
+                  eligibleQuantity: {
+                    "@type": "QuantitativeValue",
+                    value: f.kilos_totales,
+                    unitCode: "KGM",
+                  },
+                }
+              : {}),
+            areaServed: "AR",
+            ...(f.vendedor_nombre
+              ? { seller: { "@type": "Organization", name: f.vendedor_nombre } }
+              : {}),
+          },
+        }
+      : {}),
   };
 
   return (
@@ -276,20 +298,19 @@ export default async function FichaPublicaPage({
             {/* Precio: solo con cuenta (no se expone a la competencia ni a Google) */}
             <div className="mb-3 border border-borde bg-fondo p-6">
               <p className="text-[11px] uppercase tracking-[0.16em] text-texto-sec">Precio por kg</p>
-              {logueado ? (
-                precio != null ? (
-                  <p className="mt-1 font-serif text-3xl text-texto">
-                    {formatARS(precio)}
-                    <span className="text-base text-texto-sec"> /kg</span>
-                  </p>
-                ) : (
-                  <p className="mt-1 text-sm italic text-texto-sec">Consultá el precio</p>
-                )
+              {precio != null ? (
+                <p className="mt-1 font-serif text-3xl text-texto">
+                  {formatARS(precio)}
+                  <span className="text-base text-texto-sec"> /kg</span>
+                </p>
               ) : (
+                <p className="mt-1 text-sm italic text-texto-sec">Precio a consultar</p>
+              )}
+              {!logueado && (
                 <>
-                  <p className="mt-1 font-serif text-2xl text-texto-sec">— — —</p>
-                  <p className="mt-2 text-sm text-texto-sec">
-                    El precio y la consulta son para usuarios con cuenta.
+                  <p className="mt-3 text-sm text-texto-sec">
+                    Creá tu cuenta para consultar este lote y recibir avisos de lotes
+                    nuevos.
                   </p>
                   <Link
                     href="/registro"

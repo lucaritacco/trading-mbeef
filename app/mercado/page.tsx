@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Header from "@/components/Header";
 import LoteCard from "@/components/LoteCard";
 import { supabase } from "@/lib/supabase";
-import { firmarFoto, getPrecios, type LoteFila } from "@/lib/ficha";
+import { firmarFoto, type LoteFila } from "@/lib/ficha";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { CORTES, LOTE_ESTADO, PROVINCIAS } from "@/lib/opciones";
 import { inputBase } from "@/lib/ui";
@@ -60,10 +60,6 @@ export default async function MercadoPublicoPage({
     }),
   );
 
-  const precios = logueado
-    ? await getPrecios(supabaseServer, lotes.map((l) => l.id))
-    : new Map<string, number>();
-
   // ItemList: le da a Google la estructura del catálogo (cada lote es una
   // entrada con su URL), lo que ayuda a que descubra las fichas más rápido.
   const listaJsonLd = {
@@ -89,7 +85,7 @@ export default async function MercadoPublicoPage({
           listaJsonLd,
         ])}
       />
-      <Header logueado={logueado} />
+      <Header />
       <main className="min-h-svh bg-superficie text-texto">
         <div className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8">
           <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">El mercado de la carne</p>
@@ -133,7 +129,7 @@ export default async function MercadoPublicoPage({
           ) : (
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {lotes.map((l) => (
-                <LoteCard key={l.id} l={l} foto={fotos.get(l.id)} precio={precios.get(l.id)} logueado={logueado} />
+                <LoteCard key={l.id} l={l} foto={fotos.get(l.id)} />
               ))}
             </div>
           )}

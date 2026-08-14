@@ -11,7 +11,7 @@ import ComoFuncionaDual from "@/components/home/ComoFuncionaDual";
 import FranjaMbeef from "@/components/home/FranjaMbeef";
 import { supabase } from "@/lib/supabase";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { firmarFoto, getPrecios, type LoteFila } from "@/lib/ficha";
+import { firmarFoto, type LoteFila } from "@/lib/ficha";
 import { absoluta, jsonLdProps } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -48,11 +48,6 @@ export default async function Home() {
     }),
   );
 
-  // El precio solo se pide con sesión (precios_lotes está revocada para anon).
-  const precios = logueado
-    ? await getPrecios(supabaseServer, lotes.map((l) => l.id))
-    : new Map<string, number>();
-
   const listaJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -74,7 +69,7 @@ export default async function Home() {
         <HeroMarketplace lotes={lotes.slice(0, EN_HERO)} fotos={fotos} logueado={logueado} />
         <Pilares />
         <DosCaminos />
-        <LotesDisponibles lotes={lotes} fotos={fotos} precios={precios} logueado={logueado} />
+        <LotesDisponibles lotes={lotes} fotos={fotos} logueado={logueado} />
         <SolicitudesAbiertas
           solicitudes={solicitudes}
           total={Number(totalSols ?? solicitudes.length)}

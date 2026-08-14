@@ -9,17 +9,7 @@ import BadgeVendedor from "@/components/BadgeVendedor";
 // · El sello "verificado" es dato real (usuarios.verificado), lo activa el staff
 //   tras revisar al frigorífico, y es lo mismo que lo habilita a publicar. Es un
 //   booleano: no identifica al proveedor.
-export default function LoteCard({
-  l,
-  foto,
-  precio,
-  logueado = false,
-}: {
-  l: LoteFila;
-  foto?: string;
-  precio?: number;
-  logueado?: boolean;
-}) {
+export default function LoteCard({ l, foto }: { l: LoteFila; foto?: string }) {
   return (
     <Link
       href={`/lote/${l.id}`}
@@ -75,13 +65,13 @@ export default function LoteCard({
         )}
 
         <div className="mt-auto flex items-baseline justify-between gap-3 border-t border-borde pt-4">
-          {logueado && precio != null ? (
+          {l.precio_pretendido_kg != null ? (
             <span className="font-serif text-lg text-texto">
-              {formatARS(precio)}
+              {formatARS(l.precio_pretendido_kg)}
               <span className="text-sm text-texto-sec"> /kg</span>
             </span>
           ) : (
-            <span className="text-xs font-medium text-primario">Precio con tu cuenta</span>
+            <span className="text-xs text-texto-sec">Precio a consultar</span>
           )}
           <span className="text-xs font-medium text-texto-sec transition-colors group-hover:text-texto">
             Ver lote →

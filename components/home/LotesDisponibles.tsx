@@ -51,12 +51,10 @@ function Invitacion({ destacada }: { destacada: boolean }) {
 export default function LotesDisponibles({
   lotes,
   fotos,
-  precios,
   logueado,
 }: {
   lotes: LoteFila[];
   fotos: Map<string, string>;
-  precios: Map<string, number>;
   logueado: boolean;
 }) {
   const huecos = Math.max(0, MINIMO - lotes.length);
@@ -117,8 +115,6 @@ export default function LotesDisponibles({
               key={l.id}
               l={l}
               foto={fotos.get(l.id)}
-              precio={precios.get(l.id)}
-              logueado={logueado}
             />
           ))}
           {Array.from({ length: huecos }).map((_, i) => (
