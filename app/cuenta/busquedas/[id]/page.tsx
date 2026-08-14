@@ -35,6 +35,13 @@ export default async function BusquedaDetallePage({
   const ofertas = (oData ?? []) as OfertaFila[];
 
   const abierta = b.estado === "abierta";
+  const pendiente = b.estado === "pendiente";
+  const ESTADO_LABEL: Record<string, string> = {
+    pendiente: "En revisión",
+    abierta: "Abierta",
+    rechazada: "Rechazada",
+    cerrada: "Cerrada",
+  };
 
   return (
     <div className="max-w-4xl">
@@ -56,10 +63,25 @@ export default async function BusquedaDetallePage({
               .join(" · ")}
           </p>
         </div>
-        <span className={`border px-3 py-1 text-xs ${abierta ? "border-exito/40 text-exito" : "border-borde text-texto-sec"}`}>
-          {abierta ? "Abierta" : "Cerrada"}
+        <span
+          className={`border px-3 py-1 text-xs ${
+            abierta
+              ? "border-exito/40 text-exito"
+              : pendiente
+                ? "border-acento text-texto"
+                : "border-borde text-texto-sec"
+          }`}
+        >
+          {ESTADO_LABEL[b.estado] ?? b.estado}
         </span>
       </div>
+
+      {b.es_mia && pendiente && (
+        <p className="mt-6 border border-acento bg-acento/10 px-4 py-3 text-sm text-texto">
+          Tu solicitud está en revisión. Cuando la aprobemos van a poder verla los
+          frigoríficos y empezar a cotizarte.
+        </p>
+      )}
 
       {/* Datos de la búsqueda */}
       <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-borde pt-8 sm:grid-cols-3">

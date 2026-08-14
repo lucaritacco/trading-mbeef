@@ -156,3 +156,48 @@ export async function setEstadoSolicitud(formData: FormData): Promise<void> {
     }
   }
 }
+
+// ---------- Verificación de frigoríficos ----------
+
+/**
+ * Marca/desmarca a un frigorífico como verificado. Es el permiso real: sin esto
+ * no puede publicar (RLS "lotes vendedor insert") y sus lotes no muestran sello.
+ * Solo staff: lo garantiza la política "usuarios staff update".
+ */
+export async function setVerificado(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  const verificado = formData.get("verificado") === "true";
+  if (typeof id !== "string") return;
+
+  const supabase = await createSupabaseServer();
+  await supabase
+    .from("usuarios")
+    .update({ verificado, verificado_at: verificado ? new Date().toISOString() : null })
+    .eq("id", id);
+
+  revalidatePath("/panel/frigorificos");
+  redirect("/panel/frigorificos?ok=1");
+}
+
+// ---------- Solicitudes de compra (moderación) ----------
+
+/**
+ * Publica, rechaza o cierra una solicitud de compra. Nacen 'pendiente': ningún
+ * vendedor las ve hasta que pasen a 'abierta'. Solo staff (policy "busquedas
+ * staff update").
+ */
+export async function setEstadoBusqueda(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  const estado = formData.get("estado");
+  if (
+    typeof id !== "string" ||
+    typeof estado !== "string" ||
+    !["pendiente", "abierta", "rechazada", "cerrada"].includes(estado)
+  ) {
+    return;
+  }
+  const supabase = await createSupabaseServer();
+  await supabase.from("busquedas").update({ estado }).eq("id", id);
+  revalidatePath("/panel/solicitudes-compra");
+  redirect("/panel/solicitudes-compra?ok=1");
+}

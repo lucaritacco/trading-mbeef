@@ -135,6 +135,15 @@ export async function crearBusqueda(data: BusquedaForm): Promise<string> {
     .select("id")
     .single();
   if (error) throw new Error(error.message);
+
+  // Avisa al staff para que la modere (nace 'pendiente'). Fire-and-forget: si
+  // falla el aviso, la solicitud igual quedó creada.
+  void fetch("/api/eventos/solicitud-compra", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ busquedaId: fila.id }),
+  }).catch(() => {});
+
   return fila.id as string;
 }
 

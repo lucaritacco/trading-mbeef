@@ -6,9 +6,9 @@ import { site } from "@/lib/site";
 
 const LINKS = [
   { href: "/", label: "Comprar carne" },
-  { href: "/vendedores", label: "Vender carne" },
   { href: "/mercado", label: "Ver todos los lotes" },
-  { href: "/compradores", label: "Para compradores" },
+  { href: "/#como-funciona", label: "Cómo funciona" },
+  { href: "/vendedores", label: "Para frigoríficos" },
 ];
 
 export default function MobileMenu({ logueado = false }: { logueado?: boolean }) {
@@ -80,7 +80,7 @@ export default function MobileMenu({ logueado = false }: { logueado?: boolean })
                   Ingresar
                 </Link>
                 <Link
-                  href="/sumate"
+                  href="/registro"
                   onClick={cerrar}
                   className="mt-2 bg-primario px-4 py-3 text-center text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
                 >

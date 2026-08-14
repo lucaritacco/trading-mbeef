@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import Header from "@/components/Header";
 import LoteCard from "@/components/LoteCard";
 import { supabase } from "@/lib/supabase";
@@ -13,10 +14,9 @@ export const metadata: Metadata = {
   title: "Mercado de lotes | DeCarnes",
   description:
     "Mirá los lotes de carne publicados en DeCarnes: cortes, cantidades, provincia y precio. Consultá sin registrarte. Powered by MBEEF.",
-  // Los filtros (?corte=&provincia=&estado=&q=) generan decenas de URLs con el
-  // mismo contenido. El canónico apunta siempre a la versión sin parámetros
-  // para que Google no gaste crawl budget ni las trate como duplicados.
-  alternates: { canonical: "/mercado" },
+  // El catálogo completo pide cuenta, así que no es indexable: la vidriera
+  // pública para Google son la home (últimos lotes) y cada ficha /lote/[id].
+  robots: { index: false, follow: false },
   openGraph: {
     title: "Mercado de lotes | DeCarnes",
     description:
@@ -38,7 +38,10 @@ export default async function MercadoPublicoPage({
   const {
     data: { user },
   } = await supabaseServer.auth.getUser();
-  const logueado = Boolean(user);
+  // El catálogo completo es para usuarios con cuenta. Sin sesión mandamos a
+  // crear una (el enlace público a los lotes es la home y cada ficha).
+  if (!user) redirect("/registro");
+  const logueado = true;
 
   const { data, error } = await supabase.rpc("catalogo_publico", {
     p_corte: sp.corte || null,

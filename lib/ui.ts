@@ -16,6 +16,10 @@ export const btnPrimario =
 export const btnSecundario =
   "inline-flex items-center justify-center gap-2 border border-borde px-6 py-3 text-sm font-medium text-texto transition-colors hover:border-primario hover:text-primario disabled:opacity-60";
 
+/** Oscuro: CTA del comprador. Acción neutra, no compite con el rojo de marca. */
+export const btnOscuro =
+  "inline-flex items-center justify-center gap-2 bg-tinta px-6 py-3 text-sm font-medium text-superficie transition-colors hover:bg-tinta-hover disabled:opacity-60";
+
 /** Acento: solo publicar / beta / invitación. Texto carbón (blanco no pasa AA). */
 export const btnAcento =
   "inline-flex items-center justify-center gap-2 bg-acento px-6 py-3 text-sm font-semibold text-texto transition-colors hover:brightness-95 disabled:opacity-60";

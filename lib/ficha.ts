@@ -27,6 +27,8 @@ export type FichaPublica = {
   ubicacion_provincia: string | null;
   observaciones_calidad: string | null;
   fotos_paths: string[] | null;
+  /** Sello del frigorífico (usuarios.verificado). Booleano: no lo identifica. */
+  verificado: boolean;
 };
 
 // Fila de lote para tarjetas de catálogo (catalogo_publico). Sin datos del dueño,
@@ -40,6 +42,8 @@ export type LoteFila = {
   kilos_totales: number | null;
   ubicacion_provincia: string | null;
   foto_principal: string | null;
+  /** Sello del frigorífico (usuarios.verificado). Booleano: no lo identifica. */
+  verificado: boolean;
 };
 
 // Métrica de volumen del mercado (para el hero). Se calcula en vivo.
