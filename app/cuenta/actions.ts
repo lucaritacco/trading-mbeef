@@ -99,3 +99,64 @@ export async function eliminarLote(formData: FormData): Promise<void> {
   await supabase.from("lotes").delete().eq("id", id);
   revalidatePath("/cuenta/mis-lotes");
 }
+
+// ---------- Ciclo de vida del lote (vendedor) ----------
+
+function numeroOpcional(fd: FormData, k: string): number | null {
+  const v = fd.get(k);
+  if (typeof v !== "string" || v.trim() === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+/**
+ * Marca un lote propio como vendido y guarda los datos de la operación.
+ * Los números son opcionales: pedirlos como obligatorios haría que el vendedor
+ * no marque el lote, y un lote vendido que sigue publicado es peor que no tener
+ * el dato. Al venderse sale del catálogo (lo filtra catalogo_publico).
+ */
+export async function marcarVendido(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  if (typeof id !== "string") return;
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  await supabase
+    .from("lotes")
+    .update({
+      vendido: true,
+      vendido_at: new Date().toISOString(),
+      venta_kg: numeroOpcional(formData, "venta_kg"),
+      venta_precio_kg: numeroOpcional(formData, "venta_precio_kg"),
+      venta_notas: (formData.get("venta_notas") as string)?.trim() || null,
+      publico: false,
+    })
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  revalidatePath("/cuenta/mis-lotes");
+  redirect("/cuenta/mis-lotes?ok=vendido");
+}
+
+/** Vuelve a poner en venta un lote marcado como vendido (por si fue un error). */
+export async function reactivarLote(formData: FormData): Promise<void> {
+  const id = formData.get("id");
+  if (typeof id !== "string") return;
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  await supabase
+    .from("lotes")
+    .update({ vendido: false, vendido_at: null, publico: true })
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  revalidatePath("/cuenta/mis-lotes");
+  redirect("/cuenta/mis-lotes?ok=reactivado");
+}

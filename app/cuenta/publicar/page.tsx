@@ -4,6 +4,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import PublicarLoteForm from "@/components/cuenta/PublicarLoteForm";
 import { LOTE_VACIO, type LoteForm } from "@/lib/mercado";
 import { firmarFoto } from "@/lib/ficha";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Publicar lote | DeCarnes",
@@ -12,12 +13,49 @@ export const metadata: Metadata = {
 
 const str = (v: unknown) => (v === null || v === undefined ? "" : String(v));
 
+// Publicar exige verificación (RLS "lotes vendedor insert"). Se avisa acá, antes
+// de que el vendedor cargue todo el formulario y choque con un error de permisos.
+async function puedePublicar(): Promise<boolean> {
+  const supabase = await createSupabaseServer();
+  const { data } = await supabase.rpc("mi_estado_cuenta");
+  const fila = Array.isArray(data) ? data[0] : null;
+  return Boolean(fila?.verificado);
+}
+
+function EnVerificacion() {
+  return (
+    <div className="max-w-2xl">
+      <p className="text-[11px] uppercase tracking-[0.24em] text-primario">Mercado</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">
+        Tu cuenta está en verificación
+      </h1>
+      <p className="mt-5 leading-relaxed text-texto-sec">
+        Antes de publicar revisamos los datos de cada frigorífico y hablamos con vos.
+        Es lo que sostiene el sello de verificado que ven los compradores en cada lote.
+      </p>
+      <p className="mt-4 leading-relaxed text-texto-sec">
+        Te avisamos apenas esté lista. Si necesitás apurarlo, escribinos.
+      </p>
+      <a
+        href={site.whatsappVenderHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-8 inline-block bg-primario px-6 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
+      >
+        Hablar con el equipo
+      </a>
+    </div>
+  );
+}
+
 export default async function PublicarPage({
   searchParams,
 }: {
   searchParams: Promise<{ id?: string }>;
 }) {
   const { id } = await searchParams;
+
+  if (!(await puedePublicar())) return <EnVerificacion />;
 
   if (!id) {
     return <PublicarLoteForm />;
