@@ -176,10 +176,12 @@ export default async function FichaPublicaPage({
     description:
       f.descripcion?.trim() ||
       [especie, corteVal, ubicacion].filter(Boolean).join(" · ") ||
-      "Lote de carne vacuna de frigorífico seleccionado por MBEEF.",
+      "Lote de carne vacuna publicado en DeCarnes.",
     category: corteVal || "Carne vacuna",
     ...(fotos.length > 0 ? { image: fotos } : {}),
-    brand: { "@type": "Brand", name: "MBEEF" },
+    ...(f.vendedor_nombre
+      ? { brand: { "@type": "Brand", name: f.vendedor_nombre } }
+      : {}),
     sku: ref,
   };
 
