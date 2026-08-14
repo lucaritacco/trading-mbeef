@@ -6,6 +6,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import ConsultaLote from "@/components/ficha/ConsultaLote";
 import BadgeVendedor from "@/components/BadgeVendedor";
 import CompartirWhatsapp from "@/components/CompartirWhatsapp";
+import KitPromocional from "@/components/ficha/KitPromocional";
 import {
   TIPO_PRODUCTO,
   LOTE_ESTADO,
@@ -56,8 +57,6 @@ export async function generateMetadata({
   const cruda = (f.descripcion?.trim() || resumen).replace(/\s+/g, " ");
   const descripcion = cruda.length > 180 ? `${cruda.slice(0, 177)}…` : cruda;
 
-  const ogPath = f.fotos_paths?.[0];
-  const ogUrl = ogPath ? await firmarFoto(ogPath) : null;
   const fichaUrl = `${SITE}/lote/${id}`;
 
   return {
@@ -69,13 +68,11 @@ export async function generateMetadata({
       description: descripcion,
       url: fichaUrl,
       type: "website",
-      images: ogUrl ? [{ url: ogUrl, alt: titulo }] : [],
     },
     twitter: {
-      card: ogUrl ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: titulo,
       description: descripcion,
-      images: ogUrl ? [ogUrl] : undefined,
     },
   };
 }
@@ -337,7 +334,18 @@ export default async function FichaPublicaPage({
               fichaUrl={fichaUrl}
             />
             <div className="mt-3">
-              <CompartirWhatsapp texto={compartirTexto} url={fichaUrl} full label="Compartir por WhatsApp" />
+              <CompartirWhatsapp texto={compartirTexto} url={fichaUrl} full label="Compartir lote" />
+            </div>
+            <div className="mt-3">
+              <KitPromocional
+                loteId={f.id}
+                corte={corteVal}
+                precio={precio}
+                kilos={f.kilos_totales}
+                moq={f.moq}
+                provincia={f.ubicacion_provincia}
+                fichaUrl={fichaUrl}
+              />
             </div>
           </aside>
         </div>
