@@ -76,7 +76,7 @@ export default function ConsultaLote({
       <div className="border border-borde bg-fondo p-6">
         <p className="font-serif text-xl font-medium text-texto">Consultá este lote</p>
         <p className="mt-1 text-sm text-texto-sec">
-          Creá tu cuenta para consultar al frigorífico y ver el precio. Es gratis.
+          Creá tu cuenta para consultar al vendedor y recibir nuevos lotes. Es gratis.
         </p>
         <Link
           href="/registro"

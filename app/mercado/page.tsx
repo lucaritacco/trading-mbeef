@@ -32,8 +32,7 @@ export default async function MercadoPublicoPage({
 }) {
   const sp = await searchParams;
 
-  // Sesión: el catálogo es público, pero el precio de cada tarjeta solo se
-  // muestra con cuenta (precios_lotes está revocada para anon).
+  // Sesión: el catálogo completo es para usuarios con cuenta.
   const supabaseServer = await createSupabaseServer();
   const {
     data: { user },

@@ -115,8 +115,7 @@ export default async function FichaPublicaPage({
   const f: FichaPublica | null = await getFicha(id);
   if (!f) notFound();
 
-  // La ficha es pública e indexable, pero el PRECIO va detrás del login: no se
-  // expone la lista de precios del vendedor a la competencia ni a Google.
+  // Sesión: define si puede consultar al vendedor (el precio es público).
   const supabaseServer = await createSupabaseServer();
   const {
     data: { user },
@@ -295,7 +294,7 @@ export default async function FichaPublicaPage({
 
           {/* Columna de precio + consulta */}
           <aside className="lg:sticky lg:top-8 lg:self-start">
-            {/* Precio: solo con cuenta (no se expone a la competencia ni a Google) */}
+            {/* Precio: público. Lo que pide cuenta es consultar y recibir avisos. */}
             <div className="mb-3 border border-borde bg-fondo p-6">
               <p className="text-[11px] uppercase tracking-[0.16em] text-texto-sec">Precio por kg</p>
               {precio != null ? (

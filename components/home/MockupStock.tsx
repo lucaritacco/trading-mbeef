@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { LOTE_ESTADO, labelDe } from "@/lib/opciones";
+import { formatARS } from "@/lib/panel";
 import type { LoteFila } from "@/lib/ficha";
 
 // Panel del hero: muestra stock REAL (los últimos publicados), no una ilustración.
-// En un marketplace el mejor argumento es el stock mismo. El precio no se muestra
-// nunca acá: dice "con cuenta", que es el gancho para registrarse.
+// En un marketplace el mejor argumento es el stock mismo, con su precio a la
+// vista: lo que pide cuenta es consultar, no mirar.
 export default function MockupStock({
   lotes,
   fotos,
@@ -51,10 +52,17 @@ export default function MockupStock({
                           .join(" · ")}
                       </span>
                     </span>
-                    <span className="shrink-0 text-right text-[10px] font-medium uppercase leading-tight tracking-[0.1em] text-primario">
-                      Precio
-                      <br />
-                      con cuenta
+                    <span className="shrink-0 text-right">
+                      {l.precio_pretendido_kg != null ? (
+                        <span className="block font-serif text-sm text-texto">
+                          {formatARS(l.precio_pretendido_kg)}
+                          <span className="text-[10px] text-texto-sec"> /kg</span>
+                        </span>
+                      ) : (
+                        <span className="block text-[10px] uppercase tracking-[0.1em] text-texto-sec">
+                          A consultar
+                        </span>
+                      )}
                     </span>
                   </Link>
                 </li>
