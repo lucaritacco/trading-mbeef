@@ -139,7 +139,9 @@ revoke all on function public.lotes_de_vendedor(uuid) from public;
 grant execute on function public.lotes_de_vendedor(uuid) to anon, authenticated;
 
 -- 5) ¿Tiene el perfil completo? Decide si /cuenta muestra el onboarding.
-create or replace function public.mi_estado_cuenta()
+-- drop primero: cambia la forma de salida y Postgres no lo permite con replace.
+drop function if exists public.mi_estado_cuenta();
+create function public.mi_estado_cuenta()
 returns table (
   verificado boolean, rol_mercado text, empresa text,
   foto_path text, descripcion text, provincia text, whatsapp text,

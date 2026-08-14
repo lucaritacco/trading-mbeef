@@ -3,6 +3,7 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import { guardarEmpresa } from "../actions";
 import { RUCA_CATEGORIA, HABILITACION_TIPO, provinciaOpciones, type Opcion } from "@/lib/opciones";
 import { inputBase } from "@/lib/ui";
+import PerfilPublico from "@/components/cuenta/PerfilPublico";
 
 export const metadata: Metadata = {
   title: "Mi empresa | DeCarnes",
@@ -77,7 +78,17 @@ export default async function EmpresaPage({
   return (
     <div className="max-w-3xl">
       <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Mi cuenta</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Datos de mi empresa</h1>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Mi empresa</h1>
+
+      <div className="mt-8">
+        <PerfilPublico fotoInicial={u?.foto_path ?? null} descripcionInicial={u?.descripcion ?? null} />
+      </div>
+
+      <h2 className="mt-12 font-serif text-2xl font-medium text-texto">Datos de la empresa</h2>
+      <p className="mt-1 text-sm text-texto-sec">
+        Estos datos son internos: los usamos para verificarte y no se muestran en el
+        catálogo.
+      </p>
       <p className="mt-4 max-w-xl leading-relaxed text-texto-sec">
         Estos datos se usan en tus publicaciones y para que los compradores te
         contacten. No te pedimos documentos todavía.
