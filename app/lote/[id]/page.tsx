@@ -6,7 +6,6 @@ import { createSupabaseServer } from "@/lib/supabase/server";
 import ConsultaLote from "@/components/ficha/ConsultaLote";
 import BadgeVendedor from "@/components/BadgeVendedor";
 import CompartirWhatsapp from "@/components/CompartirWhatsapp";
-import KitPromocional from "@/components/ficha/KitPromocional";
 import {
   TIPO_PRODUCTO,
   LOTE_ESTADO,
@@ -335,17 +334,6 @@ export default async function FichaPublicaPage({
             />
             <div className="mt-3">
               <CompartirWhatsapp texto={compartirTexto} url={fichaUrl} full label="Compartir lote" />
-            </div>
-            <div className="mt-3">
-              <KitPromocional
-                loteId={f.id}
-                corte={corteVal}
-                precio={precio}
-                kilos={f.kilos_totales}
-                moq={f.moq}
-                provincia={f.ubicacion_provincia}
-                fichaUrl={fichaUrl}
-              />
             </div>
           </aside>
         </div>

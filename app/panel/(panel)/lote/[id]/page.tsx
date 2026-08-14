@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import LoteInterno from "@/components/panel/LoteInterno";
+import KitPromocional from "@/components/panel/KitPromocional";
+import { SITE_URL } from "@/lib/seo";
 import TogglePublico from "@/components/panel/TogglePublico";
 import {
   CONFIG_DEFAULT,
@@ -195,6 +197,23 @@ export default async function LoteDetalle({
             <h2 className="mb-5 font-serif text-xl font-medium text-texto">Análisis y oferta</h2>
             <LoteInterno lote={l} config={config} />
           </div>
+
+          {/* Kit de campañas: herramienta interna, no se ofrece al vendedor.
+              `corte` y `moq` existen en la fila (select *) pero no en el tipo
+              legado del panel, de ahí el cast acotado. */}
+          <KitPromocional
+            loteId={l.id}
+            corte={
+              (l as { corte?: string | null }).corte ||
+              [...(l.cortes ?? []), l.cortes_otro].filter(Boolean).join(", ") ||
+              null
+            }
+            precio={l.precio_pretendido_kg}
+            kilos={l.kilos_totales}
+            moq={(l as { moq?: number | null }).moq ?? null}
+            provincia={l.ubicacion_provincia}
+            fichaUrl={`${SITE_URL}/lote/${l.id}`}
+          />
 
           {scorecard && (
             <Seccion titulo="Historial del proveedor">
