@@ -37,7 +37,7 @@ export function jsonLdOrganizacion() {
     logo: absoluta("/icon-512.png"),
     image: absoluta("/images/hero.jpg"),
     description:
-      "Catálogo de lotes de carne vacuna de frigoríficos seleccionados por MBEEF, operador mayorista del mercado argentino desde 1994.",
+      "Marketplace mayorista de carne de Argentina: frigoríficos verificados publican sus lotes y los compradores consultan directo.",
     foundingDate: "1994",
     parentOrganization: {
       "@type": "Organization",
@@ -45,13 +45,6 @@ export function jsonLdOrganizacion() {
       url: site.mbeefUrl,
     },
     sameAs: [site.mbeefUrl],
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Thompson 1226",
-      addressLocality: "Bahía Blanca",
-      addressRegion: "Buenos Aires",
-      addressCountry: "AR",
-    },
     contactPoint: [
       {
         "@type": "ContactPoint",

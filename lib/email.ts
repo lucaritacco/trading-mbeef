@@ -126,7 +126,7 @@ export function plantilla(opts: {
       ${nota ? `<p style="margin:24px 0 0;color:${C.textoSec};font-size:12px;line-height:1.6;">${escapar(nota)}</p>` : ""}
     </td></tr>
     <tr><td style="padding:20px 0;color:${C.textoSec};font-size:11px;">
-      DeCarnes · la mesa de compras de MBEEF · Thompson 1226, Bahía Blanca, Argentina
+      DeCarnes · El marketplace mayorista de carne de Argentina
       ${bajaHref ? `<br><a href="${bajaHref}" style="color:${C.textoSec};text-decoration:underline;">No quiero recibir más avisos de lotes nuevos</a>` : ""}
     </td></tr>
   </table>

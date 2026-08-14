@@ -323,7 +323,7 @@ export default async function FichaPublicaPage({
         </div>
 
         <p className="mt-12 text-center text-xs text-texto-sec">
-          Publicación de DeCarnes, la mesa de compras de MBEEF.
+          Publicación revisada por DeCarnes. Disponibilidad sujeta a confirmación del vendedor.
         </p>
       </main>
     </div>
