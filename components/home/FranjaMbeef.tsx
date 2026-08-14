@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { site } from "@/lib/site";
 
 // El servicio de colocación de MBEEF queda al final y en tinta: es una salida
 // para el que no quiere publicar solo, no la propuesta principal del marketplace.
@@ -18,12 +18,14 @@ export default function FranjaMbeef() {
               MBEEF comercializa tu stock a comisión.
             </p>
           </div>
-          <Link
-            href="/vendedores"
+          <a
+            href={site.whatsappVenderHref}
+            target="_blank"
+            rel="noopener noreferrer"
             className="shrink-0 self-start bg-superficie px-7 py-3.5 text-sm font-medium text-tinta transition-colors hover:bg-fondo md:self-auto"
           >
             Conocer el servicio →
-          </Link>
+          </a>
         </div>
       </div>
     </section>
