@@ -290,7 +290,8 @@ export default async function FichaPublicaPage({
 
           {/* Columna de precio + consulta */}
           <aside className="lg:sticky lg:top-8 lg:self-start">
-            {/* Precio: público. Lo que pide cuenta es consultar y recibir avisos. */}
+            {/* Precio: público. El pedido de cuenta vive solo en el bloque de
+                consulta, para no repetir el mismo CTA dos veces seguidas. */}
             <div className="mb-3 border border-borde bg-fondo p-6">
               <p className="text-[11px] uppercase tracking-[0.16em] text-texto-sec">Precio por kg</p>
               {precio != null ? (
@@ -301,25 +302,10 @@ export default async function FichaPublicaPage({
               ) : (
                 <p className="mt-1 text-sm italic text-texto-sec">Precio a consultar</p>
               )}
-              {!logueado && (
-                <>
-                  <p className="mt-3 text-sm text-texto-sec">
-                    Creá tu cuenta para consultar este lote y recibir avisos de lotes
-                    nuevos.
-                  </p>
-                  <Link
-                    href="/registro"
-                    className="mt-4 inline-block bg-primario px-5 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
-                  >
-                    Crear cuenta gratis
-                  </Link>
-                  <p className="mt-3 text-xs text-texto-sec">
-                    ¿Ya tenés?{" "}
-                    <Link href="/login" className="text-primario hover:text-texto">
-                      Iniciá sesión
-                    </Link>
-                  </p>
-                </>
+              {f.moq != null && (
+                <p className="mt-2 text-sm text-texto-sec">
+                  Compra mínima: {f.moq} kg
+                </p>
               )}
             </div>
 
