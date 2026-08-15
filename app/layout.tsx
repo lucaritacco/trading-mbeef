@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { EB_Garamond, Archivo } from "next/font/google";
 import "./globals.css";
 import RegistrarVisita from "@/components/RegistrarVisita";
+import CapturaEmail from "@/components/CapturaEmail";
+import { createSupabaseServer } from "@/lib/supabase/server";
 import {
   SITE_URL,
   jsonLdOrganizacion,
@@ -80,11 +82,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // La captura de email no se le muestra a quien ya tiene cuenta.
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
     <html
       lang="es-AR"
@@ -97,6 +104,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <RegistrarVisita />
         {children}
+        <CapturaEmail logueado={Boolean(user)} />
       </body>
     </html>
   );
