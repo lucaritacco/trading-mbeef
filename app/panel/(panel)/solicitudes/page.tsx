@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
-import { setEstadoSolicitud } from "../../actions";
+import { setEstadoSolicitud, reenviarInvitacion } from "../../actions";
 import { rolLabel } from "@/lib/beta";
 import { formatFecha } from "@/lib/panel";
 
@@ -51,9 +51,9 @@ function contactoHref(contacto: string | null): { href: string; tipo: "wa" | "ma
 export default async function SolicitudesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string }>;
+  searchParams: Promise<{ estado?: string; ok?: string }>;
 }) {
-  const { estado } = await searchParams;
+  const { estado, ok } = await searchParams;
   const supabase = await createSupabaseServer();
 
   let query = supabase
@@ -81,6 +81,18 @@ export default async function SolicitudesPage({
           </p>
         </div>
       </div>
+
+      {ok === "recordatorio" && (
+        <p className="mt-6 border border-exito/40 bg-exito/10 px-4 py-3 text-sm text-exito">
+          Recordatorio enviado con el enlace de invitación.
+        </p>
+      )}
+      {ok === "sin-email" && (
+        <p className="mt-6 border border-acento bg-acento/10 px-4 py-3 text-sm text-texto">
+          No se pudo enviar: la solicitud no tiene email, o la invitación ya se usó.
+          Pasale el enlace por WhatsApp.
+        </p>
+      )}
 
       {/* Filtro por estado */}
       <div className="mt-6 flex flex-wrap gap-2">
@@ -178,6 +190,14 @@ export default async function SolicitudesPage({
                               <span className="block break-all text-primario">
                                 {SITE_URL}/registro?token={s.invitacion_token}
                               </span>
+                              {s.contacto?.includes("@") && (
+                                <form action={reenviarInvitacion} className="mt-2">
+                                  <input type="hidden" name="id" value={s.id} />
+                                  <button className="border border-borde px-3 py-1.5 text-xs text-texto transition-colors hover:border-primario hover:text-primario">
+                                    Recordarle por email
+                                  </button>
+                                </form>
+                              )}
                             </>
                           )}
                         </p>
