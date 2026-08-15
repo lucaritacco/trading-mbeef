@@ -8,6 +8,7 @@ import { cerrarSesion } from "@/app/panel/actions";
 const LINKS = [
   { href: "/panel", label: "Lotes" },
   { href: "/panel/solicitudes", label: "Solicitudes" },
+  { href: "/panel/visitas", label: "Visitas" },
   { href: "/panel/operaciones", label: "Operaciones" },
   { href: "/panel/solicitudes-compra", label: "Solicitudes de compra" },
   { href: "/panel/frigorificos", label: "Cuentas" },

@@ -6,12 +6,12 @@ import { rolLabel } from "@/lib/beta";
 type Usuario = {
   id: string;
   created_at: string;
+  email: string | null;
   empresa: string | null;
-  cuit: string | null;
   rol_mercado: string | null;
   estado: string;
   verificado: boolean;
-  verificado_at: string | null;
+  recibir_avisos: boolean | null;
 };
 
 export default async function FrigorificosPage({
@@ -22,10 +22,9 @@ export default async function FrigorificosPage({
   const { ok } = await searchParams;
   const supabase = await createSupabaseServer();
 
-  const { data, error } = await supabase
-    .from("usuarios")
-    .select("id, created_at, empresa, cuit, rol_mercado, estado, verificado, verificado_at")
-    .order("created_at", { ascending: false });
+  // cuentas_con_email junta usuarios con auth.users: el email no vive en la
+  // tabla `usuarios`, y es el dato que hace falta para contactar a la gente.
+  const { data, error } = await supabase.rpc("cuentas_con_email");
   const usuarios = (data ?? []) as Usuario[];
 
   const pendientes = usuarios.filter((u) => !u.verificado && u.rol_mercado !== "compra");
@@ -63,7 +62,7 @@ export default async function FrigorificosPage({
               <tr className="border-b border-borde text-left text-[11px] uppercase tracking-[0.16em] text-texto-sec">
                 <th className="px-4 py-3 font-normal">Alta</th>
                 <th className="px-4 py-3 font-normal">Empresa</th>
-                <th className="px-4 py-3 font-normal">CUIT</th>
+                <th className="px-4 py-3 font-normal">Email</th>
                 <th className="px-4 py-3 font-normal">Rol</th>
                 <th className="px-4 py-3 font-normal">Verificado</th>
                 <th className="px-4 py-3 font-normal">Acción</th>
@@ -76,12 +75,20 @@ export default async function FrigorificosPage({
                   <tr key={u.id} className="border-b border-borde/60">
                     <td className="px-4 py-3 text-texto-sec">{formatFecha(u.created_at)}</td>
                     <td className="px-4 py-3 text-texto">{u.empresa ?? "—"}</td>
-                    <td className="px-4 py-3 text-texto-sec">{u.cuit ?? "—"}</td>
+                    <td className="px-4 py-3">
+                      {u.email ? (
+                        <a href={`mailto:${u.email}`} className="text-texto-sec hover:text-primario">
+                          {u.email}
+                        </a>
+                      ) : (
+                        <span className="text-texto-sec">—</span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-texto-sec">{rolLabel(u.rol_mercado)}</td>
                     <td className="px-4 py-3">
                       {u.verificado ? (
                         <span className="whitespace-nowrap border border-exito/50 px-2 py-1 text-xs text-exito">
-                          Verificado {u.verificado_at ? `· ${formatFecha(u.verificado_at)}` : ""}
+                          Verificado
                         </span>
                       ) : (
                         <span className="whitespace-nowrap border border-borde px-2 py-1 text-xs text-texto-sec">

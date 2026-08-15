@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { EB_Garamond, Archivo } from "next/font/google";
 import "./globals.css";
+import RegistrarVisita from "@/components/RegistrarVisita";
 import {
   SITE_URL,
   jsonLdOrganizacion,
@@ -93,7 +94,10 @@ export default function RootLayout({
         {/* Identidad del sitio para Google: quién es DeCarnes y de quién depende. */}
         <script {...jsonLdProps([jsonLdOrganizacion(), jsonLdWebSite()])} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <RegistrarVisita />
+        {children}
+      </body>
     </html>
   );
 }
