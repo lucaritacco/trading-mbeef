@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import AccionesLote from "@/components/cuenta/AccionesLote";
+import CompartirPerfil from "@/components/cuenta/CompartirPerfil";
+import { SITE_URL } from "@/lib/seo";
 import { formatARS, formatFecha } from "@/lib/panel";
 
 export const metadata: Metadata = {
@@ -38,6 +40,9 @@ export default async function MisLotesPage({
 }) {
   const { ok } = await searchParams;
   const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // RLS "lotes own select" limita a los lotes del usuario (user_id = auth.uid()).
   const { data, error } = await supabase
@@ -53,7 +58,7 @@ export default async function MisLotesPage({
   // avisarlo antes y no después de que cargue todo el formulario.
   const { data: est } = await supabase.rpc("mi_estado_cuenta");
   const cuenta = (Array.isArray(est) ? est[0] : null) as
-    | { verificado: boolean; rol_mercado: string | null }
+    | { verificado: boolean; rol_mercado: string | null; empresa: string | null }
     | null;
   const puedePublicar = Boolean(cuenta?.verificado);
 
@@ -91,6 +96,14 @@ export default async function MisLotesPage({
           </Link>
         )}
       </div>
+
+      {/* Solo tiene sentido compartir si hay algo publicado del otro lado. */}
+      {user && lotes.some((l) => l.publico && !l.vendido) && (
+        <CompartirPerfil
+          url={`${SITE_URL}/vendedor/${user.id}`}
+          empresa={cuenta?.empresa ?? null}
+        />
+      )}
 
       {ok === "vendido" && (
         <p className="mt-6 border border-exito/40 bg-exito/10 px-4 py-3 text-sm text-exito">
