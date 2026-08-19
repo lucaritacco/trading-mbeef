@@ -19,7 +19,7 @@ export default async function CuentaLayout({
   // El staff y los registros sin invitación canjeada NO tienen fila → sin acceso.
   const { data: usuario } = await supabase
     .from("usuarios")
-    .select("empresa")
+    .select("empresa, rol_mercado")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -40,13 +40,23 @@ export default async function CuentaLayout({
     );
   }
 
-  const links = [
-    { href: "/cuenta/mercado", label: "Mercado" },
-    { href: "/cuenta/busquedas", label: "Solicitudes" },
-    { href: "/cuenta/mis-lotes", label: "Mis lotes" },
-    { href: "/cuenta/publicar", label: "Publicar lote" },
-    { href: "/cuenta/empresa", label: "Mi empresa" },
-  ];
+  // El comprador y el frigorífico usan el mismo panel pero no hacen lo mismo:
+  // mostrarle "Publicar lote" a un comprador es mandarlo a una pared.
+  const links =
+    usuario.rol_mercado === "compra"
+      ? [
+          { href: "/mercado", label: "Mercado" },
+          { href: "/cuenta/busquedas/nueva", label: "Publicar solicitud" },
+          { href: "/cuenta/mis-busquedas", label: "Mis solicitudes" },
+          { href: "/cuenta/empresa", label: "Mi empresa" },
+        ]
+      : [
+          { href: "/cuenta/mercado", label: "Mercado" },
+          { href: "/cuenta/busquedas", label: "Solicitudes" },
+          { href: "/cuenta/mis-lotes", label: "Mis lotes" },
+          { href: "/cuenta/publicar", label: "Publicar lote" },
+          { href: "/cuenta/empresa", label: "Mi empresa" },
+        ];
 
   return (
     <div className="min-h-svh bg-superficie text-texto">

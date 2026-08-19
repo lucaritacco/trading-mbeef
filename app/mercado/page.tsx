@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import Header from "@/components/Header";
 import LoteCard from "@/components/LoteCard";
@@ -96,6 +97,19 @@ export default async function MercadoPublicoPage({
               Escribinos y lo publicamos
             </a>.
           </p>
+
+          {/* Si no encontró lo que buscaba, que lo pida en vez de irse. */}
+          <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border border-borde bg-primario-suave px-5 py-4">
+            <p className="text-sm text-texto">
+              ¿No encontrás lo que buscás? Pedilo y los frigoríficos te cotizan.
+            </p>
+            <Link
+              href="/cuenta/busquedas/nueva"
+              className="bg-primario px-5 py-2.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
+            >
+              Publicar solicitud
+            </Link>
+          </div>
 
           {/* Filtros (GET, funcionan sin login) */}
           <form className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" method="get">
