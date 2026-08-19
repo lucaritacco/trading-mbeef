@@ -4,8 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 
+// Los dos lados del mercado primero (oferta y demanda), después el resto.
 const SECCIONES = [
-  { href: "/", label: "Comprar carne" },
+  { href: "/", label: "Lotes" },
+  { href: "/solicitudes", label: "Solicitudes" },
   { href: "/#como-funciona", label: "Cómo funciona" },
   { href: "/vendedores", label: "Para frigoríficos" },
 ];

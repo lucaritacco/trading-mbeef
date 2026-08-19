@@ -18,17 +18,17 @@ export default async function MisBusquedasPage() {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Búsquedas</p>
-          <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Mis búsquedas</h1>
+          <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Solicitudes</p>
+          <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Mis solicitudes</h1>
         </div>
         <Link href="/cuenta/busquedas/nueva" className="bg-primario px-5 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover">
-          Publicar una búsqueda
+          Publicar solicitud
         </Link>
       </div>
 
       {busquedas.length === 0 ? (
         <p className="mt-12 text-sm text-texto-sec">
-          Todavía no publicaste búsquedas.{" "}
+          Todavía no publicaste solicitudes.{" "}
           <Link href="/cuenta/busquedas/nueva" className="text-primario hover:text-texto">Publicá la primera.</Link>
         </p>
       ) : (

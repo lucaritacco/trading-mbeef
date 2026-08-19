@@ -5,8 +5,8 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 
 const LINKS = [
-  { href: "/", label: "Comprar carne" },
-  { href: "/mercado", label: "Ver todos los lotes" },
+  { href: "/", label: "Lotes" },
+  { href: "/solicitudes", label: "Solicitudes" },
   { href: "/#como-funciona", label: "Cómo funciona" },
   { href: "/vendedores", label: "Para frigoríficos" },
 ];

@@ -22,13 +22,13 @@ export default async function MisOfertasPage() {
 
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Búsquedas</p>
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Solicitudes</p>
       <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Mis ofertas enviadas</h1>
 
       {ofertas.length === 0 ? (
         <p className="mt-12 text-sm text-texto-sec">
           Todavía no enviaste ofertas.{" "}
-          <Link href="/cuenta/busquedas" className="text-primario hover:text-texto">Mirá las búsquedas abiertas.</Link>
+          <Link href="/cuenta/busquedas" className="text-primario hover:text-texto">Mirá las solicitudes abiertas.</Link>
         </p>
       ) : (
         <div className="mt-8 overflow-x-auto border border-borde">
@@ -36,7 +36,7 @@ export default async function MisOfertasPage() {
             <thead>
               <tr className="border-b border-borde text-left text-[11px] uppercase tracking-[0.16em] text-texto-sec">
                 <th className="px-4 py-3 font-normal">Fecha</th>
-                <th className="px-4 py-3 font-normal">Búsqueda</th>
+                <th className="px-4 py-3 font-normal">Solicitud</th>
                 <th className="px-4 py-3 font-normal">Mi precio/kg</th>
                 <th className="px-4 py-3 font-normal">Cantidad</th>
                 <th className="px-4 py-3 font-normal">Plazo</th>

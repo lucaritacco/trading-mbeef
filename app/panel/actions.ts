@@ -228,6 +228,40 @@ export async function setEstadoBusqueda(formData: FormData): Promise<void> {
   }
   const supabase = await createSupabaseServer();
   await supabase.from("busquedas").update({ estado }).eq("id", id);
+
+  // Al publicarla, avisamos a los frigoríficos verificados. Se hace por HTTP a la
+  // ruta interna porque necesita service_role para leer los emails.
+  if (estado === "abierta") {
+    try {
+      const { cookies } = await import("next/headers");
+      const ck = await cookies();
+      await fetch(`${SITE_URL}/api/eventos/solicitud-aprobada`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          cookie: ck.getAll().map((c) => `${c.name}=${c.value}`).join("; "),
+        },
+        body: JSON.stringify({ busquedaId: id }),
+      });
+    } catch {
+      /* si falla el aviso, la solicitud igual queda publicada */
+    }
+    await supabase.rpc("registrar_evento", {
+      p_tipo: "request_approved",
+      p_busqueda_id: id,
+      p_lote_id: null,
+      p_meta: null,
+    });
+  }
+  if (estado === "cerrada") {
+    await supabase.rpc("registrar_evento", {
+      p_tipo: "request_closed",
+      p_busqueda_id: id,
+      p_lote_id: null,
+      p_meta: null,
+    });
+  }
+
   revalidatePath("/panel/solicitudes-compra");
   redirect("/panel/solicitudes-compra?ok=1");
 }

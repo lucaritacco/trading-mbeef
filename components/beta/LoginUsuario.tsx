@@ -1,12 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 import { inputBase } from "@/lib/ui";
 
 export default function LoginUsuario() {
   const router = useRouter();
+  const params = useSearchParams();
+  // Preserva la intención: si venía a cotizar una solicitud, vuelve ahí.
+  const next = params.get("next");
+  const destino = next && next.startsWith("/") && !next.startsWith("//") ? next : "/cuenta";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +27,7 @@ export default function LoginUsuario() {
       setCargando(false);
       return;
     }
-    router.push("/cuenta");
+    router.push(destino);
     router.refresh();
   }
 

@@ -42,7 +42,7 @@ export default async function CuentaLayout({
 
   const links = [
     { href: "/cuenta/mercado", label: "Mercado" },
-    { href: "/cuenta/busquedas", label: "Búsquedas" },
+    { href: "/cuenta/busquedas", label: "Solicitudes" },
     { href: "/cuenta/mis-lotes", label: "Mis lotes" },
     { href: "/cuenta/publicar", label: "Publicar lote" },
     { href: "/cuenta/empresa", label: "Mi empresa" },

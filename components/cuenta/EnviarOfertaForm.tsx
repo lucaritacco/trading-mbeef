@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { crearOferta } from "@/lib/busquedas";
+import { crearOferta, misLotesParaOferta, type LoteParaOferta } from "@/lib/busquedas";
+import { registrarEvento } from "@/components/RegistrarEvento";
 import { TextField, TextArea } from "@/components/form/fields";
 
 export default function EnviarOfertaForm({ busquedaId }: { busquedaId: string }) {
@@ -12,9 +13,26 @@ export default function EnviarOfertaForm({ busquedaId }: { busquedaId: string })
   const [plazo, setPlazo] = useState("");
   const [notas, setNotas] = useState("");
   const [errores, setErrores] = useState<Record<string, string>>({});
+  // Lotes propios publicados, para ofrecer uno ya cargado en vez de retipear todo.
+  const [lotes, setLotes] = useState<LoteParaOferta[]>([]);
+  const [loteId, setLoteId] = useState<string>("");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [listo, setListo] = useState(false);
+
+  useEffect(() => {
+    void misLotesParaOferta().then(setLotes);
+    void registrarEvento("request_quote_started", { busquedaId });
+  }, [busquedaId]);
+
+  // Elegir un lote precarga precio y cantidad: el vendedor igual puede ajustarlos.
+  function elegirLote(id: string) {
+    setLoteId(id);
+    const l = lotes.find((x) => x.id === id);
+    if (!l) return;
+    if (l.precio_pretendido_kg != null) setPrecio(String(l.precio_pretendido_kg));
+    if (l.kilos_totales != null) setCantidad(String(l.kilos_totales));
+  }
 
   async function enviar() {
     const e: Record<string, string> = {};
@@ -32,12 +50,14 @@ export default function EnviarOfertaForm({ busquedaId }: { busquedaId: string })
         cantidadKg: cantidad,
         plazoEntrega: plazo,
         notas,
+        loteId: loteId || null,
       });
       setListo(true);
       setPrecio("");
       setCantidad("");
       setPlazo("");
       setNotas("");
+      setLoteId("");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "No pudimos enviar la oferta.");
@@ -61,6 +81,56 @@ export default function EnviarOfertaForm({ busquedaId }: { busquedaId: string })
       )}
 
       <div className="mt-5 space-y-5">
+        {lotes.length > 0 && (
+          <div>
+            <p className="text-sm text-texto">¿Querés ofrecer uno de tus lotes?</p>
+            <p className="mt-0.5 text-xs text-texto-sec">
+              Opcional. Si elegís uno, precargamos precio y cantidad.
+            </p>
+            <div className="mt-3 space-y-2">
+              {lotes.map((l) => (
+                <label
+                  key={l.id}
+                  className={`flex cursor-pointer items-center gap-3 border px-4 py-2.5 text-sm transition-colors ${
+                    loteId === l.id ? "border-primario bg-primario/5" : "border-borde hover:border-primario"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="lote"
+                    checked={loteId === l.id}
+                    onChange={() => elegirLote(l.id)}
+                    className="accent-[var(--primario)]"
+                  />
+                  <span className="min-w-0">
+                    <span className="block truncate text-texto">{l.titulo ?? l.corte ?? "Lote"}</span>
+                    <span className="block text-xs text-texto-sec">
+                      {[l.kilos_totales ? `${l.kilos_totales} kg` : null,
+                        l.precio_pretendido_kg ? `$${l.precio_pretendido_kg}/kg` : null]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  </span>
+                </label>
+              ))}
+              <label
+                className={`flex cursor-pointer items-center gap-3 border px-4 py-2.5 text-sm transition-colors ${
+                  loteId === "" ? "border-primario bg-primario/5" : "border-borde hover:border-primario"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="lote"
+                  checked={loteId === ""}
+                  onChange={() => setLoteId("")}
+                  className="accent-[var(--primario)]"
+                />
+                <span className="text-texto">Cotizar sin asociar lote</span>
+              </label>
+            </div>
+          </div>
+        )}
+
         <div className="grid gap-5 sm:grid-cols-2">
           <TextField id="precio" label="Precio por kg (ARS)" required type="number" inputMode="decimal" value={precio} onChange={setPrecio} error={errores.precio} />
           <TextField id="cantidad" label="Cantidad que ofrecés (kg)" required type="number" inputMode="decimal" value={cantidad} onChange={setCantidad} error={errores.cantidad} />

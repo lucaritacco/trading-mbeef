@@ -33,7 +33,7 @@ export default async function Home() {
   // vitrina de demanda (solicitudes aprobadas, también anónimas).
   const [{ data }, { data: sols }, { data: totalSols }] = await Promise.all([
     supabase.rpc("catalogo_publico", {}),
-    supabase.rpc("solicitudes_publicas", { p_limite: 5 }),
+    supabase.rpc("solicitudes_publicas", { p_limite: 3 }),
     supabase.rpc("solicitudes_abiertas_count"),
   ]);
   const solicitudes = (sols ?? []) as SolicitudPublica[];

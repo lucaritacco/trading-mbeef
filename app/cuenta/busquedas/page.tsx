@@ -30,7 +30,7 @@ export default async function BusquedasPage({
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">El mercado invertido</p>
-          <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Búsquedas</h1>
+          <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Solicitudes de compra</h1>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-texto-sec">
             Lo que los compradores están buscando. Si vendés, respondé con una oferta.
             Distinto del <Link href="/cuenta/mercado" className="text-primario hover:text-texto">Mercado</Link> (donde
@@ -41,13 +41,13 @@ export default async function BusquedasPage({
           href="/cuenta/busquedas/nueva"
           className="bg-primario px-5 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
         >
-          Publicar una búsqueda
+          Publicar solicitud
         </Link>
       </div>
 
       <div className="mt-5 flex flex-wrap gap-4 text-sm">
         <Link href="/cuenta/mis-busquedas" className="text-primario transition-colors hover:text-texto">
-          Mis búsquedas →
+          Mis solicitudes →
         </Link>
         <Link href="/cuenta/mis-ofertas" className="text-primario transition-colors hover:text-texto">
           Mis ofertas enviadas →
@@ -75,13 +75,13 @@ export default async function BusquedasPage({
 
       {busquedas.length === 0 ? (
         <div className="mt-12 border border-dashed border-borde px-6 py-16 text-center">
-          <p className="text-texto">Todavía no hay búsquedas abiertas.</p>
-          <p className="mt-1 text-sm text-texto-sec">Publicá la primera y que los vendedores te coticen.</p>
+          <p className="text-texto">Todavía no hay solicitudes abiertas.</p>
+          <p className="mt-1 text-sm text-texto-sec">Publicá la primera y que los frigoríficos te coticen.</p>
           <Link
             href="/cuenta/busquedas/nueva"
             className="mt-6 inline-block bg-primario px-6 py-3 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
           >
-            Publicar una búsqueda
+            Publicar solicitud
           </Link>
         </div>
       ) : (
@@ -93,7 +93,7 @@ export default async function BusquedasPage({
               className="flex flex-col border border-borde p-5 transition-colors hover:border-primario"
             >
               <div className="flex items-start justify-between gap-2">
-                <h2 className="font-serif text-xl font-medium text-texto">{b.tipo_corte ?? "Búsqueda"}</h2>
+                <h2 className="font-serif text-xl font-medium text-texto">{b.tipo_corte ?? "Solicitud"}</h2>
                 {b.es_mia && (
                   <span className="shrink-0 border border-primario/40 px-2 py-0.5 text-[10px] uppercase tracking-wide text-primario">
                     Tuya

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import NuevaBusquedaForm from "@/components/cuenta/NuevaBusquedaForm";
 
 export const metadata: Metadata = {
-  title: "Publicar búsqueda | DeCarnes",
+  title: "Publicar solicitud | DeCarnes",
   robots: { index: false, follow: false },
 };
 

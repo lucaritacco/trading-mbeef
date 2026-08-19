@@ -49,8 +49,8 @@ export default function NuevaBusquedaForm() {
 
   return (
     <div className="max-w-2xl">
-      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Búsquedas</p>
-      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Publicar una búsqueda</h1>
+      <p className="text-[11px] uppercase tracking-[0.3em] text-texto-sec">Solicitudes</p>
+      <h1 className="mt-3 font-serif text-4xl font-medium text-texto sm:text-5xl">Publicar una solicitud</h1>
       <p className="mt-2 text-sm text-texto-sec">Contá qué estás buscando y recibí ofertas de los vendedores.</p>
 
       {errorEnvio && (
@@ -78,7 +78,7 @@ export default function NuevaBusquedaForm() {
 
         <div className="flex items-center justify-end gap-4 border-t border-borde pt-6">
           <button type="button" onClick={enviar} disabled={enviando} className="bg-primario px-7 py-3.5 text-base font-medium text-superficie transition-colors hover:bg-primario-hover disabled:opacity-60">
-            {enviando ? "Publicando…" : "Publicar búsqueda"}
+            {enviando ? "Publicando…" : "Publicar solicitud"}
           </button>
         </div>
       </div>

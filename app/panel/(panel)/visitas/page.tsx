@@ -19,11 +19,27 @@ export default async function VisitasPage({
   const periodo = PERIODOS.find((p) => p.h === horas)!;
 
   const supabase = await createSupabaseServer();
-  const [{ data: res }, { data: paths }, { data: lotesTop }] = await Promise.all([
+  const [{ data: res }, { data: paths }, { data: lotesTop }, { data: ev }] = await Promise.all([
     supabase.rpc("visitas_resumen", { p_horas: horas }),
     supabase.rpc("visitas_top_paths", { p_horas: horas, p_limite: 12 }),
     supabase.rpc("visitas_top_lotes", { p_horas: horas, p_limite: 10 }),
+    supabase.rpc("eventos_resumen", { p_horas: horas }),
   ]);
+
+  // Funnel de solicitudes. Los nombres técnicos se traducen acá y no en la base,
+  // para no atarlos a la interfaz.
+  const ETIQUETAS: Record<string, string> = {
+    request_created: "Solicitudes creadas",
+    request_approved: "Solicitudes publicadas",
+    request_view: "Solicitudes vistas",
+    request_quote_started: "Empezaron a cotizar",
+    request_quote_sent: "Cotizaciones enviadas",
+    request_offer_accepted: "Cotizaciones aceptadas",
+    request_closed: "Solicitudes cerradas",
+    request_share: "Solicitudes compartidas",
+    whatsapp_unlocked: "Contactos desbloqueados",
+  };
+  const eventos = (ev ?? []) as { tipo: string; cantidad: number }[];
 
   const r = (Array.isArray(res) ? res[0] : null) as {
     vistas_periodo: number;
@@ -92,6 +108,20 @@ export default async function VisitasPage({
           </dd>
         </div>
       </dl>
+
+      {eventos.length > 0 && (
+        <div className="mt-10">
+          <h2 className="font-serif text-2xl font-medium text-texto">Funnel de solicitudes</h2>
+          <ul className="mt-4 divide-y divide-borde border-y border-borde">
+            {eventos.map((e) => (
+              <li key={e.tipo} className="flex items-center justify-between gap-4 py-3">
+                <span className="text-sm text-texto-sec">{ETIQUETAS[e.tipo] ?? e.tipo}</span>
+                <span className="font-serif text-lg text-texto">{num.format(Number(e.cantidad))}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {total === 0 ? (
         <p className="mt-12 text-sm text-texto-sec">

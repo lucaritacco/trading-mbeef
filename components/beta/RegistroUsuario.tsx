@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 import { inputBase } from "@/lib/ui";
@@ -12,6 +12,9 @@ import { inputBase } from "@/lib/ui";
 //  · CON token  → frigorífico. Canjea la invitación aprobada por el equipo.
 export default function RegistroUsuario({ token }: { token?: string }) {
   const router = useRouter();
+  const params = useSearchParams();
+  const next = params.get("next");
+  const destino = next && next.startsWith("/") && !next.startsWith("//") ? next : null;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -67,7 +70,7 @@ export default function RegistroUsuario({ token }: { token?: string }) {
         setCargando(false);
         return;
       }
-      router.push("/mercado");
+      router.push(destino ?? "/mercado");
       router.refresh();
       return;
     }

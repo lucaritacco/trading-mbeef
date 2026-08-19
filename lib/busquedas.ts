@@ -42,6 +42,8 @@ export type OfertaFila = {
   estado: string;
   vendedor_empresa: string | null;
   es_mia: boolean;
+  lote_id: string | null;
+  lote_titulo: string | null;
 };
 
 export type MiBusqueda = {
@@ -136,6 +138,13 @@ export async function crearBusqueda(data: BusquedaForm): Promise<string> {
     .single();
   if (error) throw new Error(error.message);
 
+  await supabase.rpc("registrar_evento", {
+    p_tipo: "request_created",
+    p_busqueda_id: fila.id,
+    p_lote_id: null,
+    p_meta: null,
+  });
+
   // Avisa al staff para que la modere (nace 'pendiente'). Fire-and-forget: si
   // falla el aviso, la solicitud igual quedó creada.
   void fetch("/api/eventos/solicitud-compra", {
@@ -154,6 +163,8 @@ export async function crearOferta(input: {
   cantidadKg: string;
   plazoEntrega: string;
   notas: string;
+  /** Lote propio asociado, opcional: conecta stock publicado con la demanda. */
+  loteId?: string | null;
 }): Promise<void> {
   const supabase = createSupabaseBrowser();
   const { error } = await supabase.rpc("crear_oferta", {
@@ -162,8 +173,32 @@ export async function crearOferta(input: {
     p_cantidad: num(input.cantidadKg),
     p_plazo: txt(input.plazoEntrega),
     p_notas: txt(input.notas),
+    p_lote_id: input.loteId || null,
   });
   if (error) throw new Error(error.message);
+
+  await supabase.rpc("registrar_evento", {
+    p_tipo: "request_quote_sent",
+    p_busqueda_id: input.busquedaId,
+    p_lote_id: input.loteId || null,
+    p_meta: null,
+  });
+}
+
+/** Lotes propios publicados, para elegir cuál asociar a una oferta. */
+export type LoteParaOferta = {
+  id: string;
+  titulo: string | null;
+  corte: string | null;
+  kilos_totales: number | null;
+  precio_pretendido_kg: number | null;
+};
+
+export async function misLotesParaOferta(): Promise<LoteParaOferta[]> {
+  const supabase = createSupabaseBrowser();
+  const { data, error } = await supabase.rpc("mis_lotes_para_oferta");
+  if (error || !data) return [];
+  return data as LoteParaOferta[];
 }
 
 /** El comprador dueño acepta/rechaza una oferta de su búsqueda. */
@@ -175,6 +210,15 @@ export async function responderOferta(ofertaId: string, estado: "aceptada" | "re
   });
   if (error) throw new Error(error.message);
   if (data !== true) throw new Error("No pudimos actualizar la oferta.");
+
+  if (estado === "aceptada") {
+    await supabase.rpc("registrar_evento", {
+      p_tipo: "request_offer_accepted",
+      p_busqueda_id: null,
+      p_lote_id: null,
+      p_meta: { oferta_id: ofertaId },
+    });
+  }
 }
 
 /** Devuelve el WhatsApp del vendedor de una oferta ACEPTADA (solo el comprador dueño). */
@@ -183,5 +227,13 @@ export async function contactoOferta(ofertaId: string): Promise<{ whatsapp: stri
   const { data, error } = await supabase.rpc("contacto_oferta", { p_oferta_id: ofertaId });
   const fila = Array.isArray(data) ? data[0] : null;
   if (error || !fila) return null;
+
+  await supabase.rpc("registrar_evento", {
+    p_tipo: "whatsapp_unlocked",
+    p_busqueda_id: null,
+    p_lote_id: null,
+    p_meta: { oferta_id: ofertaId },
+  });
+
   return { whatsapp: fila.whatsapp ?? "", empresa: fila.empresa ?? "" };
 }

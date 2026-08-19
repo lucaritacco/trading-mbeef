@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { setAvisos } from "./actions";
 import { fotoPerfil } from "@/lib/ficha";
+import { supabase as supabaseAnon } from "@/lib/supabase";
+import SolicitudCard, { type SolicitudPublica } from "@/components/SolicitudCard";
 
 export const metadata: Metadata = {
   title: "Mi cuenta | DeCarnes",
@@ -56,6 +58,12 @@ export default async function CuentaPage({
   const total = lotes?.length ?? 0;
   const publicados = lotes?.filter((l) => l.publico && !l.vendido).length ?? 0;
   const vendidos = lotes?.filter((l) => l.vendido).length ?? 0;
+
+  // Demanda activa: el motivo más concreto para que vuelva a entrar.
+  const { data: solsRaw } = await supabaseAnon.rpc("solicitudes_publicas", { p_limite: 3 });
+  const { data: totalSols } = await supabaseAnon.rpc("solicitudes_abiertas_count");
+  const solicitudes = (solsRaw ?? []) as SolicitudPublica[];
+  const nSols = Number(totalSols ?? solicitudes.length);
 
   // Lo que le falta para que su perfil público esté listo.
   const pasos = [
@@ -147,6 +155,32 @@ export default async function CuentaPage({
             <dd className="mt-1 font-serif text-3xl text-texto">{total}</dd>
           </div>
         </dl>
+      )}
+
+      {solicitudes.length > 0 && (
+        <section className="mt-10 border border-borde bg-superficie p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.24em] text-primario">Oportunidades</p>
+              <h2 className="mt-2 font-serif text-2xl font-medium text-texto">
+                {nSols === 1
+                  ? "Un comprador está buscando mercadería"
+                  : `${nSols} compradores están buscando mercadería`}
+              </h2>
+            </div>
+            <Link
+              href="/cuenta/busquedas"
+              className="text-sm font-medium text-primario underline-offset-4 transition-colors hover:underline"
+            >
+              Ver todas las solicitudes →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {solicitudes.map((sol) => (
+              <SolicitudCard key={sol.id} s={sol} />
+            ))}
+          </div>
+        </section>
       )}
 
       <div className="mt-10 grid gap-4 sm:grid-cols-3">
