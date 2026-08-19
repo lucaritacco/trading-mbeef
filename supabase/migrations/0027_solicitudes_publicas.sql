@@ -135,7 +135,10 @@ alter table public.ofertas
 
 -- crear_oferta acepta el lote. Valida que el lote sea DEL VENDEDOR que oferta:
 -- si no, cualquiera podría colgarse del lote de otro.
-create or replace function public.crear_oferta(
+-- Se borra la firma vieja de 5 argumentos: si quedaran las dos, una llamada con
+-- 5 argumentos sería ambigua contra la nueva (que trae el 6º con default).
+drop function if exists public.crear_oferta(uuid, numeric, numeric, text, text);
+create function public.crear_oferta(
   p_busqueda_id uuid, p_precio numeric, p_cantidad numeric, p_plazo text,
   p_notas text, p_lote_id uuid default null)
 returns uuid
@@ -165,7 +168,10 @@ grant execute on function public.crear_oferta(uuid, numeric, numeric, text, text
 
 -- ofertas_de_busqueda suma el lote asociado (mismo aislamiento de siempre:
 -- el dueño de la búsqueda ve todas, el vendedor solo las suyas).
-create or replace function public.ofertas_de_busqueda(p_busqueda_id uuid)
+-- Hay que borrarla antes: cambian las columnas que devuelve y `create or replace`
+-- no puede cambiar el tipo de retorno de una función existente.
+drop function if exists public.ofertas_de_busqueda(uuid);
+create function public.ofertas_de_busqueda(p_busqueda_id uuid)
 returns table (
   id uuid, created_at timestamptz, precio_por_kg numeric, cantidad_ofrecida_kg numeric,
   plazo_entrega text, notas text, estado text, vendedor_empresa text, es_mia boolean,
