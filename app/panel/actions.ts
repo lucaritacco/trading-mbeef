@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { enviarEmail, plantilla, SITE_URL } from "@/lib/email";
+import { avisarVerificado } from "@/lib/activacion";
 
 export type CamposLote = {
   estado?: string;
@@ -204,6 +205,15 @@ export async function setVerificado(formData: FormData): Promise<void> {
     .from("usuarios")
     .update({ verificado, verificado_at: verificado ? new Date().toISOString() : null })
     .eq("id", id);
+
+  // Verificar sin publicar no le sirve de nada: el mail lo empuja al primer lote.
+  if (verificado) {
+    try {
+      await avisarVerificado(id);
+    } catch {
+      /* si falla el mail, la verificación igual quedó hecha */
+    }
+  }
 
   revalidatePath("/panel/frigorificos");
   redirect("/panel/frigorificos?ok=1");

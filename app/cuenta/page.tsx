@@ -6,6 +6,7 @@ import { setAvisos } from "./actions";
 import { fotoPerfil } from "@/lib/ficha";
 import { supabase as supabaseAnon } from "@/lib/supabase";
 import SolicitudCard, { type SolicitudPublica } from "@/components/SolicitudCard";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Mi cuenta | DeCarnes",
@@ -106,6 +107,40 @@ export default async function CuentaPage({
           </p>
         </div>
       </div>
+
+      {/* Aprobado pero con cero lotes: no existe para ningún comprador todavía.
+          Va antes que el perfil porque publicar es lo único que le trae consultas. */}
+      {e?.verificado && total === 0 && (
+        <div className="mt-8 border border-primario bg-primario-suave p-6 sm:p-8">
+          <p className="font-serif text-2xl font-medium text-texto sm:text-3xl">
+            Tu frigorífico ya está aprobado ✓
+          </p>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-texto">
+            Te falta un solo paso para empezar a recibir consultas.
+          </p>
+          <p className="mt-6 font-serif text-xl font-medium text-texto">
+            Publicá tu primer lote
+          </p>
+          <Link
+            href="/cuenta/publicar"
+            className="mt-4 inline-block bg-primario px-6 py-3.5 text-sm font-medium text-superficie transition-colors hover:bg-primario-hover"
+          >
+            + Publicar primer lote
+          </Link>
+          <p className="mt-5 text-sm text-texto-sec">
+            ¿No tenés tiempo para cargarlo?{" "}
+            <a
+              href={site.whatsappVenderHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primario underline underline-offset-4 hover:text-texto"
+            >
+              Enviános tu stock y te ayudamos
+            </a>
+            .
+          </p>
+        </div>
+      )}
 
       {/* Onboarding: mientras falte algo del perfil público, es lo primero que ve */}
       {faltan > 0 && (

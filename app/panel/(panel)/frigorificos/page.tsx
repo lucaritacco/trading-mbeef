@@ -24,7 +24,17 @@ export default async function FrigorificosPage({
 
   // cuentas_con_email junta usuarios con auth.users: el email no vive en la
   // tabla `usuarios`, y es el dato que hace falta para contactar a la gente.
-  const { data, error } = await supabase.rpc("cuentas_con_email");
+  const [{ data, error }, { data: fun }] = await Promise.all([
+    supabase.rpc("cuentas_con_email"),
+    supabase.rpc("frigorificos_funnel"),
+  ]);
+  const f = (Array.isArray(fun) ? fun[0] : null) as {
+    registrados: number;
+    verificados: number;
+    verificados_sin_lotes: number;
+    con_lotes: number;
+    con_3_lotes: number;
+  } | null;
   const usuarios = (data ?? []) as Usuario[];
 
   const pendientes = usuarios.filter((u) => !u.verificado && u.rol_mercado !== "compra");
@@ -41,6 +51,27 @@ export default async function FrigorificosPage({
           </span>
         )}
       </p>
+
+      {/* Funnel de activación. El número que importa es "verificados sin lotes":
+          son cuentas aprobadas que no existen para ningún comprador. */}
+      {f && (
+        <dl className="mt-8 grid grid-cols-2 gap-4 border-y border-borde py-6 sm:grid-cols-5">
+          {[
+            { k: "Registrados", v: f.registrados, alerta: false },
+            { k: "Verificados", v: f.verificados, alerta: false },
+            { k: "Verificados sin lotes", v: f.verificados_sin_lotes, alerta: f.verificados_sin_lotes > 0 },
+            { k: "Con 1 lote o más", v: f.con_lotes, alerta: false },
+            { k: "Con 3 lotes o más", v: f.con_3_lotes, alerta: false },
+          ].map((c) => (
+            <div key={c.k}>
+              <dt className="text-[11px] uppercase tracking-[0.16em] text-texto-sec">{c.k}</dt>
+              <dd className={`mt-1 font-serif text-3xl ${c.alerta ? "text-acento" : "text-texto"}`}>
+                {Number(c.v ?? 0)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
 
       {ok && (
         <p className="mt-6 border border-exito/40 bg-exito/10 px-4 py-3 text-sm text-exito">
