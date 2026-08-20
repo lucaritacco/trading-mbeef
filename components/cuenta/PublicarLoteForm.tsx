@@ -7,7 +7,6 @@ import {
   CORTES,
   CERTIFICADOS,
   LOTE_ESTADO,
-  ENVASADO,
   MODALIDAD_ENTREGA,
   VIGENCIA,
   provinciaOpciones,
@@ -236,7 +235,6 @@ export default function PublicarLoteForm({
               <TextField id="moq" label="Compra mínima (kg)" type="number" inputMode="decimal" value={data.moq} onChange={set("moq")} />
             </div>
             <RadioCards label="Vigencia de la publicación" value={data.vigencia_dias} onChange={set("vigencia_dias")} options={VIGENCIA} />
-            <RadioCards label="Packaging" value={data.envasado_tipo} onChange={set("envasado_tipo")} options={ENVASADO} />
             <CheckboxChips label="Certificados" value={data.certificados} onChange={set("certificados")} options={CERTIFICADOS} hint="Tocá los que tengas." />
           </div>
         )}
