@@ -14,15 +14,9 @@ export default function LoginPage() {
       kicker="Tu cuenta"
       title="Ingresá al mercado"
       footer={
-        <>
-          <Link href="/recuperar" className="text-primario hover:text-texto">
-            Olvidé mi contraseña
-          </Link>
-          <span className="mt-2 block text-texto-sec">
-            ¿Sos del equipo de MBEEF? Entrá por{" "}
-            <Link href="/panel/login" className="text-primario hover:text-texto">el panel</Link>.
-          </span>
-        </>
+        <Link href="/recuperar" className="text-primario hover:text-texto">
+          Olvidé mi contraseña
+        </Link>
       }
     >
       <LoginUsuario />
