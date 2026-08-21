@@ -26,7 +26,7 @@ export default function CapturaEmail({ logueado }: { logueado: boolean }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
-  const [listo, setListo] = useState(false);
+  const [listo, setListo] = useState<null | "pendiente" | "ya-estaba">(null);
 
   const bloqueada = logueado || EXCLUIDAS.some((r) => pathname.startsWith(r));
 
@@ -79,10 +79,10 @@ export default function CapturaEmail({ logueado }: { logueado: boolean }) {
     setEnviando(true);
     setError(null);
     try {
-      await suscribir("", email);
+      const r = await suscribir("", email);
       recordar();
-      setListo(true);
-      setTimeout(() => setVisible(false), 2600);
+      setListo(r);
+      setTimeout(() => setVisible(false), 5000);
     } catch {
       setError("No pudimos guardarlo. Probá de nuevo.");
     } finally {
@@ -97,9 +97,13 @@ export default function CapturaEmail({ logueado }: { logueado: boolean }) {
       <div className="border border-borde bg-superficie p-5 shadow-lg">
         {listo ? (
           <div>
-            <p className="font-serif text-lg font-medium text-texto">Listo, quedaste anotado.</p>
+            <p className="font-serif text-lg font-medium text-texto">
+              {listo === "ya-estaba" ? "Ya estabas anotado." : "Revisá tu mail."}
+            </p>
             <p className="mt-1 text-sm text-texto-sec">
-              Te avisamos por mail cada vez que se publique un lote nuevo.
+              {listo === "ya-estaba"
+                ? "Esa dirección ya recibe los avisos de lotes nuevos."
+                : "Te mandamos un mail para confirmar. Tocá el link y empezás a recibir los lotes nuevos."}
             </p>
           </div>
         ) : (

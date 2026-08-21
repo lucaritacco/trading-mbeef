@@ -25,7 +25,8 @@ export default function EnterateForm() {
     setError(null);
     try {
       await suscribir(nombre, email);
-      // Directo al catálogo: ya quedó suscripto a los avisos de lotes nuevos.
+      // Directo al catálogo igual: vino a ver lotes. Los avisos empiezan cuando
+      // confirme el mail, y el aviso de eso queda en el pie del formulario.
       router.push("/mercado");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Algo salió mal. Probá de nuevo.");
@@ -56,8 +57,9 @@ export default function EnterateForm() {
         </Link>
       </p>
       <p className="mt-6 text-center text-xs text-texto-sec">
-        Sin costo. Te avisamos por email cada vez que se publica un lote nuevo. Podés
-        darte de baja cuando quieras.
+        Sin costo. Te mandamos un mail para confirmar la dirección y después te
+        avisamos cada vez que se publica un lote nuevo. Podés darte de baja cuando
+        quieras.
       </p>
     </div>
   );
