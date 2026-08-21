@@ -20,6 +20,9 @@ export default function RegistroUsuario({ token }: { token?: string }) {
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
+  // Con la confirmación de email activada, signUp no devuelve sesión: la cuenta
+  // recién queda utilizable cuando el usuario toca el link del mail.
+  const [aConfirmar, setAConfirmar] = useState(false);
 
   const esComprador = !token;
 
@@ -37,7 +40,17 @@ export default function RegistroUsuario({ token }: { token?: string }) {
     setCargando(true);
     const supabase = createSupabaseBrowser();
 
-    const { data, error: errSignUp } = await supabase.auth.signUp({ email, password });
+    // A dónde vuelve desde el mail de confirmación. Lleva el token de invitación
+    // para no perderlo: sin él, el frigorífico volvería como comprador.
+    const volver = new URL("/registro/confirmar", window.location.origin);
+    if (token) volver.searchParams.set("token", token);
+    if (destino) volver.searchParams.set("next", destino);
+
+    const { data, error: errSignUp } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: volver.toString() },
+    });
     if (errSignUp) {
       const m = errSignUp.message.toLowerCase();
       if (m.includes("already registered") || m.includes("already been registered")) {
@@ -51,12 +64,10 @@ export default function RegistroUsuario({ token }: { token?: string }) {
       return;
     }
 
-    // Hace falta sesión para crear la fila de `usuarios` (confirmación de email
-    // desactivada en Supabase; ver TANDA3.md).
+    // Sin sesión = Supabase está pidiendo confirmar el email. No es un error:
+    // el alta se completa en /registro/confirmar cuando toca el link.
     if (!data.session) {
-      setError(
-        "No pudimos iniciar tu sesión automáticamente. Avisale al equipo (falta habilitar el alta sin confirmación de email).",
-      );
+      setAConfirmar(true);
       setCargando(false);
       return;
     }
@@ -86,6 +97,21 @@ export default function RegistroUsuario({ token }: { token?: string }) {
 
     router.push("/cuenta");
     router.refresh();
+  }
+
+  if (aConfirmar) {
+    return (
+      <div className="space-y-4">
+        <p className="font-serif text-2xl font-medium text-texto">Revisá tu mail</p>
+        <p className="text-sm leading-relaxed text-texto-sec">
+          Te mandamos un mensaje a <strong className="text-texto">{email}</strong> con
+          un enlace para confirmar tu cuenta. Tocalo y quedás adentro.
+        </p>
+        <p className="text-sm leading-relaxed text-texto-sec">
+          Si no aparece en un par de minutos, fijate en correo no deseado.
+        </p>
+      </div>
+    );
   }
 
   return (
