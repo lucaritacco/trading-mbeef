@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# También los que quedan sin el punto inicial por un typo al crearlos: .env*
+# no los cubre y son un archivo con claves suelto en el repo.
+env*.local
+env *.local
 # ...pero el ejemplo sin secretos sí se versiona
 !.env.example
 
