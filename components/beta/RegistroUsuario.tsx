@@ -15,6 +15,7 @@ export default function RegistroUsuario({ token }: { token?: string }) {
   const params = useSearchParams();
   const next = params.get("next");
   const destino = next && next.startsWith("/") && !next.startsWith("//") ? next : null;
+  const [empresa, setEmpresa] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -29,6 +30,13 @@ export default function RegistroUsuario({ token }: { token?: string }) {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    // El comprador se identifica; el frigorífico ya viene con su empresa en la
+    // invitación. Además de ordenar los datos, filtra altas automáticas: las
+    // cuentas basura entran siempre con este campo vacío.
+    if (esComprador && empresa.trim().length < 3) {
+      setError("Poné el nombre de tu empresa o comercio.");
+      return;
+    }
     if (password.length < 6) {
       setError("La contraseña debe tener al menos 6 caracteres.");
       return;
@@ -49,7 +57,12 @@ export default function RegistroUsuario({ token }: { token?: string }) {
     const { data, error: errSignUp } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: volver.toString() },
+      options: {
+        emailRedirectTo: volver.toString(),
+        // Viaja en el usuario para sobrevivir la vuelta del mail: la fila de
+        // `usuarios` recién se crea cuando confirma.
+        data: esComprador ? { empresa: empresa.trim() } : {},
+      },
     });
     if (errSignUp) {
       const m = errSignUp.message.toLowerCase();
@@ -74,7 +87,7 @@ export default function RegistroUsuario({ token }: { token?: string }) {
 
     if (esComprador) {
       const { data: ok, error: errAlta } = await supabase.rpc("crear_cuenta_comprador", {
-        p_empresa: null,
+        p_empresa: empresa.trim(),
       });
       if (errAlta || ok !== true) {
         setError("Creamos tu usuario pero no pudimos activar la cuenta. Escribinos.");
@@ -116,6 +129,14 @@ export default function RegistroUsuario({ token }: { token?: string }) {
 
   return (
     <form onSubmit={submit} className="space-y-5">
+      {esComprador && (
+        <div>
+          <label htmlFor="empresa" className="mb-2 block text-sm text-texto-sec">
+            Empresa o comercio
+          </label>
+          <input id="empresa" type="text" autoComplete="organization" required value={empresa} onChange={(e) => setEmpresa(e.target.value)} className={inputBase} />
+        </div>
+      )}
       <div>
         <label htmlFor="email" className="mb-2 block text-sm text-texto-sec">Email</label>
         <input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputBase} />

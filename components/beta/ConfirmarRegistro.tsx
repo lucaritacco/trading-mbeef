@@ -66,7 +66,13 @@ export default function ConfirmarRegistro() {
         return;
       }
 
-      const { data: ok, error: err } = await supabase.rpc("crear_cuenta_comprador", { p_empresa: null });
+      const empresa =
+        typeof sesion.user.user_metadata?.empresa === "string"
+          ? sesion.user.user_metadata.empresa.trim() || null
+          : null;
+      const { data: ok, error: err } = await supabase.rpc("crear_cuenta_comprador", {
+        p_empresa: empresa,
+      });
       if (err || ok !== true) {
         setError("Confirmamos tu email pero no pudimos activar la cuenta. Escribinos.");
         return;
